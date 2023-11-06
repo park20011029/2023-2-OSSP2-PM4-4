@@ -1,14 +1,15 @@
 package project.manager.server.domain;
 
+import project.manager.server.dto.request.UserRequestDto;
+import project.manager.server.enums.UserRole;
+import project.manager.server.enums.UserState;
+import org.hibernate.annotations.DynamicUpdate;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
-import project.manager.server.domain.enumtype.UserRole;
-import project.manager.server.domain.enumtype.UserState;
-
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,6 +32,12 @@ public class User {
     @Column(name = "nickname", nullable = false)
     private String nickName;
 
+    @Column(name = "sex")
+    private Boolean sex;
+
+    @Column(name = "birth")
+    private LocalDate birth;
+
     @Column(name = "introduction")
     private String introduction;
 
@@ -41,48 +48,32 @@ public class User {
     @Column(name = "created_date")
     private Timestamp createdDate;
 
-    @Column(name = "is_login", columnDefinition = "boolean default false", nullable = false)
-    private Boolean isLogin;
-
-    @Column(name = "refresh_token")
-    private String refreshToken;
-
     @Column(name = "user_state")
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
+    //-------------------------------------------------------------------
+
     @Builder
-    public User(String email, String name, String nickName, String introduction, UserRole role) {
-        this.email = email;
-        this.name = name;
-        this.nickName = nickName;
-        this.introduction = introduction;
+    public User(UserRequestDto userRequestDto, UserRole role) {
+        this.email = userRequestDto.getEmail();
+        this.name = userRequestDto.getName();
+        this.nickName = userRequestDto.getNickName();
+        this.sex = userRequestDto.getSex();
+        this.birth = userRequestDto.getBirth();
+        this.introduction = userRequestDto.getIntroduction();
         this.role = role;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
-        this.isLogin = false;
-        this.refreshToken = null;
         this.userState = UserState.MEMBER;
     }
 
-    //-------------------------------------------------------------------
-
-    public void updateUser(String nickName, String introduction, UserState userState) {
+    public void updateUser(String nickName, String introduction) {
         this.nickName = nickName;
         this.introduction = introduction;
-        this.userState = userState;
     }
 
     public void deleteUser() {
         this.userState = UserState.WITHDRAWAL;
     }
 
-    public void updateRefreshToken(String refreshToken) {
-        this.isLogin = true;
-        this.refreshToken = refreshToken;
-    }
-
-    public void signOut() {
-        this.isLogin = false;
-        this.refreshToken = null;
-    }
 }
