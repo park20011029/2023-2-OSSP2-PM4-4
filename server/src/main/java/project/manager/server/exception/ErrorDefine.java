@@ -12,9 +12,11 @@ public enum ErrorDefine {
     USER_WITHDRAWAL("4041", HttpStatus.NOT_FOUND, "Not Found: User withdraw"),
 
     // CONFLICT: 409
-    EMAIL_EXIST("4090", HttpStatus.CONFLICT, "Conflict: An account with this email already exists."),
-    USER_EXIST("4091",HttpStatus.CONFLICT, "Conflict: An account with this user already exists."),
-    NICKNAME_EXIST("4092", HttpStatus.CONFLICT, "Conflict: An account with this nickname already exists."),
+    EMAIL_EXIST(
+            "4090", HttpStatus.CONFLICT, "Conflict: An account with this email already exists."),
+    USER_EXIST("4091", HttpStatus.CONFLICT, "Conflict: An account with this user already exists."),
+    NICKNAME_EXIST(
+            "4092", HttpStatus.CONFLICT, "Conflict: An account with this nickname already exists."),
 
     // GONE: 410
     USER_DELETE("4010", HttpStatus.GONE, "GONE: User delete data"),
