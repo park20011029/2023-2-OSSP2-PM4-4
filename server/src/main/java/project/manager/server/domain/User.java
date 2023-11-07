@@ -1,16 +1,16 @@
 package project.manager.server.domain;
 
-import project.manager.server.dto.request.UserRequestDto;
-import project.manager.server.enums.UserRole;
-import project.manager.server.enums.UserState;
-import org.hibernate.annotations.DynamicUpdate;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
+import project.manager.server.dto.request.UserRequestDto;
+import project.manager.server.enums.UserRole;
+import project.manager.server.enums.UserState;
 
 @Entity
 @Getter
@@ -52,7 +52,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
-    //-------------------------------------------------------------------
+    // -------------------------------------------------------------------
 
     @Builder
     public User(UserRequestDto userRequestDto, UserRole role) {
@@ -75,5 +75,4 @@ public class User {
     public void deleteUser() {
         this.userState = UserState.WITHDRAWAL;
     }
-
 }
