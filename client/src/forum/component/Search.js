@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import searchIcon from './searchIcon.svg'
-import "./ContestForumPage.css";
+import "../css/ContestForumPage.css";
 
 class Search extends Component {
 

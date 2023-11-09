@@ -28,7 +28,7 @@
     max-width: 30px;
 }
 
-/* searchState.js */
+/* Category.js */
 .Category {
     position: relative;
     width: 100%;
@@ -77,7 +77,7 @@
     margin-left: 10px;
 }
 
-/* List.js */
+/* forumList.js */
 .writeList {
     margin-top: 30px;
     width: 100%;

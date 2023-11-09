@@ -1,0 +1,44 @@
+.Page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Overview {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+.basicInfo label {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.Overview img {
+    max-width: 200px;
+    margin-right: 20px;
+}
+
+.selectedView {
+    width:100%;
+    height:100%;
+    text-align: center;
+}
+.twoTabs {
+    width:100%;
+    display: flex;
+    margin-bottom: 10px;
+}
+.twoTabs label {
+    text-align: center;
+    width:50%;
+    border-bottom: 2px black solid;
+    border-top:2px black solid;
+    border-left:2px black solid;
+    border-right:2px black solid;
+}
+
+.basicInfo {
+    display: flex;
+    flex-direction: column;
+}
+

@@ -1,14 +1,17 @@
 import React from "react";
-import {useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
+const write = {
+
+}
 const ContestWrite = () => {
-    const params = useParams();
-    const writeNumber = params.number;
+    const {state} = useLocation();
+    const {number} = state;
 
     return (
       <div>
           글 상세 페이지<br/>
-          글번호 : {params.number}
+          글번호 : {number}
       </div>  
     );
 }

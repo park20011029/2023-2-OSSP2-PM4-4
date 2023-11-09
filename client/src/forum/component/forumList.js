@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-//import ContestWrite from "./ContestWrite";
+import renderPageNumber from "../page/List";
 
 // dummy data
 let write = {
@@ -13,27 +13,13 @@ const totalWrite = 50;
 const pageSize = 6;
 // dummy data
 
-//페이지 번호 렌더링
-function renderPageNumber() {
-    const pageCount = Math.ceil(totalWrite / pageSize);
-    const pageNumbers = [];
-    pageNumbers.push(<button>{"<"}</button>)
-    for (let i = 1; i <= pageCount; i++) {
-        pageNumbers.push(
-            <button key={i}>{i}</button>
-        );
-    }
-    pageNumbers.push(<button>{">"}</button>)
-    return pageNumbers;
-}
-
 
 //화면크기가 줄어들면 사진의 크기를 줄여 대응
-const List = () => {
+const ForumList = () => {
     const navigate = useNavigate();
     //상세페이지 이동
     function moveToWrite(index) {
-        navigate(`/ContestWrite/${index}`);
+        navigate(`/ContestWrite`, {state:{number:index}});
     }
     return (
         <div>
@@ -51,11 +37,11 @@ const List = () => {
                 <button>글쓰기</button>
             </div>
             <div className="pageNumber">
-                {renderPageNumber()}
+                {renderPageNumber(totalWrite, pageSize)}
             </div>
         </div>
     );
 }
 
 
-export default List;
+export default ForumList;
