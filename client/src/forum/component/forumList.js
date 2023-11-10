@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import renderPageNumber from "../page/List";
+import renderPageNumber from "./RenderPageNumber";
 
 // dummy data
 let write = {

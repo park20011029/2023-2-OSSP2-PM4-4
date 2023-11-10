@@ -5,7 +5,7 @@ import Footer from "../../layout/Footer"
 import Search from "../component/Search";
 import Category from "../component/Category";
 import ForumList from "../component/forumList";
-import "../css/ContestForumPage.css";
+import "../css/Contest_ListPage.css";
 
 const criteria = { title: "응모 대상", host: "주최 기관", scale: "시상 규모" };
 const detailList = {
@@ -15,7 +15,7 @@ const detailList = {
 };
 const selected = { title: [], host: [], scale: [] };
 
-class ContestForumPage extends Component {
+class Contest_ListPage extends Component {
     constructor(props) {
         super(props);
 
@@ -34,4 +34,4 @@ class ContestForumPage extends Component {
         );
     }
 }
-export default ContestForumPage;
+export default Contest_ListPage;

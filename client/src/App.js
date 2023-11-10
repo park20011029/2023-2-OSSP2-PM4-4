@@ -1,25 +1,30 @@
-import MainPage from "./main/MainPage";
-import MyPage from "./mypage/MyPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProjectForumPage from "./forum/page/ProjectForumPage";
-import ProjectWrite from "./forum/page/ProjectWrite";
-import ContestForumPage from "./forum/page/ContestForumPage";
-import ContestWrite from "./forum/page/ContestWrite";
-import ChatListPage from "./chat/ChatListPage";
-import LogInPage from "./login/LogInPage";
+
+import MainPage             from "./main/MainPage";
+import MyPage               from "./mypage/MyPage";
+import Project_ForumPage    from "./forum/page/Project_ForumPage";
+import Project_TeamWrite    from "./forum/page/Project_TeamWrite";
+import Contest_ListPage     from "./forum/page/Contest_ListPage";
+import Contest_Info_Write   from "./forum/page/Contest_Info_Write";
+import Contest_Team_ListTab from "./forum/page/Contest_Team_ListTab";
+import Contest_Team_Write   from "./forum/page/Contest_Team_Write";
+import ChatListPage         from "./chat/ChatListPage";
+import LogInPage            from "./login/LogInPage";
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<MainPage />}></Route>
-                <Route path="/contest_forum" element={<ContestForumPage />}></Route>
-                <Route path="/contestWrite" element={<ContestWrite />}></Route>
-                <Route path="/project_forum" element={<ProjectForumPage />}></Route>
-                <Route path="/project_write" element={<ProjectWrite />}></Route>
-                <Route path="/chat_list" element={<ChatListPage />}></Route>
-                <Route path="/login" element={<LogInPage />}></Route>
-                <Route path="/my_page" element={<MyPage />}></Route>
+                <Route path="/"                 element={<MainPage />}/>
+                <Route path="/contest_forum"    element={<Contest_ListPage />}/>
+                <Route path="/contestWrite"     element={<Contest_Info_Write />}/>
+                <Route path="/contestTeam"      element={<Contest_Team_ListTab />}/>
+                <Route path="/contestTeamWrite" element={<Contest_Team_Write/>}/>
+                <Route path="/project_forum"    element={<Project_ForumPage />}/>
+                <Route path="/project_write"    element={<Project_TeamWrite />}/>
+                <Route path="/chat_list"        element={<ChatListPage />}/>
+                <Route path="/login"            element={<LogInPage />}/>
+                <Route path="/my_page"          element={<MyPage />}/>
             </Routes>
         </Router>
     );

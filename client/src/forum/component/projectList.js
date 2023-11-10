@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import renderPageNumber from '../page/List';
+import renderPageNumber from './RenderPageNumber';
 
 // dummy data
 let write = {
@@ -10,8 +10,6 @@ let write = {
 const writeList = [write, write, write, write, write, write];
 const totalWrite = 100;
 const pageSize = 6;
-// dummy data
-
 
 //화면크기가 줄어들면 사진의 크기를 줄여 대응
 const ProjectList = () => {

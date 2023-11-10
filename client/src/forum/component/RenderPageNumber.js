@@ -1,4 +1,5 @@
 //페이지 번호 렌더링
+
 function renderPageNumber(totalWrite, pageSize) {
     const pageCount = Math.ceil(totalWrite / pageSize);
     const pageNumbers = [];

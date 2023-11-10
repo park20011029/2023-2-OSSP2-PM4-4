@@ -1,0 +1,44 @@
+.category_row, .item {
+    display:flex;
+    border-bottom: 2px black solid;
+}
+.category_row label, .item label {
+    display:flex;
+
+}
+.title {
+    display:flex;
+    width:75%;
+    padding-left:5%;
+}
+.writer {
+    display:flex;
+    width:10%;
+    justify-content: center;
+}
+.date {
+    display:flex;
+    width:15%;
+    justify-content: center;
+}
+.item label {
+    padding-top : 10px;
+    padding-bottom:10px;
+}
+
+.writeButton {
+    border: 1px black solid;
+    border-radius:5px;
+    background-color:whitesmoke;
+    margin-top: 20px;
+    padding:5px;
+    width:fit-content;
+}
+
+.pageNumber {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom:20px;
+
+}

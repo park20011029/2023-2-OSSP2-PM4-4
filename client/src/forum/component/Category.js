@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../css/ContestForumPage.css";
+import "../css/Contest_ListPage.css";
 
 const Category = (props) => {
     const [selectedItems, setSelectedItems] = useState(props.selected || {});

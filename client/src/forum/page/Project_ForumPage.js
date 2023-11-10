@@ -14,7 +14,7 @@ const detailList = {
 };
 const selected = { FE: [], BE: [], AI: [], extra: [] };
 
-class ProjectForumPage extends Component {
+class Project_ForumPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -33,4 +33,4 @@ class ProjectForumPage extends Component {
     }
 }
 
-export default ProjectForumPage;
+export default Project_ForumPage;

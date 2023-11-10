@@ -1,7 +1,7 @@
 import React from "react";
 import {useLocation} from "react-router-dom";
 
-const ProjectWrite = () => {
+const Project_TeamWrite = () => {
     const {state} = useLocation();
     //const {number} = state;
 
@@ -12,4 +12,4 @@ const ProjectWrite = () => {
     );
 }
 
-export default  ProjectWrite;
+export default  Project_TeamWrite;
