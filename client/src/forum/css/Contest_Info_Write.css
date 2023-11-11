@@ -23,6 +23,7 @@
 
 .brief_labels {
     display:flex;
+    flex-direction: column;
 }
 .category {
     margin-right:20px;

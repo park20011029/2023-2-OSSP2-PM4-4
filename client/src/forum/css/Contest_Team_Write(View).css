@@ -1,0 +1,103 @@
+.page {
+    width:75%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* 제목, 카테고리 */
+.titleAndCategory {
+    margin-bottom:20px;
+    justify-content: center;
+    width:80%;
+}
+
+/* 제목 */
+.title {
+    padding-left: 10px;
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
+.title label {
+    display:flex;
+    align-items: flex-end;
+    border-bottom: 2px black solid;
+}
+.title .T {
+    width:75%;
+    font-size: 30px;
+}
+.title .W {
+    width:10%;
+    justify-content: center;
+}
+.title .D {
+    width:15%;
+    justify-content: center;
+}
+
+/* 카테고리 */
+.category {
+    width:100%;
+    padding-left: 10px;
+    border-bottom: 2px black solid;
+    display: flex;
+    flex-direction: column;
+}
+.category .row {
+    display:flex;
+    width:100%;
+    margin-right: 30px;
+    align-items: center;
+    border-bottom: 1px black solid;
+    margin-bottom: 20px;
+}
+
+.row label {
+    display:flex;
+    width: 20%;
+    font: 20px bold black;
+}
+.row .categoryTitle {
+    display: flex;
+    align-items: flex-end;
+    width: 20%;
+    font: 30px bold black;
+}
+
+/* 본문 */
+.body {
+    width:80%;
+}
+
+/* 채팅하기/지원하기/... 버튼 */
+.appointment {
+    display:flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+.appointment button {
+    border: 2px #FAFA80FF solid;
+    background: #FAFAD2FF;
+    margin-left: 20px;
+}
+
+/* 본문 */
+.text {
+    margin:auto;
+    display:flex;
+    padding-left : 10px;
+    border: 2px black solid;
+    margin-bottom: 30px;
+}
+
+/* 신고하기 버튼 */
+.report {
+    display:flex;
+    justify-content: flex-end;
+}
+.report button {
+    border: 2px red solid;
+    background: #FA6161FF;
+}

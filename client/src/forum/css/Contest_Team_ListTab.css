@@ -27,12 +27,20 @@
 }
 
 .writeButton {
+    width:100%;
+    display:flex;
+    justify-content: flex-end;
+    background: transparent;
+    border: transparent;
+    margin-top: 20px;
+    padding:5px;
+}
+
+.writeButton button {
     border: 1px black solid;
     border-radius:5px;
     background-color:whitesmoke;
-    margin-top: 20px;
-    padding:5px;
-    width:fit-content;
+    padding:2px;
 }
 
 .pageNumber {
@@ -40,5 +48,4 @@
     justify-content: center;
     padding-top: 20px;
     padding-bottom:20px;
-
 }

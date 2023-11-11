@@ -43,7 +43,9 @@ const Contest_Team_ListTab = () => {
                     <label className="date">{item.date}</label>
                 </div>
             ))}
-
+            <div className={"writeButton"}>
+                <button>글쓰기</button>
+            </div>
             <div className={"pageNumber"}>
                 {renderPageNumber(totalWrite, pageSize, getList)}
             </div>
