@@ -2,12 +2,12 @@ package project.manager.server.domain;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import project.manager.server.domain.resume.Resume;
 import project.manager.server.dto.request.UserRequestDto;
 import project.manager.server.enums.UserRole;
 import project.manager.server.enums.UserState;
@@ -32,13 +32,10 @@ public class User {
     @Column(name = "nickname", nullable = false)
     private String nickName;
 
-    @Column(name = "sex")
-    private Boolean sex;
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
-    @Column(name = "birth")
-    private LocalDate birth;
-
-    @Column(name = "introduction")
+    @Column(name = "introduction", nullable = false)
     private String introduction;
 
     @Column(name = "role")
@@ -54,17 +51,21 @@ public class User {
 
     // -------------------------------------------------------------------
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Resume resume;
+
+    // -------------------------------------------------------------------
+
     @Builder
     public User(UserRequestDto userRequestDto, UserRole role) {
         this.email = userRequestDto.getEmail();
         this.name = userRequestDto.getName();
         this.nickName = userRequestDto.getNickName();
-        this.sex = userRequestDto.getSex();
-        this.birth = userRequestDto.getBirth();
         this.introduction = userRequestDto.getIntroduction();
         this.role = role;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
         this.userState = UserState.MEMBER;
+        this.phoneNumber = userRequestDto.getPhoneNumber();
     }
 
     public void updateUser(String nickName, String introduction) {
@@ -72,7 +73,12 @@ public class User {
         this.introduction = introduction;
     }
 
-    public void deleteUser() {
+    public void withdrawUser() {
         this.userState = UserState.WITHDRAWAL;
+    }
+
+    public void addResume(Resume resume) {
+        this.resume = resume;
+        resume.setUser(this);
     }
 }
