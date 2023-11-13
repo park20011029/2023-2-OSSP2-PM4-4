@@ -1,29 +1,30 @@
 package project.manager.server.dto.reponse;
 
-import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import project.manager.server.domain.User;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
-    private final String name;
-    private final String email;
-    private final String nickName;
-    private final Boolean sex;
-    private final LocalDate birth;
-    private final String introduction;
+    private Long userId;
+    private Long resumeId;
+    private String name;
+    private String email;
+    private String nickName;
+    private String introduction;
+    private String phoneNumber;
 
     @Builder
     public UserDto(User user) {
+        this.resumeId = user.getResume().getId();
+        this.userId = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
         this.nickName = user.getNickName();
-        this.sex = user.getSex();
-        this.birth = user.getBirth();
         this.introduction = user.getIntroduction();
+        this.phoneNumber = user.getPhoneNumber();
     }
 }
