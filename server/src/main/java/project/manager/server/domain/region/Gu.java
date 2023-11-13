@@ -1,25 +1,23 @@
-package project.manager.server.domain;
+package project.manager.server.domain.region;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "GU_TB")
-@DynamicUpdate
 public class Gu {
     @Id
-    @Column(name = "id",nullable = false,updatable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "si_id")
+    @JoinColumn(name = "si_id", nullable = false)
     private Si si;
 
-    @Column(name = "name",nullable = false)
-    private String name;
+    @Column(name = "gu", nullable = false, length = 100)
+    private String gu;
 }
