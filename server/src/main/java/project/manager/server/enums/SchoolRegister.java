@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum TechType {
-    FRONT("Back-End"),
-    BACK("Front-End"),
-    AI("AI"),
-    ETC("기타");
+public enum SchoolRegister {
+    ENROLLED("재학"),
+    GRADUATE("졸업"),
+    DROPOUT("중퇴");
 
-    private final String label;
+    private final String toKorean;
 }
