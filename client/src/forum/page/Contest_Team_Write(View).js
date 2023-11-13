@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
 import {renderToString} from "react-dom/server";
-import "../css/Contest_Team_Write(View).css";
+import styles from "../css/Contest_Team_Write(View).module.css";
 
 //DUMMY DATA
 const categoryList = {
@@ -82,10 +82,10 @@ const write = {
 //카테고리 렌더링
 const renderCategory = () => {
     return (
-        <div className={"category"}>
+        <div className={styles.category}>
             {Object.entries(write.category).map(([category, list]) => (
-                <div className={"row"}>
-                    <div className={"categoryTitle"}>
+                <div className={styles.row}>
+                    <div className={styles.categoryTitle}>
                         {categoryList[category]}
                     </div>
                     {list.map((element, index) => (
@@ -106,24 +106,24 @@ const Contest_Team_WriteView = () => {
     return(
         <div>
             <Nav />
-          <div className={"page"}>
-              <div className={"titleAndCategory"}>
-                  <div className={"title"}>
-                      <label className={"T"}>{write.title}</label>
-                      <label className={"W"}>{write.writer}</label>
-                      <label className={"D"}>{write.date}</label>
+          <div className={styles.page}>
+              <div className={styles.titleAndCategory}>
+                  <div className={styles.title}>
+                      <label className={styles.T}>{write.title}</label>
+                      <label className={styles.W}>{write.writer}</label>
+                      <label className={styles.D}>{write.date}</label>
                   </div>
                   {renderCategory()}
               </div>
-              <div className={"body"}>
-                  <div className={"appointment"}>
+              <div className={styles.body}>
+                  <div className={styles.appointment}>
                       <button>채팅하기</button>
                       <button>지원하기</button>
                   </div>
-                  <div className={"text"}>
+                  <div className={styles.text}>
                       <div dangerouslySetInnerHTML={{__html: renderToString(write.body)}}/>
                   </div>
-                  <div className={"report"}>
+                  <div className={styles.report}>
                       <button>신고하기</button>
                   </div>
               </div>

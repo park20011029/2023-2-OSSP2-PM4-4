@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
 import Search from "../component/Search";
-import Category from "../component/Category";
+import List_Category from "../component/List_Category";
 import ProjectList from "../component/projectList";
 
 const criteria = { FE: "Front-end", BE: "Back-end", AI: "AI", extra: "기타" };
@@ -24,7 +24,7 @@ class Project_ForumPage extends Component {
                 <Nav />
                 <div className='ProjectPage'>
                     <Search />
-                    <Category criteria={criteria} detailList={detailList} selected={selected} />
+                    <List_Category criteria={criteria} detailList={detailList} selected={selected} />
                     <ProjectList />
                 </div>
                 <Footer />

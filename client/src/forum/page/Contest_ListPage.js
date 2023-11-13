@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Nav from "../../layout/Nav"
 import Footer from "../../layout/Footer"
 import Search from "../component/Search";
-import Category from "../component/Category";
+import List_Category from "../component/List_Category";
 import ForumList from "../component/forumList";
 import "../css/Contest_ListPage.css";
 
@@ -26,7 +26,7 @@ class Contest_ListPage extends Component {
                 <Nav />
                 <div className='ForumPage'>
                     <Search />
-                    <Category criteria={criteria} detailList={detailList} selected={selected} />
+                    <List_Category criteria={criteria} detailList={detailList} selected={selected} />
                     <ForumList />
                 </div>
                 <Footer />

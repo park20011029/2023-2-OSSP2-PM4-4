@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import renderPageNumber from '../component/RenderPageNumber';
+import Contest_Team_WritePost from "./Contest_Team_Write(Post)";
 import "../css/Contest_Team_ListTab.css"
 
 //dummy data
@@ -25,7 +26,7 @@ const Contest_Team_ListTab = () => {
 
     // 상세페이지 이동
     function moveToWrite(index) {
-        navigate(`/ContestTeamWrite`, { state: { number: index } });
+        navigate(`/contestTeamWriteView`, { state: { number: index } });
     }
 
     return (
@@ -44,7 +45,7 @@ const Contest_Team_ListTab = () => {
                 </div>
             ))}
             <div className={"writeButton"}>
-                <button>글쓰기</button>
+                <button onClick={()=>{navigate('/contestTeamWritePost')}}>글쓰기</button>
             </div>
             <div className={"pageNumber"}>
                 {renderPageNumber(totalWrite, pageSize, getList)}

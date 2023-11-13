@@ -1,7 +1,8 @@
+//게시글 목록용 카테고리 컴포넌트
 import React, { useState, useEffect } from 'react';
 import "../css/Contest_ListPage.css";
 
-const Category = (props) => {
+const List_Category = (props) => {
     const [selectedItems, setSelectedItems] = useState(props.selected || {});
     const criteria = props.criteria || {};
     const categories = Object.keys(criteria);
@@ -73,4 +74,4 @@ const Category = (props) => {
     );
 };
 
-export default Category;
+export default List_Category;

@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server"; // Import renderToString
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
 import Contest_Team_ListTab from "./Contest_Team_ListTab";
-import "../css/Contest_Info_Write.css";
+import styles from "../css/Contest_Info_Write.module.css";
 
 
 // DUMMY DATA
@@ -81,23 +81,23 @@ const write = {
 //요약 내용 렌더링
 const renderBrief = () => {
     const categories = [
-        { label: '제목', value: write.title },
-        { label: '분야', value: write.area },
-        { label: '주최기관', value: write.host },
-        { label: '접수기간', value: `${write.startDate} ~ ${write.endDate}` },
-        { label: '시상규모', value: write.scale },
+        { key: '제목', value: write.title },
+        { key: '분야', value: write.area },
+        { key: '주최기관', value: write.host },
+        { key: '접수기간', value: `${write.startDate} ~ ${write.endDate}` },
+        { key: '시상규모', value: write.scale },
     ];
 
     return (
-        <div className="brief_labels">
-            <div className="category">
+        <div className={styles.brief_labels}>
+            <div className={styles.category}>
                 {categories.map((item, index) => (
-                    <label className="category" key={index}>
-                        {item.label} :
+                    <label key={index}>
+                        {item.key} :
                     </label>
                 ))}
             </div>
-            <div className="label">
+            <div className={styles.label}>
                 {categories.map((item, index) => (
                     <label className="variable" key={index}>
                         {item.value}
@@ -118,28 +118,28 @@ const Contest_Info_Write = () => {
     return (
         <div>
             <Nav />
-            <div className={"page"}>
-                <div className={"brief"}>
-                    <div className={"small_image"}>
+            <div className={styles.page}>
+                <div className={styles.brief}>
+                    <div className={styles.small_image}>
                         <img src={write.image} alt={"작은 포스터"} />
                     </div>
-                    <div className={"info"}>{renderBrief()}</div>
+                    {renderBrief()}
                 </div>
 
-                <div className="twoTabs">
-                    <div className="tabButtons">
+                <div className={styles.twoTabs}>
+                    <div className={styles.tabButtons}>
                         <button onClick={() => changeTab('Tab1')}>소개</button>
                         <button onClick={() => changeTab('Tab2')}>팀원 모집</button>
                     </div>
-                    <div className="tab">
+                    <div className={styles.tab}>
                         {activeTab === 'Tab1' && (
-                            <div className={"tab1"}>
-                                <img className="big_image" src={write.image} alt={"큰 포스터"} />
+                            <div className={styles.tab1}>
+                                <img className={styles.big_image} src={write.image} alt={"큰 포스터"} />
                                 <div dangerouslySetInnerHTML={{__html: renderToString(write.detail)}}/>
                             </div>
                         )}
                         {activeTab === 'Tab2' && (
-                            <div className={"tab2"}>
+                            <div className={styles.tab2}>
                                 <Contest_Team_ListTab />
                             </div>
                         )}
