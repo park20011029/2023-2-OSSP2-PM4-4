@@ -8,7 +8,7 @@ import project.manager.server.domain.resume.Resume;
 @Repository
 public interface ResumeRepository extends JpaRepository<Resume, Long> {
 
-    Optional<Resume> findByUserId(Long id);
+    Optional<Resume> findById(Long resumeId);
 
     boolean existsByUserId(Long id);
 }
