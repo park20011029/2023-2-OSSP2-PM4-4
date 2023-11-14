@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectRequestDto {
+    private Long id;
 
     @NotNull(message = "[Project Request] Github url can not be null")
     private String gitUrl;
