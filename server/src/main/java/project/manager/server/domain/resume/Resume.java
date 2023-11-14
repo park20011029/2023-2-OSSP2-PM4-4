@@ -1,7 +1,6 @@
 package project.manager.server.domain.resume;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,34 +56,20 @@ public class Resume {
     // -------------------------------------------------------------------
 
     @Builder
-    public Resume(String job, boolean gender, LocalDate birth) {
+    public Resume(String job, boolean gender, LocalDate birth, User user, Gu gu) {
+        this.gu = gu;
+        this.user = user;
         this.job = job;
         this.gender = gender;
         this.birth = birth;
     }
 
-    public void addProject(Project project) {
-        this.projects.add(project);
-        project.setResume(this);
+
+    public void updateResume(String job, boolean gender, LocalDate birth, Gu gu) {
+        this.gu = gu;
+        this.job = job;
+        this.gender = gender;
+        this.birth = birth;
     }
 
-    public void addTechStack(TechStack techStack) {
-        this.techStacks.add(techStack);
-        techStack.setResume(this);
-    }
-
-    public void addAward(Award award) {
-        this.awards.add(award);
-        award.setResume(this);
-    }
-
-    public void addSchool(School school) {
-        this.school = school;
-        school.setResume(this);
-    }
-
-    public void setGu(Gu gu) {this.gu = gu;}
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

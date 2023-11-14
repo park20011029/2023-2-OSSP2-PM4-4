@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import project.manager.server.dto.request.resume.TechStackRequestDto;
 import project.manager.server.enums.TechType;
 
 @Entity
@@ -38,19 +39,17 @@ public class TechStack {
     // -------------------------------------------------------------------
 
     @Builder
-    public TechStack(TechType techType, String tech, String description) {
+    public TechStack(TechType techType, String tech, String description, Resume resume) {
+        this.resume = resume;
         this.tech = tech;
         this.techType = techType;
         this.description = description;
     }
 
-    public void updateResumeTech(TechType techType, String tech, String techDescription) {
-        this.tech = tech;
-        this.techType = techType;
-        this.description = techDescription;
+    public void updateTech(TechStackRequestDto techStackRequestDto) {
+        this.tech = techStackRequestDto.getTech();
+        this.techType = techStackRequestDto.getTechType();
+        this.description = techStackRequestDto.getDescription();
     }
 
-    public void setResume(Resume resume) {
-        this.resume = resume;
-    }
 }

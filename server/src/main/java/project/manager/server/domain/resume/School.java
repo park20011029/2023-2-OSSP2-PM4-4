@@ -27,14 +27,15 @@ public class School {
 
     // -------------------------------------------------------------------
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
     // -------------------------------------------------------------------
 
     @Builder
-    public School(String name, SchoolRegister schoolRegister) {
+    public School(String name, SchoolRegister schoolRegister, Resume resume) {
+        this.resume = resume;
         this.schoolRegister = schoolRegister;
         this.name = name;
     }
@@ -44,7 +45,4 @@ public class School {
         this.name = name;
     }
 
-    public void setResume(Resume resume) {
-        this.resume = resume;
-    }
 }

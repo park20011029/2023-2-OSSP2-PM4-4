@@ -36,20 +36,17 @@ public class Project {
     // -------------------------------------------------------------------
 
     @Builder
-    public Project(String projectName, String gitUrl, String description) {
+    public Project(String projectName, String gitUrl, String description, Resume resume) {
+        this.resume = resume;
         this.projectName = projectName;
         this.gitUrl = gitUrl;
         this.description = description;
     }
 
-    public void updateResumeProject(
-            String projectName, String projectGit, String projectDescription) {
+    public void updateProject(String projectName, String projectGit, String projectDescription) {
         this.projectName = projectName;
         this.gitUrl = projectGit;
         this.description = projectDescription;
     }
 
-    public void setResume(Resume resume) {
-        this.resume = resume;
-    }
 }

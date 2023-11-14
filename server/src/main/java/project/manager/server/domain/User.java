@@ -77,8 +77,4 @@ public class User {
         this.userState = UserState.WITHDRAWAL;
     }
 
-    public void addResume(Resume resume) {
-        this.resume = resume;
-        resume.setUser(this);
-    }
 }
