@@ -36,19 +36,16 @@ public class Award {
     // -------------------------------------------------------------------
 
     @Builder
-    public Award(String competition, LocalDate awardYear, String awardType) {
-        this.competition = competition;
-        this.awardYear = awardYear;
-        this.awardType = awardType;
-    }
-
-    public void updateResumeAward(String competition, LocalDate awardYear, String awardType) {
-        this.competition = competition;
-        this.awardYear = awardYear;
-        this.awardType = awardType;
-    }
-
-    public void setResume(Resume resume) {
+    public Award(String competition, LocalDate awardYear, String awardType, Resume resume) {
         this.resume = resume;
+        this.competition = competition;
+        this.awardYear = awardYear;
+        this.awardType = awardType;
+    }
+
+    public void updateAward(String competition, LocalDate awardYear, String awardType) {
+        this.competition = competition;
+        this.awardYear = awardYear;
+        this.awardType = awardType;
     }
 }

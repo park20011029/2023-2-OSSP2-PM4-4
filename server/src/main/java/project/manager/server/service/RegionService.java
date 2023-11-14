@@ -1,5 +1,7 @@
 package project.manager.server.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +13,6 @@ import project.manager.server.exception.ApiException;
 import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.region.GuRepository;
 import project.manager.server.repository.region.SiRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional
@@ -34,7 +33,9 @@ public class RegionService {
     }
 
     public List<GuDto> readGuList(Long siId) {
-        List<Gu> guList = guRepository.findGuBySi_Id(siId).orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+        List<Gu> guList = guRepository.findGuBySi_Id(siId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+
         List<GuDto> guDtoList = new ArrayList<>();
 
         for (Gu gu : guList) {
@@ -43,6 +44,4 @@ public class RegionService {
 
         return guDtoList;
     }
-
-
 }

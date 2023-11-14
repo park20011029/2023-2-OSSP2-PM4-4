@@ -22,6 +22,4 @@ public class GlobalRestExceptionHandler {
     public ResponseEntity<?> handleException(Exception e) {
         return ResponseDto.toResponseEntity(e);
     }
-
-
 }

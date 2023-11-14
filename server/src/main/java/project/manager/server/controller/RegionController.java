@@ -1,5 +1,6 @@
 package project.manager.server.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,8 +10,6 @@ import project.manager.server.dto.ResponseDto;
 import project.manager.server.dto.reponse.region.GuDto;
 import project.manager.server.dto.reponse.region.SiDto;
 import project.manager.server.service.RegionService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/region")

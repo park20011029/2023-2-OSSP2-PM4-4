@@ -1,9 +1,8 @@
 package project.manager.server.dto.request.resume;
 
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +23,11 @@ public class ResumeRequestDto {
 
     @NotNull(message = "[Resume Request] Gender can not be null")
     private boolean gender;
+
+    @NotNull
+    private SchoolRequestDto schoolInfo;
+
     private List<ProjectRequestDto> projects;
     private List<AwardRequestDto> awards;
     private List<TechStackRequestDto> techStacks;
-    private SchoolRequestDto schoolInfo;
 }

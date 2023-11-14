@@ -8,6 +8,7 @@ import project.manager.server.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByNickName(String nickName);
+
     Optional<User> findById(Long userId);
 
     boolean existsByEmail(String email);

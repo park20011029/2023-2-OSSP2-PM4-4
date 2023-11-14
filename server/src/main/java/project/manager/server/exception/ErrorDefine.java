@@ -41,8 +41,6 @@ public enum ErrorDefine {
     // INTERNAL_SERER_ERROR: 500
     SERVER_ERROR("5000", HttpStatus.INTERNAL_SERVER_ERROR, "Server Error: Internal server error");
 
-
-
     private final String errorCode;
     private final HttpStatus httpStatus;
     private final String message;
