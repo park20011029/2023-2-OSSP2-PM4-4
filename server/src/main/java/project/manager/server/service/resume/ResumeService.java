@@ -30,47 +30,56 @@ public class ResumeService {
     private final TechStackService techStackService;
     private final ProjectService projectService;
 
-    @Transactional
+    // Create
     public Long createResume(Long userId, ResumeRequestDto resumeRequestDto) {
 
         if (resumeRepository.existsByUserId(userId)) {
             throw new ApiException((ErrorDefine.RESUME_EXIST));
         }
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
+
+        Gu gu = guRepository.findById(resumeRequestDto.getGuId())
+                        .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         Resume newResume = Resume.builder()
-                .job(resumeRequestDto.getJob())
-                .gender(resumeRequestDto.isGender())
-                .build();
+                        .gu(gu)
+                        .birth(resumeRequestDto.getBirth())
+                        .user(user)
+                        .job(resumeRequestDto.getJob())
+                        .gender(resumeRequestDto.isGender())
+                        .build();
 
-        Gu gu = guRepository.findById(resumeRequestDto.getGuId()).orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
-        newResume.setGu(gu);
-
-        for (AwardRequestDto awardRequestDto : resumeRequestDto.getAwards()) {
-            newResume.addAward(awardService.createAward(awardRequestDto));
+        if (resumeRequestDto.getAwards() != null) {
+            for (AwardRequestDto awardRequestDto : resumeRequestDto.getAwards()) {
+                awardService.createAward(awardRequestDto, newResume);
+            }
         }
 
-        for (ProjectRequestDto projectRequestDto : resumeRequestDto.getProjects()) {
-            newResume.addProject(projectService.createProject(projectRequestDto));
+        if (resumeRequestDto.getProjects() != null) {
+            for (ProjectRequestDto projectRequestDto : resumeRequestDto.getProjects()) {
+                projectService.createProject(projectRequestDto, newResume);
+            }
         }
 
-        for (TechStackRequestDto techStackRequestDto : resumeRequestDto.getTechStacks()) {
-            newResume.addTechStack(techStackService.createTechStack(techStackRequestDto));
+        if (resumeRequestDto.getTechStacks() != null) {
+            for (TechStackRequestDto techStackRequestDto : resumeRequestDto.getTechStacks()) {
+                techStackService.createTechStack(techStackRequestDto, newResume);
+            }
         }
 
-        newResume.addSchool(schoolService.createSchool(resumeRequestDto.getSchoolInfo()));
-
-        user.addResume(newResume);
+        schoolService.createSchool(resumeRequestDto.getSchoolInfo(), newResume);
 
         resumeRepository.save(newResume);
 
         return newResume.getId();
-
     }
 
-    public ResumeDto readResume(Long userId) {
-        Resume resume = resumeRepository.findByUserId(userId).orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
+    // Read
+    public ResumeDto readResume(Long resumeId) {
+        Resume resume = resumeRepository.findById(resumeId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
 
         return ResumeDto.builder()
                 .resume(resume)
@@ -80,47 +89,72 @@ public class ResumeService {
                 .build();
     }
 
-//    @Transactional
-//    public ResumeDto updateResume(User user, ResumeRequestDto resumeRequestDto) {
-//        Resume resume =
-//                resumeRepository
-//                        .findByUserId(user.getId())
-//                        .orElseThrow(() -> new ApiException((ErrorDefine.RESUME_NOT_FOUND)));
-//        user = userRepository.getReferenceById(resumeRequestDto.getUserId());
-//        resume.updateResume(user, resumeRequestDto.getJob());
-//
-//        Resume resumeId = resumeRepository.getReferenceById(resume.getId());
-//        Award updateResumeAward = new Award();
-//        updateResumeAward.updateResumeAward(
-//                resumeId,
-//                resumeRequestDto.getCongress(),
-//                resumeRequestDto.getAwardYear(),
-//                resumeRequestDto.getAwardType());
-//
-//        Project updateResumeProject = new Project();
-//        updateResumeProject.updateResumeProject(
-//                resumeId,
-//                resumeRequestDto.getProjectName(),
-//                resumeRequestDto.getProjectGit(),
-//                resumeRequestDto.getProjectDescription());
-//
-//        ResumeEdu updateResumeEdu = new ResumeEdu();
-//        updateResumeEdu.updateResumeEdu(
-//                resumeId,
-//                resumeRequestDto.getSchool(),
-//                resumeRequestDto.getEnroll(),
-//                resumeRequestDto.getResumeEduState());
-//
-//        TechStack updateResumeTech = new TechStack();
-//        updateResumeTech.updateResumeTech(
-//                resumeId, resumeRequestDto.getTechType(), resumeRequestDto.getTechDescription());
-//
-//        return ResumeDto.builder()
-//                .resume(resume)
-//                .resumeProject(updateResumeProject)
-//                .resumeAward(updateResumeAward)
-//                .resumeEdu(updateResumeEdu)
-//                .resumeTech(updateResumeTech)
-//                .build();
-//    }
+    // Update
+    public Long addProject(Long resumeId, ProjectRequestDto projectRequestDto) {
+        Resume resume = resumeRepository.findById(resumeId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
+
+        return projectService.createProject(projectRequestDto, resume).getId();
+    }
+
+    public Long addTechStack(Long resumeId, TechStackRequestDto techStackRequestDto) {
+        Resume resume = resumeRepository.findById(resumeId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
+
+        return techStackService.createTechStack(techStackRequestDto, resume).getId();
+    }
+
+    public Long addAward(Long resumeId, AwardRequestDto awardRequestDto) {
+        Resume resume = resumeRepository.findById(resumeId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
+
+        return awardService.createAward(awardRequestDto, resume).getId();
+    }
+
+    public boolean updateResume(Long resumeId, ResumeRequestDto resumeRequestDto) {
+        Resume resume = resumeRepository.findById(resumeId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
+
+        Gu gu = guRepository.findById(resumeRequestDto.getGuId())
+                        .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+
+        resume.updateResume(
+                resumeRequestDto.getJob(),
+                resumeRequestDto.isGender(),
+                resumeRequestDto.getBirth(),
+                gu);
+
+        for (AwardRequestDto awardRequestDto : resumeRequestDto.getAwards()) {
+            if (awardRequestDto.getId() != null) {
+                awardService.updateAward(awardRequestDto);
+            } else {
+                throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
+            }
+        }
+
+        for (ProjectRequestDto projectRequestDto : resumeRequestDto.getProjects()) {
+            if (projectRequestDto.getId() != null) {
+                projectService.updateProject(projectRequestDto);
+            } else {
+                throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
+            }
+        }
+
+        for (TechStackRequestDto techStackRequestDto : resumeRequestDto.getTechStacks()) {
+            if (techStackRequestDto.getId() != null) {
+                techStackService.updateTechStack(techStackRequestDto);
+            } else {
+                throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
+            }
+        }
+
+        if (resumeRequestDto.getSchoolInfo().getId() != null) {
+            schoolService.updateSchool(resumeRequestDto.getSchoolInfo());
+        } else {
+            throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
+        }
+
+        return true;
+    }
+
 }

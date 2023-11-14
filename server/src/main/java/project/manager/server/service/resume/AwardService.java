@@ -1,13 +1,17 @@
 package project.manager.server.service.resume;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.manager.server.domain.resume.Award;
+import project.manager.server.domain.resume.Resume;
 import project.manager.server.dto.reponse.resume.AwardDto;
 import project.manager.server.dto.request.resume.AwardRequestDto;
+import project.manager.server.exception.ApiException;
+import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.resume.AwardRepository;
 
 @Service
@@ -17,11 +21,10 @@ public class AwardService {
 
     private final AwardRepository awardRepository;
 
-    @Transactional
-    public Award createAward(AwardRequestDto awardRequestDto) {
+    public Award createAward(AwardRequestDto awardRequestDto, Resume resume) {
 
-        Award newAward =
-                Award.builder()
+        Award newAward = Award.builder()
+                        .resume(resume)
                         .awardYear(awardRequestDto.getAwardYear())
                         .awardType(awardRequestDto.getAwardType())
                         .competition(awardRequestDto.getCompetition())
@@ -32,12 +35,30 @@ public class AwardService {
 
     public List<AwardDto> readAward(List<Award> awards) {
 
-        List<AwardDto> awardDtos = new ArrayList<>();
+        return Optional.ofNullable(awards)
+                .map(a -> a.stream()
+                        .map(award -> AwardDto.builder().award(award).build())
+                        .collect(Collectors.toList()))
+                .orElse(null);
+    }
 
-        for (Award award : awards) {
-            awardDtos.add(AwardDto.builder().award(award).build());
-        }
+    public void updateAward(AwardRequestDto awardRequestDto) {
+        Award award = awardRepository.findById(awardRequestDto.getId())
+                        .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
-        return awardDtos;
+        award.updateAward(
+                awardRequestDto.getCompetition(),
+                awardRequestDto.getAwardYear(),
+                awardRequestDto.getAwardType());
+    }
+
+    public boolean deleteAward(Long awardId) {
+        Award award = awardRepository
+                        .findById(awardId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+
+        awardRepository.delete(award);
+
+        return true;
     }
 }
