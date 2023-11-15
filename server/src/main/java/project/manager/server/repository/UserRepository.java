@@ -9,6 +9,8 @@ import project.manager.server.domain.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByNickName(String nickName);
 
+    Optional<User> findById(Long userId);
+
     boolean existsByEmail(String email);
 
     boolean existsByNickName(String nickName);

@@ -1,5 +1,6 @@
 package project.manager.server.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import project.manager.server.dto.ResponseDto;
@@ -14,23 +15,23 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseDto<UserDto> userSignUp(@RequestBody UserRequestDto userRequestDto) {
-        return new ResponseDto<UserDto>(userService.createUser(userRequestDto));
+    public ResponseDto<Long> userSignUp(@Valid @RequestBody UserRequestDto userRequestDto) {
+        return new ResponseDto<Long>(userService.createUser(userRequestDto));
     }
 
-    @GetMapping("/{nickName}")
-    public ResponseDto<UserDto> getUser(@PathVariable String nickName) {
-        return new ResponseDto<UserDto>(userService.readUserProfile(nickName));
+    @GetMapping("/{userId}")
+    public ResponseDto<UserDto> getUser(@PathVariable Long userId) {
+        return new ResponseDto<UserDto>(userService.readUserProfile(userId));
     }
 
-    @PutMapping("/{nickName}")
+    @PutMapping("/{userId}")
     public ResponseDto<UserDto> updateUser(
-            @PathVariable String nickName, @RequestBody UserRequestDto userRequestDto) {
-        return new ResponseDto<UserDto>(userService.updateUserProfile(nickName, userRequestDto));
+            @PathVariable Long userId, @RequestBody UserRequestDto userRequestDto) {
+        return new ResponseDto<UserDto>(userService.updateUserProfile(userId, userRequestDto));
     }
 
-    @DeleteMapping("/{nickName}")
-    public ResponseDto<UserDto> withdrawUser(@PathVariable String nickName) {
-        return new ResponseDto<UserDto>(userService.deleteUser(nickName));
+    @DeleteMapping("/{userId}")
+    public ResponseDto<UserDto> withdrawUser(@PathVariable Long userId) {
+        return new ResponseDto<UserDto>(userService.withdrawUser(userId));
     }
 }
