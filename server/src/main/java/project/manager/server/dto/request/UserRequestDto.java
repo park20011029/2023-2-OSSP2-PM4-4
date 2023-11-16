@@ -1,6 +1,7 @@
 package project.manager.server.dto.request;
 
-import java.time.LocalDate;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
+    @NotNull
     private String name;
+
+    @NotNull
+    @Email
     private String email;
+
+    @NotNull
     private String nickName;
-    private Boolean sex;
-    private LocalDate birth;
+
+    @NotNull
     private String introduction;
+
+    @NotNull
+    private String phoneNumber;
 }
