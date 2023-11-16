@@ -19,7 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserDto createUser(UserRequestDto userRequestDto) {
+    public Long createUser(UserRequestDto userRequestDto) {
 
         if (userRepository.existsByEmail(userRequestDto.getEmail())) {
             throw new ApiException((ErrorDefine.EMAIL_EXIST));
@@ -31,13 +31,13 @@ public class UserService {
 
         userRepository.save(newUser);
 
-        return UserDto.builder().user(newUser).build();
+        return newUser.getId();
     }
 
-    public UserDto readUserProfile(String nickName) {
+    public UserDto readUserProfile(Long userId) {
         User user =
                 userRepository
-                        .findByNickName(nickName)
+                        .findById(userId)
                         .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
 
         if (user.getUserState() == UserState.WITHDRAWAL) {
@@ -52,10 +52,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto updateUserProfile(String nickName, UserRequestDto userRequestDto) {
+    public UserDto updateUserProfile(Long userId, UserRequestDto userRequestDto) {
         User user =
                 userRepository
-                        .findByNickName(nickName)
+                        .findById(userId)
                         .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
 
         if (userRepository.existsByIdNotAndNickName(user.getId(), userRequestDto.getNickName())) {
@@ -74,10 +74,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto deleteUser(String nickName) {
+    public UserDto withdrawUser(Long userId) {
         User user =
                 userRepository
-                        .findByNickName(nickName)
+                        .findById(userId)
                         .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         if (user.getUserState() == UserState.WITHDRAWAL) {
             throw new ApiException(ErrorDefine.USER_WITHDRAWAL);
@@ -87,7 +87,7 @@ public class UserService {
             throw new ApiException(ErrorDefine.USER_DELETE);
         }
 
-        user.deleteUser();
+        user.withdrawUser();
 
         return UserDto.builder().user(user).build();
     }
