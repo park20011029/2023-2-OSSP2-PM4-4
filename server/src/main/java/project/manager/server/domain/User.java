@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import project.manager.server.domain.building.BuildingPost;
+import project.manager.server.domain.gongmo.GongMoPost;
 import project.manager.server.domain.resume.Resume;
 import project.manager.server.dto.request.UserRequestDto;
 import project.manager.server.enums.UserRole;
@@ -54,6 +56,11 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Resume resume;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private GongMoPost gongMoPost;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private BuildingPost buildingPost;
     // -------------------------------------------------------------------
 
     @Builder
