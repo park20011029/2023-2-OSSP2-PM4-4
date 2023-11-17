@@ -24,6 +24,7 @@ public enum ErrorDefine {
     USER_WITHDRAWAL("4041", HttpStatus.NOT_FOUND, "Not Found: User withdraw"),
     RESUME_NOT_FOUND("4042", HttpStatus.NOT_FOUND, "NOT Found: Resume Not Found"),
     ENTITY_NOT_FOUND("4043", HttpStatus.NOT_FOUND, "NOT Found: Entity Not Found"),
+    BOARD_NOT_FOUND("4044", HttpStatus.NOT_FOUND, "NOT Found: Board Not Found" ),
 
     // CONFLICT: 409
     EMAIL_EXIST(
@@ -33,7 +34,7 @@ public enum ErrorDefine {
             "4092", HttpStatus.CONFLICT, "Conflict: An account with this nickname already exists."),
     RESUME_EXIST(
             "4093", HttpStatus.CONFLICT, "Conflict: An account with this Resume already exits"),
-
+    Building_EXIST("4094", HttpStatus.CONFLICT, "Conflict: An account with this building post of a gongmopost"),
     // GONE: 410
     USER_DELETE("4010", HttpStatus.GONE, "GONE: User delete data"),
     USER_EXPEL("4011", HttpStatus.GONE, "GONE: USER expelled"),
