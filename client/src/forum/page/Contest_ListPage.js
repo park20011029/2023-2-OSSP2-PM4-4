@@ -5,7 +5,7 @@ import Footer from "../../layout/Footer"
 import Search from "../component/Search";
 import List_Category from "../component/List_Category";
 import ForumList from "../component/forumList";
-import "../css/Contest_ListPage.css";
+import styles from "../css/ListPage.module.css";
 
 const criteria = { title: "응모 대상", host: "주최 기관", scale: "시상 규모" };
 const detailList = {
@@ -24,9 +24,11 @@ class Contest_ListPage extends Component {
         return (
             <div>
                 <Nav />
-                <div className='ForumPage'>
+                <div className={styles.Page}>
                     <Search />
-                    <List_Category criteria={criteria} detailList={detailList} selected={selected} />
+                    <List_Category criteria={criteria}
+                                   detailList={detailList}
+                                   selected={selected} />
                     <ForumList />
                 </div>
                 <Footer />

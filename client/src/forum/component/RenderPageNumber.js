@@ -1,4 +1,5 @@
 //페이지 번호 렌더링
+import styles from "../css/RenderPageNumber.module.css";
 
 function renderPageNumber(totalWrite, pageSize) {
     const pageCount = Math.ceil(totalWrite / pageSize);
@@ -10,7 +11,10 @@ function renderPageNumber(totalWrite, pageSize) {
         );
     }
     pageNumbers.push(<button>{">"}</button>)
-    return pageNumbers;
+    return (
+        <div className={styles.pageNumber}>
+            {pageNumbers}
+        </div>);
 }
 
 export default renderPageNumber;

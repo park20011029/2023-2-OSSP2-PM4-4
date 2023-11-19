@@ -36,7 +36,7 @@ const Write_Body = ({ editorContent, setEditorContent, onRewardChange, onSubmit 
                 <button onClick={() => {
                             if(window.confirm('취소하시겠습니까?')) {
                                 alert("취소되었습니다.");
-                                navigate('/contestWrite');
+                                navigate('/contestInfoPostPage');
                             }
                 }}>취소</button>
             </div>

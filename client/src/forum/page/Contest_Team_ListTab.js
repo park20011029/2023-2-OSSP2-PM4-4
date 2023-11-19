@@ -2,7 +2,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import renderPageNumber from '../component/RenderPageNumber';
-import Contest_Team_WritePost from "./Contest_Team_Write(Post)";
 import "../css/Contest_Team_ListTab.css"
 
 //dummy data

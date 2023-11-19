@@ -45,7 +45,7 @@ const Contest_Team_WritePost = () => {
         /* Todo: 본문내용, 리워드 처리 */
         console.log(content);
 
-        navigate('/contestWrite');
+        navigate('/contestInfoPostPage');
     }
 
     return(
