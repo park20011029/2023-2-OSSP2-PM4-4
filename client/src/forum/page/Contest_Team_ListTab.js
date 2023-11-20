@@ -2,7 +2,8 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import renderPageNumber from '../component/RenderPageNumber';
-import "../css/Contest_Team_ListTab.css"
+import "../css/Contest_Team_ListTab.module.css"
+import ProjectList from "../component/projectList";
 
 //dummy data
 let write = {
@@ -29,27 +30,8 @@ const Contest_Team_ListTab = () => {
     }
 
     return (
-        <div className="List">
-            <div className="category_row">
-                <label className="title">제목</label>
-                <label className="writer">작성자</label>
-                <label className="date">작성일</label>
-            </div>
+        <ProjectList />
 
-            {writeList.map((item, index) => (
-                <div className="item" key={index} onClick={() => moveToWrite(item.number)}>
-                    <label className="title">{item.title}</label>
-                    <label className="writer">{item.name}</label>
-                    <label className="date">{item.date}</label>
-                </div>
-            ))}
-            <div className={"writeButton"}>
-                <button onClick={()=>{navigate('/contestTeamWritePost')}}>글쓰기</button>
-            </div>
-            <div className={"pageNumber"}>
-                {renderPageNumber(totalWrite, pageSize, getList)}
-            </div>
-        </div>
     );
 };
 

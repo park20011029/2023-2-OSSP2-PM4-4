@@ -64,7 +64,7 @@ const List_Category = ({criteria, detailList, selected, updateSelected}) => {
             <div className={styles.criteria}>
                 {categories.map((category) => (
                     <div key={category} className={styles.checkbox}>
-                        <label>{criteria[category]}</label>
+                        <label className={styles.checkListTitle}>{criteria[category]}</label>
                         {renderCheckBoxes(category)}
                     </div>
                 ))}

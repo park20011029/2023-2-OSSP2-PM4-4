@@ -103,6 +103,10 @@ const renderCategory = () => {
 
 
 const Contest_Team_WriteView = () => {
+    let currentUrl = window.location.href;
+    let writeNo = new URLSearchParams(currentUrl.split('?')[1]);
+    console.log(writeNo);
+    //Todo : urlparam을 이용하여 글 정보 받아오기
     return(
         <div>
             <Nav />
