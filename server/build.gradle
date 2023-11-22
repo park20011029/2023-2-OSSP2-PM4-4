@@ -12,8 +12,6 @@ spotless {
 
 		importOrder('java', 'javax', 'org', 'com', '')
 
-		googleJavaFormat('1.10.0').aosp()
-
 		removeUnusedImports()
 
 		trimTrailingWhitespace()
