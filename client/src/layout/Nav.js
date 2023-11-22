@@ -24,7 +24,7 @@ const Nav = () => {
               <button
                 className="after:absolute after:content-[''] after:w-0 after:b-0 after:l-1/2 after:h-[3px] after:-translate-x-2/4 after:bg-blue-400 after:transition-all after:transition .5s ease-out hover:after:w-[100px]"
                 onClick={() => {
-                  navigate("/contest_forum");
+                  navigate("/contestInfoListPage");
                 }}
               >
                 <p className="text-[17px] font-['NotoSansKR'] font-bold ">

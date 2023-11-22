@@ -1,0 +1,12 @@
+.pageNumber {
+    display: flex;
+    justify-content: center;
+    padding-bottom:20px;
+}
+
+.pageNumber button {
+    font-size:20px;
+    padding-left:5px;
+    padding-right:5px;
+    margin: 0 15px;
+}
