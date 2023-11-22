@@ -54,6 +54,9 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Resume resume;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ContestPost> contestPosts;
+
     // -------------------------------------------------------------------
 
     @Builder
