@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum TechType {
-    FRONT("Back-End"),
-    BACK("Front-End"),
+    FRONT("Front-End"),
+    BACK("Back-End"),
     AI("AI"),
     ETC("기타");
 
