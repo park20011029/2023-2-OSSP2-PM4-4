@@ -1,7 +1,6 @@
-package project.manager.server.service.post.contast;
+package project.manager.server.service.post.contest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
 import project.manager.server.exception.ApiException;
 import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.UserRepository;
-import project.manager.server.repository.post.contast.*;
+import project.manager.server.repository.post.contest.*;
 
 
 @Service

@@ -18,9 +18,10 @@ import project.manager.server.domain.region.Gu;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "RESEUME_TB")
+@Table(name = "RESUME_TB")
 @DynamicUpdate
 public class Resume {
+
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

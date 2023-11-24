@@ -16,7 +16,7 @@ import project.manager.server.repository.post.building.ApplyRepository;
 import project.manager.server.repository.post.building.ApplyTechTypeRepository;
 import project.manager.server.repository.post.building.BuildingPostRepository;
 import project.manager.server.repository.post.building.PartRepository;
-import project.manager.server.repository.post.contast.ContestPostRepository;
+import project.manager.server.repository.post.contest.ContestPostRepository;
 
 @Service
 @Transactional

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import project.manager.server.dto.ResponseDto;
-import project.manager.server.service.post.contast.*;
+import project.manager.server.service.post.contest.*;
 
 @RestController
 @RequestMapping("/postType")

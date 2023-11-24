@@ -1,4 +1,4 @@
-package project.manager.server.repository.post.contast;
+package project.manager.server.repository.post.contest;
 
 import java.util.List;
 import java.util.Optional;

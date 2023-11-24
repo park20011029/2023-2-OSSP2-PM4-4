@@ -1,4 +1,4 @@
-package project.manager.server.service.post.contast;
+package project.manager.server.service.post.contest;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.post.contest.Organization;
 import project.manager.server.dto.reponse.post.contest.OrganizationDto;
-import project.manager.server.repository.post.contast.OrganizationRepository;
+import project.manager.server.repository.post.contest.OrganizationRepository;
 
 @Service
 @Transactional
