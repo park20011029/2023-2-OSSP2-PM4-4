@@ -10,7 +10,7 @@ spotless {
 	java {
 		target("**/*.java")
 
-		importOrder('java', 'javax', 'org', 'com', '')
+		importOrder('jakarta', 'java', 'lombok' ,'org', 'project', '')
 
 		removeUnusedImports()
 
