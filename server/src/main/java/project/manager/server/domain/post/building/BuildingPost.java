@@ -2,17 +2,20 @@ package project.manager.server.domain.post.building;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
-import project.manager.server.domain.post.contest.ContestPost;
-import project.manager.server.domain.User;
-import project.manager.server.dto.request.post.building.BuildingPostRequestDto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import org.hibernate.annotations.DynamicUpdate;
+
+import project.manager.server.domain.User;
+import project.manager.server.domain.post.contest.ContestPost;
+import project.manager.server.dto.request.post.building.BuildingPostRequestDto;
 
 @Entity
 @Getter

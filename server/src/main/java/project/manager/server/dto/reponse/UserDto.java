@@ -1,11 +1,13 @@
 package project.manager.server.dto.reponse;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import project.manager.server.domain.User;
 import project.manager.server.json.NullToNullStringSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Getter
 @NoArgsConstructor

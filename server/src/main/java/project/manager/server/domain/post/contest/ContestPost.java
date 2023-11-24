@@ -1,6 +1,7 @@
 package project.manager.server.domain.post.contest;
 
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,7 +10,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.DynamicUpdate;
+
 import project.manager.server.domain.User;
 import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
@@ -48,7 +51,7 @@ public class ContestPost {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catebory_id", nullable = false)
@@ -73,15 +76,17 @@ public class ContestPost {
     @OneToMany(mappedBy = "contestPost", fetch = FetchType.LAZY)
     private List<BuildingPost> buildingPostList;
 
+    // -----------------------------------------------------
+
     @Builder
-    public ContestPost(ContestPostRequestDto contestPostRequestDto, User user, Category category, Scale scale, Benefit benefit, Target target, Organization organization) {
+    public ContestPost(ContestPostRequestDto contestPostRequestDto, User writer, Category category, Scale scale, Benefit benefit, Target target, Organization organization) {
         this.title = contestPostRequestDto.getTitle();
         this.content = contestPostRequestDto.getContent();
         this.startAt = contestPostRequestDto.getStartAt();
         this.endAt = contestPostRequestDto.getEndAt();
         this.isDelete = false;
         this.createAt = Timestamp.valueOf(LocalDateTime.now());;
-        this.user = user;
+        this.writer = writer;
         this.category = category;
         this.scale = scale;
         this.benefit = benefit;
@@ -104,6 +109,5 @@ public class ContestPost {
     public void deleteContestPost() {
         this.isDelete = true;
     }
-
 
 }

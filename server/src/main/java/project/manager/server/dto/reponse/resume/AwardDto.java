@@ -1,9 +1,11 @@
 package project.manager.server.dto.reponse.resume;
 
 import java.time.LocalDate;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import project.manager.server.domain.resume.Award;
 
 @Getter

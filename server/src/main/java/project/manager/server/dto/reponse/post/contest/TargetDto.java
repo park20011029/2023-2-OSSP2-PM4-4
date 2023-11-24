@@ -1,9 +1,9 @@
 package project.manager.server.dto.reponse.post.contest;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import project.manager.server.domain.post.contest.Target;
 
 @Getter

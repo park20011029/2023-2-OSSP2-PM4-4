@@ -1,10 +1,13 @@
 package project.manager.server.domain.resume;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity

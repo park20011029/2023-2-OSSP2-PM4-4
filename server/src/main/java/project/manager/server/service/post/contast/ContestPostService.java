@@ -1,11 +1,18 @@
-package project.manager.server.service.post;
+package project.manager.server.service.post.contast;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import project.manager.server.domain.User;
 import project.manager.server.domain.post.contest.*;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
@@ -15,11 +22,6 @@ import project.manager.server.exception.ApiException;
 import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.UserRepository;
 import project.manager.server.repository.post.contast.*;
-
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -51,7 +53,7 @@ public class ContestPostService {
 
         ContestPost newContestPost = ContestPost.builder()
                 .contestPostRequestDto(contestPostRequestDto)
-                .user(user)
+                .writer(user)
                 .benefit(benefit)
                 .category(category)
                 .organization(organization)
@@ -68,8 +70,8 @@ public class ContestPostService {
 
         return Collections.singletonMap("contestPosts", contestPosts.stream()
                 .map(post -> ContestTitleDto.builder()
-                        .userId(post.getUser().getId())
-                        .user(post.getUser().getName())
+                        .userId(post.getWriter().getId())
+                        .user(post.getWriter().getName())
                         .contestId(post.getId())
                         .title(post.getTitle())
                         .startAt(post.getStartAt())
@@ -77,6 +79,7 @@ public class ContestPostService {
                         .build())
                 .collect(Collectors.toList()));
     }
+
 
     public ContestPostDto readContestPost(Long contestPostId) {
         ContestPost contestPost = contestPostRepository.findById(contestPostId)

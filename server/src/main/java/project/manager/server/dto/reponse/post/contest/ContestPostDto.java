@@ -1,11 +1,12 @@
 package project.manager.server.dto.reponse.post.contest;
 
+import java.time.LocalDate;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.manager.server.domain.post.contest.ContestPost;
 
-import java.time.LocalDate;
+import project.manager.server.domain.post.contest.ContestPost;
 
 @Getter
 @NoArgsConstructor
@@ -24,8 +25,8 @@ public class ContestPostDto {
 
     @Builder
     public ContestPostDto(ContestPost contestPost) {
-        this.userId = contestPost.getUser().getId();
-        this.user = contestPost.getUser().getName();
+        this.userId = contestPost.getWriter().getId();
+        this.user = contestPost.getWriter().getName();
         this.benefit = BenefitDto.builder().benefit(contestPost.getBenefit()).build();
         this.category = CategoryDto.builder().category(contestPost.getCategory()).build();
         this.organization = OrganizationDto.builder().organization(contestPost.getOrganization()).build();

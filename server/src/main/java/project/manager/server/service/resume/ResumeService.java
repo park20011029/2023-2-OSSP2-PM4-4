@@ -1,8 +1,10 @@
 package project.manager.server.service.resume;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import project.manager.server.domain.*;
 import project.manager.server.domain.region.Gu;
 import project.manager.server.domain.resume.*;
