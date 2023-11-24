@@ -1,12 +1,20 @@
 package project.manager.server.domain;
 
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.DynamicUpdate;
+
+import project.manager.server.domain.post.building.Apply;
+import project.manager.server.domain.post.building.BuildingPost;
+import project.manager.server.domain.post.contest.ContestPost;
 import project.manager.server.domain.resume.Resume;
 import project.manager.server.dto.request.UserRequestDto;
 import project.manager.server.enums.UserRole;
@@ -54,8 +62,14 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Resume resume;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<ContestPost> contestPosts;
+
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+    private List<BuildingPost> buildingPosts;
+
+    @OneToMany(mappedBy = "applicant", fetch = FetchType.LAZY)
+    private List<Apply> applyList;
 
     // -------------------------------------------------------------------
 
