@@ -38,11 +38,11 @@ public class BuildingPost {
     @Column(name = "is_delete", nullable = false)
     private boolean isDelete;
 
-    @Column(name = "remaining_part", nullable = false)
-    private Integer remainingPart;
-
     @Column(name = "create_at")
     private Timestamp createAt;
+
+    @Column(name = "is_recruiting")
+    private boolean isRecruiting;
 
     //---------------------------------------------------------
 
@@ -55,7 +55,7 @@ public class BuildingPost {
     private User writer;
 
     @OneToMany(mappedBy = "buildingPost", fetch = FetchType.LAZY)
-    private List<ApplyTechType> applyTechTypeList;
+    private List<Part> parts;
 
     //------------------------------------------------------------
 
@@ -64,9 +64,23 @@ public class BuildingPost {
         this.title = buildingPostRequestDto.getTitle();
         this.content = buildingPostRequestDto.getContent();
         this.isDelete = false;
-        this.remainingPart = buildingPostRequestDto.getRemainingPart();
+        this.isRecruiting = true;
         this.createAt = Timestamp.valueOf(LocalDateTime.now());
         this.contestPost = contestPost;
         this.writer = writer;
     }
+
+    public void updateBuildingPost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void buildingPostClose() {
+        this.isRecruiting = false;
+    }
+
+    public void deleteBuildingPost() {
+        this.isDelete = true;
+    }
+
 }
