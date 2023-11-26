@@ -1,15 +1,19 @@
 package project.manager.server.dto.reponse.resume;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDate;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
 import project.manager.server.domain.resume.*;
 import project.manager.server.dto.reponse.region.GuDto;
 import project.manager.server.json.NullToNullStringSerializer;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+//수정 요함
 @Getter
 @AllArgsConstructor
 public class ResumeDto {

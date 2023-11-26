@@ -1,18 +1,16 @@
-package project.manager.server.service.post;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import project.manager.server.domain.post.contest.Target;
-import project.manager.server.dto.reponse.post.contest.ContestTitleDto;
-import project.manager.server.dto.reponse.post.contest.TargetDto;
-import project.manager.server.dto.request.post.contest.TargetRequestDto;
-import project.manager.server.repository.post.contast.TargetRepository;
+package project.manager.server.service.post.contest;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import project.manager.server.domain.post.contest.Target;
+import project.manager.server.dto.reponse.post.contest.TargetDto;
+import project.manager.server.repository.post.contest.TargetRepository;
 
 @Service
 @Transactional

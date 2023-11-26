@@ -1,14 +1,17 @@
 package project.manager.server.controller;
 
 import jakarta.validation.Valid;
+
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
+
 import project.manager.server.dto.ResponseDto;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
-import project.manager.server.service.post.contast.ContestPostService;
-
-import java.util.Map;
+import project.manager.server.service.post.contest.ContestPostService;
 
 
 @RestController

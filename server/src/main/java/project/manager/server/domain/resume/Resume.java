@@ -1,22 +1,27 @@
 package project.manager.server.domain.resume;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.DynamicUpdate;
+
 import project.manager.server.domain.User;
 import project.manager.server.domain.region.Gu;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "RESEUME_TB")
+@Table(name = "RESUME_TB")
 @DynamicUpdate
 public class Resume {
+
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +38,7 @@ public class Resume {
 
     // -------------------------------------------------------------------
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

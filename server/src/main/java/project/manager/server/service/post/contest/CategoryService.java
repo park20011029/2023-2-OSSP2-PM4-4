@@ -1,19 +1,16 @@
-package project.manager.server.service.post;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import project.manager.server.domain.post.contest.Category;
-import project.manager.server.domain.post.contest.Organization;
-import project.manager.server.dto.reponse.post.contest.CategoryDto;
-import project.manager.server.dto.reponse.post.contest.TargetDto;
-import project.manager.server.dto.request.post.contest.CategoryRequestDto;
-import project.manager.server.repository.post.contast.CategoryRepository;
+package project.manager.server.service.post.contest;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import project.manager.server.domain.post.contest.Category;
+import project.manager.server.dto.reponse.post.contest.CategoryDto;
+import project.manager.server.repository.post.contest.CategoryRepository;
 
 @Service
 @Transactional
@@ -42,4 +39,3 @@ public class CategoryService {
     }
 
 }
-

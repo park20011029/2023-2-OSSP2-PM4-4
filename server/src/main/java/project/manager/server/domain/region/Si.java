@@ -1,6 +1,7 @@
 package project.manager.server.domain.region;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
