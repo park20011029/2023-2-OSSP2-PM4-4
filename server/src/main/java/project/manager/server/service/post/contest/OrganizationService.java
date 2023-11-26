@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.post.contest.Organization;
 import project.manager.server.dto.reponse.post.contest.OrganizationDto;
+import project.manager.server.dto.request.post.contest.PostTypeRequestDto;
 import project.manager.server.repository.post.contest.OrganizationRepository;
 
 @Service
@@ -21,9 +22,9 @@ public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
 
-    public Boolean createOrganization(String organization) {
+    public Boolean createOrganization(PostTypeRequestDto.OrganizationDto organizationDto) {
 
-        Organization newOrganization = Organization.builder().organization(organization).build();
+        Organization newOrganization = Organization.builder().organization(organizationDto.getOrganization()).build();
         organizationRepository.save(newOrganization);
 
         return  true;

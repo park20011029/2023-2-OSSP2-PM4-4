@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.post.contest.Target;
 import project.manager.server.dto.reponse.post.contest.TargetDto;
+import project.manager.server.dto.request.post.contest.PostTypeRequestDto;
 import project.manager.server.repository.post.contest.TargetRepository;
 
 @Service
@@ -19,9 +20,9 @@ public class TargetService {
 
     private final TargetRepository targetRepository;
 
-    public Boolean createTarget(String target) {
+    public Boolean createTarget(PostTypeRequestDto.TargetDto targetDto) {
 
-        Target newTarget = Target.builder().target(target).build();
+        Target newTarget = Target.builder().target(targetDto.getTarget()).build();
         targetRepository.save(newTarget);
 
         return true;

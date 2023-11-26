@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.request.post.contest.PostTypeRequestDto;
 import project.manager.server.service.post.contest.*;
 
 @RestController
@@ -20,29 +21,29 @@ public class PostTypeController {
     private final ScaleService scaleService;
     private final TargetService targetService;
 
-    @PostMapping("/benefit/{benefit}")
-    ResponseDto<Boolean> createBenefit(@PathVariable String benefit) {
-        return new ResponseDto<>(benefitService.createBenefit(benefit));
+    @PostMapping("/benefit")
+    ResponseDto<Boolean> createBenefit(@RequestBody PostTypeRequestDto.BenefitDto benefitDto) {
+        return new ResponseDto<>(benefitService.createBenefit(benefitDto));
     }
 
-    @PostMapping("/category/{category}")
-    ResponseDto<Boolean> createCategory(@PathVariable String category) {
-        return new ResponseDto<>(categoryService.createCategory(category));
+    @PostMapping("/category")
+    ResponseDto<Boolean> createCategory(@RequestBody PostTypeRequestDto.CategoryDto categoryDto) {
+        return new ResponseDto<>(categoryService.createCategory(categoryDto));
     }
 
-    @PostMapping("/organization/{organization}")
-    ResponseDto<Boolean> createOrganization(@PathVariable String organization) {
-        return new ResponseDto<>(organizationService.createOrganization(organization));
+    @PostMapping("/organization")
+    ResponseDto<Boolean> createOrganization(@RequestBody PostTypeRequestDto.OrganizationDto organizationDto) {
+        return new ResponseDto<>(organizationService.createOrganization(organizationDto));
     }
 
-    @PostMapping("/scale/{scale}")
-    ResponseDto<Boolean> createScale(@PathVariable String scale) {
-        return new ResponseDto<>(scaleService.createScale(scale));
+    @PostMapping("/scale")
+    ResponseDto<Boolean> createScale(@RequestBody PostTypeRequestDto.ScaleDto scaleDto) {
+        return new ResponseDto<>(scaleService.createScale(scaleDto));
     }
 
-    @PostMapping("/target/{target}")
-    ResponseDto<Boolean> createTarget(@PathVariable String target) {
-        return new ResponseDto<>(targetService.createTarget(target));
+    @PostMapping("/target")
+    ResponseDto<Boolean> createTarget(@RequestBody PostTypeRequestDto.TargetDto targetDto) {
+        return new ResponseDto<>(targetService.createTarget(targetDto));
     }
 
     @GetMapping("/benefit")
