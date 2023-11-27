@@ -75,9 +75,5 @@ public class Part {
         return true;
     }
 
-    public void deleteApplicant() {
-        this.currentApplicant -= 1;
-    }
-
-    // 업데이트 필요 없음
+    // 삭제, 업데이트 필요 없음
 }
