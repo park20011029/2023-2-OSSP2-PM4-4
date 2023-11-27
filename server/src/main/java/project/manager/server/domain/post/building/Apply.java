@@ -44,4 +44,8 @@ public class Apply {
         this.applicant = applicant;
         this.part = part;
     }
+
+    public void updateApply(PartState partState) {
+        this.state = partState;
+    }
 }
