@@ -20,27 +20,35 @@ import project.manager.server.service.post.contest.ContestPostService;
 public class ContestPostController {
     private final ContestPostService contestPostService;
 
+    //공모전 게시글 생성
     @PostMapping("")
-    public ResponseDto<Boolean> userSignUp(@Valid @RequestBody ContestPostRequestDto contestPostRequestDto) {
+    public ResponseDto<Boolean> createContestPost(@Valid @RequestBody ContestPostRequestDto contestPostRequestDto) {
+
         return new ResponseDto<>(contestPostService.createContestPost(contestPostRequestDto));
     }
 
+    //공모전 게시글 목록 읽어오기
     @GetMapping("")
     public ResponseDto<Map<String,Object>> readContestPostList(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "12") int size) {
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "size", defaultValue = "12") Integer size) {
+
         return new ResponseDto<>(contestPostService.readContestList(page, size));
     }
 
+    //공모전 게시글 읽어오기
     @GetMapping("/{contestPostId}")
     public ResponseDto<ContestPostDto> readContestPost(@PathVariable Long contestPostId) {
+
         return new ResponseDto<>(contestPostService.readContestPost(contestPostId));
     }
 
+    //공모전 게시글 제목 내용 수정
     @PutMapping("/{contestPostId}")
     public ResponseDto<Boolean> updateContestPost(
             @PathVariable Long contestPostId,
-            @RequestBody ContestPostRequestDto contestPostRequestDto) {
+            @Valid @RequestBody ContestPostRequestDto contestPostRequestDto) {
+
         return new ResponseDto<>(contestPostService.updateContestPost(contestPostId, contestPostRequestDto));
     }
 

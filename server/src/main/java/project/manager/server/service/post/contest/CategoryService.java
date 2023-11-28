@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.post.contest.Category;
 import project.manager.server.dto.reponse.post.contest.CategoryDto;
+import project.manager.server.dto.request.post.contest.PostTypeRequestDto;
 import project.manager.server.repository.post.contest.CategoryRepository;
 
 @Service
@@ -19,9 +20,9 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public Boolean createCategory(String category) {
+    public Boolean createCategory(PostTypeRequestDto.CategoryDto categoryDto) {
 
-        Category newCategory = Category.builder().category(category).build();
+        Category newCategory = Category.builder().category(categoryDto.getCategory()).build();
         categoryRepository.save(newCategory);
 
         return true;

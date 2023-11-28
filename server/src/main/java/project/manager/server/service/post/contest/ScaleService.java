@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.post.contest.Scale;
 import project.manager.server.dto.reponse.post.contest.ScaleDto;
+import project.manager.server.dto.request.post.contest.PostTypeRequestDto;
 import project.manager.server.repository.post.contest.ScaleRepository;
 
 @Service
@@ -21,9 +22,9 @@ public class ScaleService {
 
     private final ScaleRepository scaleRepository;
 
-    public Boolean createScale(String scale) {
+    public Boolean createScale(PostTypeRequestDto.ScaleDto scaleDto) {
 
-        Scale newScale = Scale.builder().scale(scale).build();
+        Scale newScale = Scale.builder().scale(scaleDto.getScale()).build();
         scaleRepository.save(newScale);
 
         return true;

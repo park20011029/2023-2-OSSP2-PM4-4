@@ -22,7 +22,6 @@ import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.UserRepository;
 import project.manager.server.repository.post.contest.*;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -64,7 +63,7 @@ public class ContestPostService {
 
         return true;
     }
-    public Map<String, Object> readContestList(int page, int size) {
+    public Map<String, Object> readContestList(Integer page, Integer size) {
         Page<ContestPost> contestPosts = contestPostRepository.findAllWithUser(LocalDate.now(), PageRequest.of(page, size));
 
         return Collections.singletonMap("contestPosts", contestPosts.stream()
@@ -102,8 +101,6 @@ public class ContestPostService {
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
         Target target = targetRepository.findById(contestPostRequestDto.getTargetId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
-        User user = userRepository.findById(contestPostRequestDto.getUserId())
-                .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
 
         contestPost.updateContestPost(contestPostRequestDto, category, scale, benefit, target, organization);
 
