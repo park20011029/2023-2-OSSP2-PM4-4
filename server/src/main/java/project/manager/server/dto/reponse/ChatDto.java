@@ -1,0 +1,26 @@
+package project.manager.server.dto.reponse;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import project.manager.server.domain.chat.Chat;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Getter
+@AllArgsConstructor
+public class ChatDto {
+    private Long chatRoomId;
+    private Long sender;
+    private String content;
+    private LocalDateTime sendDate;
+
+    @Builder
+    public ChatDto(Chat chat) {
+        this.chatRoomId = chat.getChatRoomId();
+        this.sender = chat.getSender();
+        this.content = chat.getContent();
+        this.sendDate = chat.getSendDate();
+    }
+}

@@ -45,4 +45,9 @@ public class UserController {
 
         return new ResponseDto<UserDto>(userService.withdrawUser(userId));
     }
+
+    @PutMapping("/nickname/{nickName}")
+    public ResponseDto<Boolean> existNickName(@PathVariable String nickName){
+        return new ResponseDto<Boolean>(userService.existNickName(nickName));
+    }
 }

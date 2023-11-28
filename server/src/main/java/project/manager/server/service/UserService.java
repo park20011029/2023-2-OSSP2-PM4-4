@@ -93,4 +93,9 @@ public class UserService {
 
         return UserDto.builder().user(user).build();
     }
+
+    @Transactional
+    public Boolean existNickName(String nickName){
+        return userRepository.existsByNickName(nickName);
+    }
 }
