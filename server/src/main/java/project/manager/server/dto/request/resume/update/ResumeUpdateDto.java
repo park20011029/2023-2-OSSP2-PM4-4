@@ -1,5 +1,6 @@
-package project.manager.server.dto.request.resume;
+package project.manager.server.dto.request.resume.update;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResumeRequestDto {
+public class ResumeUpdateDto {
 
     @NotNull(message = "[Resume Request] Gu id can not be null")
     private Long guId;
@@ -26,10 +27,10 @@ public class ResumeRequestDto {
     @NotNull(message = "[Resume Request] Gender can not be null")
     private boolean gender;
 
-    @NotNull
-    private SchoolRequestDto schoolInfo;
+    @NotEmpty
+    private SchoolUpdateDto schoolInfo;
 
-    private List<ProjectRequestDto> projects;
-    private List<AwardRequestDto> awards;
-    private List<TechStackRequestDto> techStacks;
+    private List<ProjectUpdateDto> projects;
+    private List<AwardUpdateDto> awards;
+    private List<TechStackUpdateDto> techStacks;
 }

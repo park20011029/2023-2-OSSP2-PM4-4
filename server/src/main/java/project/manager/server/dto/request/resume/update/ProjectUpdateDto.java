@@ -1,4 +1,4 @@
-package project.manager.server.dto.request.resume;
+package project.manager.server.dto.request.resume.update;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectRequestDto {
+public class ProjectUpdateDto {
+    @NotNull(message = "[Project Request] Id can not be null")
     private Long id;
 
     @NotNull(message = "[Project Request] Github url can not be null")
