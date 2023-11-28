@@ -33,13 +33,13 @@ public class UserController {
         return new ResponseDto<UserDto>(userService.updateUserProfile(userId, userRequestDto));
     }
 
-    @PutMapping("/nickname/{nickName}")
-    public ResponseDto<Boolean> existNickName(@PathVariable String nickName){
-        return new ResponseDto<Boolean>(userService.existNickName(nickName));
-    }
-
     @DeleteMapping("/{userId}")
     public ResponseDto<UserDto> withdrawUser(@PathVariable Long userId) {
         return new ResponseDto<UserDto>(userService.withdrawUser(userId));
+    }
+
+    @PutMapping("/nickname/{nickName}")
+    public ResponseDto<Boolean> existNickName(@PathVariable String nickName){
+        return new ResponseDto<Boolean>(userService.existNickName(nickName));
     }
 }
