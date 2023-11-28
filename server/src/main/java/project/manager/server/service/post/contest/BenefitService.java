@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.post.contest.Benefit;
 import project.manager.server.dto.reponse.post.contest.BenefitDto;
+import project.manager.server.dto.request.post.contest.PostTypeRequestDto;
 import project.manager.server.repository.post.contest.BenefitRepository;
 
 @Service
@@ -21,9 +22,9 @@ public class BenefitService {
 
     private final BenefitRepository benefitRepository;
 
-    public Boolean createBenefit(String benefit) {
+    public Boolean createBenefit(PostTypeRequestDto.BenefitDto benefitDto) {
 
-        Benefit newBenefit = Benefit.builder().benefit(benefit).build();
+        Benefit newBenefit = Benefit.builder().benefit(benefitDto.getBenefit()).build();
         benefitRepository.save(newBenefit);
 
         return true;

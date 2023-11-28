@@ -1,4 +1,4 @@
-package project.manager.server.dto.request.post.contest;
+package project.manager.server.dto.request.post.building;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BenefitRequestDto {
-
+public class BuildingPostUpdateDto {
     @NotNull
-    private String id;
+    private String title;
     @NotNull
-    private String benefit;
+    private String content;
 }

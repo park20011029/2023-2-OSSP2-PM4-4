@@ -50,6 +50,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    //https://csy7792.tistory.com/240
     @Column(name = "created_date")
     private Timestamp createdDate;
 
