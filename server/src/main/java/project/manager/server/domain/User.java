@@ -15,7 +15,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import project.manager.server.domain.post.building.Apply;
 import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.domain.post.contest.ContestPost;
-import project.manager.server.domain.resume.Resume;
 import project.manager.server.dto.request.UserRequestDto;
 import project.manager.server.enums.UserRole;
 import project.manager.server.enums.UserState;
@@ -59,9 +58,6 @@ public class User {
     private UserState userState;
 
     // -------------------------------------------------------------------
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Resume resume;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<ContestPost> contestPosts;

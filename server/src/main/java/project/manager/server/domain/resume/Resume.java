@@ -42,9 +42,6 @@ public class Resume {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "resume", fetch = FetchType.LAZY)
-    private School school;
-
     @OneToMany(mappedBy = "resume", fetch = FetchType.LAZY)
     private List<Project> projects = new ArrayList<>();
 
