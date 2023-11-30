@@ -12,6 +12,7 @@ import Contest_Team_WritePost   from "./forum/page/Contest_Team_Write(Post)"
 import ChatListPage         from "./chat/ChatListPage";
 import LogInPage            from "./login/LogInPage";
 import ChatRoomSocket from "./chat/ChatRoomSocket";
+import SignUpPage from "./signup/SignUpPage";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/project_forum"    element={<Project_ListPage />}/>
                 <Route path="/chat_list"        element={<ChatListPage />}/>
                 <Route path="/login"            element={<LogInPage />}/>
+                <Route path="/sign_up" element={<SignUpPage/>}/>
                 <Route path="/my_page"          element={<MyPage />}/>
             </Routes>
         </Router>

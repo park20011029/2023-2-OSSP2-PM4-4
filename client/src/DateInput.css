@@ -1,0 +1,49 @@
+.dateInput {
+    position: relative;
+    width: 272px;
+}
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+.input {
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.calendarButton {
+    position: absolute;
+    top: 40%;
+    right: 5%;
+    transform: translateY(-60%);
+    padding: 0;
+    background: white;
+    border: none;
+    cursor: pointer;
+}
+
+.calendar {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+}
+
+.calendar td {
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.rdtPicker {
+    border: 1px solid #e0e2e7;
+    border-radius: 5px;
+}
+.rdtActive {
+    background-color: rgb(24, 129, 220);
+    border-radius: 100px;
+    color: white;
+}
+
+

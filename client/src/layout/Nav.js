@@ -49,7 +49,7 @@ const Nav = () => {
             <div className="flex items-center">
               <button
                 onClick={() => {
-                  navigate("/chat_divst");
+                  navigate("/chat_list");
                 }}
               >
                 <ChatIcon></ChatIcon>
@@ -59,7 +59,7 @@ const Nav = () => {
               <button
                 className="border-[1px] border-[#243c5a] rounded-lg p-[8px] hover:bg-blue-400 hover:text-[#ffffff]"
                 onClick={() => {
-                  navigate("/login");
+                  navigate("/sign_up");
                 }}
               >
                 <p>Sign in</p>
