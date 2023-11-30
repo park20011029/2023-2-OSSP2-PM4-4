@@ -45,7 +45,7 @@ function SignUpPage() {
   const [gitAddress, setGitAddress] = useState(null);
 
   const handleUserData = async () => {
-    //if (isNickNameAvailable) {
+    if (isNickNameAvailable) {
       try {
         const userResponse = await axios.post("/user/signup", {
           nickName: nickName,
@@ -170,10 +170,10 @@ function SignUpPage() {
       } catch (error) {
         window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       }
-    } ///else {
-      //window.alert("닉네임 중복 여부를 확인해 주세요.");
-    //}
-  //};
+    } else {
+      window.alert("닉네임 중복 여부를 확인해 주세요.");
+    }
+  };
 
   return (
       <div>
