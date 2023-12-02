@@ -1,4 +1,4 @@
-package project.manager.server.controller;
+package project.manager.server.controller.post;
 
 import jakarta.validation.Valid;
 
@@ -16,7 +16,7 @@ import project.manager.server.service.post.building.BuildingPostService;
 @RestController
 @RequestMapping("/buildingPost")
 @RequiredArgsConstructor
-public class BuildingPostCotroller {
+public class BuildingPostController {
 
     private final BuildingPostService buildingPostService;
 
@@ -53,6 +53,13 @@ public class BuildingPostCotroller {
             @Valid @RequestBody BuildingPostUpdateDto updateDto) {
 
         return new ResponseDto<>(buildingPostService.updateBuildingPost(buildingPostId, updateDto));
+    }
+
+    //팀빌딩 게시글 마감
+    @PutMapping("/end/{buildingPostId}")
+    public ResponseDto<Boolean> endBuildingPost(@PathVariable Long buildingPostId) {
+
+        return new ResponseDto<>(buildingPostService.endBuildingPost(buildingPostId));
     }
 
 }
