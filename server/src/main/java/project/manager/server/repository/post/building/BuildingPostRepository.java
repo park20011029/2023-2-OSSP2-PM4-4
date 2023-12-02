@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import project.manager.server.domain.post.building.BuildingPost;
@@ -15,10 +16,20 @@ import project.manager.server.domain.post.contest.ContestPost;
 public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long> {
     Optional<BuildingPost> findById(Long buildingPostId);
 
-    @Query("SELECT bp FROM BuildingPost bp JOIN FETCH bp.writer WHERE bp.id = :buildingPostId AND bp.isDelete = false")
-    Optional<BuildingPost> findByIdAndIsDeleteFalse(Long buildingPostId);
+    //수정, 마감
+    @Query("SELECT b FROM BuildingPost b WHERE b.id = :buildingPostId AND b.isRecruiting = true ")
+    Optional<BuildingPost> findByIdAndRecruitingIsTrue(@Param("buildingPostId") Long buildingPostId);
 
+    //삭제
+    @Query("SELECT bp FROM BuildingPost bp JOIN FETCH bp.writer WHERE bp.id = :buildingPostId AND bp.isDelete = false")
+    Optional<BuildingPost> findByIdAndIsDeleteFalse(@Param("buildingPostId") Long buildingPostId);
+
+    //팀빌딩 게시글 리스트
     @Query("SELECT b FROM BuildingPost b JOIN FETCH b.writer WHERE b.contestPost = :contestPost AND b.isDelete = false")
-    Page<BuildingPost> findByContestPostWithUser(ContestPost contestPost, Pageable pageInfo);
+    Page<BuildingPost> findByContestPostWithUser(@Param("contestPost") ContestPost contestPost, Pageable pageInfo);
+
+    //유저 게시글 목록
+    @Query("SELECT b FROM BuildingPost b JOIN FETCH b.writer WHERE b.writer.id = :userId AND b.isDelete = false")
+    Page<BuildingPost> findByUserIdWithUser(@Param("userId") Long userId, Pageable pageInfo);
 
 }

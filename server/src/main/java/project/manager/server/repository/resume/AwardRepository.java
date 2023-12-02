@@ -10,5 +10,6 @@ import project.manager.server.domain.resume.Award;
 
 @Repository
 public interface AwardRepository extends JpaRepository<Award, Long> {
-    Optional<List<Award>> findByResumeId(Long resumeId);
+    Optional<Award> findById(Long awardId);
+    List<Award> findByResumeId(Long resumeId);
 }

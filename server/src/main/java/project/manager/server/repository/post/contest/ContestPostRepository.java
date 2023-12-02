@@ -16,6 +16,18 @@ import project.manager.server.domain.post.contest.ContestPost;
 public interface ContestPostRepository extends JpaRepository<ContestPost, Long> {
     Optional<ContestPost> findById(Long contestPostId);
 
-    @Query(value = "SELECT c FROM ContestPost c JOIN FETCH c.writer ORDER BY CASE WHEN (c.startAt <= :today  AND c.endAt >= :today) THEN 1 ELSE 0 END DESC , c.startAt DESC")
+    @Query(value = "SELECT c FROM ContestPost c " +
+            "JOIN FETCH c.writer WHERE c.isDelete = false " +
+            "ORDER BY CASE WHEN (c.startAt <= :today  AND c.endAt >= :today) " +
+            "THEN 1 ELSE 0 END DESC , c.startAt DESC")
     Page<ContestPost> findAllWithUser(@Param("today") LocalDate today, Pageable pageInfo);
+
+    @Query(value = "SELECT c FROM ContestPost c JOIN FETCH c.writer w " +
+            "WHERE w.id = :userId AND c.isDelete = false " +
+            "ORDER BY CASE WHEN (c.startAt <= :today AND c.endAt >= :today) " +
+            "THEN 1 ELSE 0 END DESC, c.startAt DESC")
+    Page<ContestPost> findByWriter(
+            @Param("today") LocalDate today,
+            @Param("userId") Long userId,
+            Pageable pageInfo);
 }
