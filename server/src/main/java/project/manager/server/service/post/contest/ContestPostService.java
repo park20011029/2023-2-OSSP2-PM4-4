@@ -1,7 +1,7 @@
 package project.manager.server.service.post.contest;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.User;
 import project.manager.server.domain.post.contest.*;
+import project.manager.server.dto.reponse.post.PageInfo;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.reponse.post.contest.ContestTitleDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
@@ -63,10 +64,21 @@ public class ContestPostService {
 
         return true;
     }
+
     public Map<String, Object> readContestList(Integer page, Integer size) {
         Page<ContestPost> contestPosts = contestPostRepository.findAllWithUser(LocalDate.now(), PageRequest.of(page, size));
 
-        return Collections.singletonMap("contestPosts", contestPosts.stream()
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(contestPosts.getNumber() + 1)
+                .totalPages(contestPosts.getTotalPages())
+                .pageSize(contestPosts.getSize())
+                .currentItems(contestPosts.getNumberOfElements())
+                .totalItems(contestPosts.getTotalElements())
+                .build();
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("contestPosts", contestPosts.getContent().stream()
                 .map(post -> ContestTitleDto.builder()
                         .userId(post.getWriter().getId())
                         .user(post.getWriter().getName())
@@ -76,8 +88,11 @@ public class ContestPostService {
                         .endAt(post.getEndAt())
                         .build())
                 .collect(Collectors.toList()));
-    }
 
+        result.put("pageInfo", pageInfo);
+
+        return result;
+    }
 
     public ContestPostDto readContestPost(Long contestPostId) {
         ContestPost contestPost = contestPostRepository.findById(contestPostId)
@@ -86,6 +101,34 @@ public class ContestPostService {
         return ContestPostDto.builder()
                 .contestPost(contestPost)
                 .build();
+    }
+
+    public Map<String, Object> readMyContestList(Long userId, Integer page, Integer size) {
+        Page<ContestPost> contestPosts = contestPostRepository.findByWriter(LocalDate.now(), userId, PageRequest.of(page, size));
+
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(contestPosts.getNumber() + 1)
+                .totalPages(contestPosts.getTotalPages())
+                .pageSize(contestPosts.getSize())
+                .currentItems(contestPosts.getNumberOfElements())
+                .totalItems(contestPosts.getTotalElements())
+                .build();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("myContestPosts", contestPosts.stream()
+                .map(post -> ContestTitleDto.builder()
+                        .userId(post.getWriter().getId())
+                        .user(post.getWriter().getName())
+                        .contestId(post.getId())
+                        .title(post.getTitle())
+                        .startAt(post.getStartAt())
+                        .endAt(post.getEndAt())
+                        .build())
+                .collect(Collectors.toList()));
+
+        result.put("pageInfo", pageInfo);
+
+        return result;
     }
 
     public Boolean updateContestPost(Long contestPostId, ContestPostRequestDto contestPostRequestDto) {
