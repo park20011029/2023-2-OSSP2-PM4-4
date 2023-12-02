@@ -29,7 +29,7 @@ public class RegionService {
         List<SiDto> siDtoList = new ArrayList<>();
 
         for (Si si : siList) {
-            siDtoList.add(SiDto.builder().si(si.getSi()).siId(si.getId()).build());
+            siDtoList.add(SiDto.builder().si(si).build());
         }
 
         return siDtoList;

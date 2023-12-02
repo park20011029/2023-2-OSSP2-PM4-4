@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import project.manager.server.domain.resume.*;
 import project.manager.server.dto.reponse.region.GuDto;
+import project.manager.server.dto.reponse.region.SiDto;
 
 //수정 요함
 @Getter
@@ -20,7 +21,7 @@ public class ResumeDto {
     private String job;
     private boolean gender;
     private GuDto gu;
-    private String si;
+    private SiDto si;
     @Builder
     public ResumeDto(Resume resume) {
         this.resumeId = resume.getId();
@@ -29,6 +30,6 @@ public class ResumeDto {
         this.job = resume.getJob();
         this.gender = resume.isGender();
         this.gu = GuDto.builder().gu(resume.getGu()).build();
-        this.si = resume.getGu().getSi().getSi();
+        this.si = SiDto.builder().si(resume.getGu().getSi()).build();
     }
 }

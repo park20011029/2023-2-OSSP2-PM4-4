@@ -2,16 +2,18 @@ package project.manager.server.controller;
 
 import jakarta.validation.Valid;
 
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
 import project.manager.server.dto.ResponseDto;
-import project.manager.server.dto.reponse.resume.ResumeDto;
-import project.manager.server.dto.request.resume.AwardRequestDto;
-import project.manager.server.dto.request.resume.ProjectRequestDto;
-import project.manager.server.dto.request.resume.ResumeRequestDto;
-import project.manager.server.dto.request.resume.TechStackRequestDto;
+import project.manager.server.dto.request.resume.create.AwardRequestDto;
+import project.manager.server.dto.request.resume.create.ProjectRequestDto;
+import project.manager.server.dto.request.resume.create.ResumeRequestDto;
+import project.manager.server.dto.request.resume.create.TechStackRequestDto;
+import project.manager.server.dto.request.resume.update.ResumeUpdateDto;
 import project.manager.server.service.resume.*;
 
 @RestController
@@ -35,7 +37,7 @@ public class ResumeController {
 
     //이력서 읽어오기
     @GetMapping("/{resumeId}")
-    public ResponseDto<ResumeDto> readResume(@PathVariable Long resumeId) {
+    public ResponseDto<Map<String, Object>> readResume(@PathVariable Long resumeId) {
 
         return new ResponseDto<>(resumeService.readResume(resumeId));
     }
@@ -46,7 +48,7 @@ public class ResumeController {
             @PathVariable Long resumeId,
             @Valid @RequestBody ProjectRequestDto projectRequestDto) {
 
-        return new ResponseDto<>(resumeService.addProject(resumeId, projectRequestDto));
+        return new ResponseDto<>(projectService.addProject(resumeId, projectRequestDto));
     }
 
     //이력서 수정에서 기술스택 목록 추가할 때마다 사용
@@ -55,7 +57,7 @@ public class ResumeController {
             @PathVariable Long resumeId,
             @Valid @RequestBody TechStackRequestDto techStackRequestDto) {
 
-        return new ResponseDto<>(resumeService.addTechStack(resumeId, techStackRequestDto));
+        return new ResponseDto<>(techStackService.addTechStack(resumeId, techStackRequestDto));
     }
 
     //이력서 수정에서 수상내역 목록 추가할 때마다 사용
@@ -64,16 +66,16 @@ public class ResumeController {
             @PathVariable Long resumeId,
             @Valid @RequestBody AwardRequestDto awardRequestDto) {
 
-        return new ResponseDto<>(resumeService.addAward(resumeId, awardRequestDto));
+        return new ResponseDto<>(awardService.addAward(resumeId, awardRequestDto));
     }
 
     //이력서 수정 후
     @PutMapping("/{resumeId}")
     public ResponseDto<Boolean> updateResume(
             @PathVariable Long resumeId,
-            @Valid @RequestBody ResumeRequestDto resumeRequestDto) {
+            @Valid @RequestBody ResumeUpdateDto resumeUpdateDto) {
 
-        return new ResponseDto<>(resumeService.updateResume(resumeId, resumeRequestDto));
+        return new ResponseDto<>(resumeService.updateResume(resumeId, resumeUpdateDto));
     }
 
     //이력서 수정에서 프로젝트 목록 삭제할 때마다 사용

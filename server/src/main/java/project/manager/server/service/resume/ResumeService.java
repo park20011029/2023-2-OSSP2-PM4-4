@@ -1,5 +1,9 @@
 package project.manager.server.service.resume;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -9,10 +13,8 @@ import project.manager.server.domain.*;
 import project.manager.server.domain.region.Gu;
 import project.manager.server.domain.resume.*;
 import project.manager.server.dto.reponse.resume.*;
-import project.manager.server.dto.request.resume.AwardRequestDto;
-import project.manager.server.dto.request.resume.ProjectRequestDto;
-import project.manager.server.dto.request.resume.ResumeRequestDto;
-import project.manager.server.dto.request.resume.TechStackRequestDto;
+import project.manager.server.dto.request.resume.create.ResumeRequestDto;
+import project.manager.server.dto.request.resume.update.ResumeUpdateDto;
 import project.manager.server.exception.ApiException;
 import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.*;
@@ -27,10 +29,10 @@ public class ResumeService {
     private final UserRepository userRepository;
     private final GuRepository guRepository;
     private final ResumeRepository resumeRepository;
-    private final SchoolService schoolService;
-    private final AwardService awardService;
-    private final TechStackService techStackService;
-    private final ProjectService projectService;
+    private final SchoolRepository schoolRepository;
+    private final ProjectRepository projectRepository;
+    private final AwardRepository awardRepository;
+    private final TechStackRepository techStackRepository;
 
     // Create
     public Long createResume(Long userId, ResumeRequestDto resumeRequestDto) {
@@ -53,108 +55,136 @@ public class ResumeService {
                         .gender(resumeRequestDto.isGender())
                         .build();
 
-        if (resumeRequestDto.getAwards() != null) {
-            for (AwardRequestDto awardRequestDto : resumeRequestDto.getAwards()) {
-                awardService.createAward(awardRequestDto, newResume);
-            }
-        }
-
-        if (resumeRequestDto.getProjects() != null) {
-            for (ProjectRequestDto projectRequestDto : resumeRequestDto.getProjects()) {
-                projectService.createProject(projectRequestDto, newResume);
-            }
-        }
-
-        if (resumeRequestDto.getTechStacks() != null) {
-            for (TechStackRequestDto techStackRequestDto : resumeRequestDto.getTechStacks()) {
-                techStackService.createTechStack(techStackRequestDto, newResume);
-            }
-        }
-
-        schoolService.createSchool(resumeRequestDto.getSchoolInfo(), newResume);
-
         resumeRepository.save(newResume);
+
+        resumeRequestDto.getAwards()
+                .forEach(awardRequestDto ->
+                        awardRepository.save(Award.builder()
+                                .resume(newResume)
+                                .awardYear(awardRequestDto.getAwardYear())
+                                .awardType(awardRequestDto.getAwardType())
+                                .competition(awardRequestDto.getCompetition())
+                                .build()));
+
+        resumeRequestDto.getProjects()
+                .forEach(projectRequestDto ->
+                        projectRepository.save(Project.builder()
+                                .resume(newResume)
+                                .projectName(projectRequestDto.getProjectName())
+                                .gitUrl(projectRequestDto.getGitUrl())
+                                .description(projectRequestDto.getDescription())
+                                .build()));
+
+        resumeRequestDto.getTechStacks()
+                        .forEach(techStackRequestDto ->
+                                techStackRepository.save(TechStack.builder()
+                                        .resume(newResume)
+                                        .tech(techStackRequestDto.getTech())
+                                        .techType(techStackRequestDto.getTechType())
+                                        .description(techStackRequestDto.getDescription())
+                                        .build()));
+
+        schoolRepository.save(School.builder()
+                .resume(newResume)
+                .schoolRegister(resumeRequestDto.getSchoolInfo().getSchoolRegister())
+                .major(resumeRequestDto.getSchoolInfo().getMajor())
+                .name(resumeRequestDto.getSchoolInfo().getName())
+                .build());
 
         return newResume.getId();
     }
 
-    // Read
-    public ResumeDto readResume(Long resumeId) {
-        Resume resume = resumeRepository.findById(resumeId)
-                        .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
 
-        return ResumeDto.builder()
+    public Map<String, Object> readResume(Long resumeId) {
+        Resume resume = resumeRepository.findById(resumeId)
+                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("Resume", ResumeDto.builder()
                 .resume(resume)
-                .awards(awardService.readAward(resume.getAwards()))
-                .projects(projectService.readProject(resume.getProjects()))
-                .techStacks(techStackService.readTechStack(resume.getTechStacks()))
-                .build();
+                .build());
+
+        result.put("Projects", projectRepository.findByResumeId(resumeId)
+                .stream().map(project ->
+                        ProjectDto.builder()
+                                .project(project)
+                                .build())
+                .collect(Collectors.toList()));
+
+        result.put("Awards", awardRepository.findByResumeId(resumeId)
+                .stream().map(award ->
+                        AwardDto.builder()
+                                .award(award)
+                                .build())
+                .collect(Collectors.toList()));
+
+        result.put("TechStacks", techStackRepository.findByResumeId(resumeId)
+                .stream().map(techStack ->
+                        TechStackDto.builder()
+                                .techStack(techStack)
+                                .build())
+                .collect(Collectors.toList()));
+
+        result.put("School", SchoolDto.builder()
+                .school(schoolRepository.findByResumeId(resumeId)
+                        .orElseThrow(() ->
+                                new ApiException(ErrorDefine.ENTITY_NOT_FOUND)))
+                .build());
+
+        return result;
     }
 
-    // Update
-    public Long addProject(Long resumeId, ProjectRequestDto projectRequestDto) {
+
+    public boolean updateResume(Long resumeId, ResumeUpdateDto resumeUpdateDto) {
         Resume resume = resumeRepository.findById(resumeId)
                         .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
 
-        return projectService.createProject(projectRequestDto, resume).getId();
-    }
-
-    public Long addTechStack(Long resumeId, TechStackRequestDto techStackRequestDto) {
-        Resume resume = resumeRepository.findById(resumeId)
-                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
-
-        return techStackService.createTechStack(techStackRequestDto, resume).getId();
-    }
-
-    public Long addAward(Long resumeId, AwardRequestDto awardRequestDto) {
-        Resume resume = resumeRepository.findById(resumeId)
-                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
-
-        return awardService.createAward(awardRequestDto, resume).getId();
-    }
-
-    public boolean updateResume(Long resumeId, ResumeRequestDto resumeRequestDto) {
-        Resume resume = resumeRepository.findById(resumeId)
-                        .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
-
-        Gu gu = guRepository.findById(resumeRequestDto.getGuId())
+        Gu gu = guRepository.findById(resumeUpdateDto.getGuId())
                         .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         resume.updateResume(
-                resumeRequestDto.getJob(),
-                resumeRequestDto.isGender(),
-                resumeRequestDto.getBirth(),
+                resumeUpdateDto.getJob(),
+                resumeUpdateDto.isGender(),
+                resumeUpdateDto.getBirth(),
                 gu);
 
-        for (AwardRequestDto awardRequestDto : resumeRequestDto.getAwards()) {
-            if (awardRequestDto.getId() != null) {
-                awardService.updateAward(awardRequestDto);
-            } else {
-                throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
-            }
-        }
+//        resumeUpdateDto.getAwards()
+//                .forEach(awardUpdateDto ->
+//                        awardRepository.findById(awardUpdateDto.getId())
+//                                .orElseThrow(() ->
+//                                        new ApiException(ErrorDefine.ENTITY_NOT_FOUND))
+//                                .updateAward(
+//                                        awardUpdateDto.getCompetition(),
+//                                        awardUpdateDto.getAwardYear(),
+//                                        awardUpdateDto.getAwardType()));
+//
+//        resumeUpdateDto.getProjects()
+//                .forEach(projectUpdateDto ->
+//                        projectRepository.findById(projectUpdateDto.getId())
+//                                .orElseThrow(() ->
+//                                        new ApiException(ErrorDefine.ENTITY_NOT_FOUND))
+//                                .updateProject(
+//                                        projectUpdateDto.getProjectName(),
+//                                        projectUpdateDto.getGitUrl(),
+//                                        projectUpdateDto.getDescription()));
+//
+//        resumeUpdateDto.getTechStacks()
+//                .forEach(techStackUpdateDto ->
+//                        techStackRepository.findById(techStackUpdateDto.getId())
+//                                .orElseThrow(() ->
+//                                        new ApiException(ErrorDefine.ENTITY_NOT_FOUND))
+//                                .updateTech(
+//                                        techStackUpdateDto.getTech(),
+//                                        techStackUpdateDto.getTechType(),
+//                                        techStackUpdateDto.getDescription()));
 
-        for (ProjectRequestDto projectRequestDto : resumeRequestDto.getProjects()) {
-            if (projectRequestDto.getId() != null) {
-                projectService.updateProject(projectRequestDto);
-            } else {
-                throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
-            }
-        }
-
-        for (TechStackRequestDto techStackRequestDto : resumeRequestDto.getTechStacks()) {
-            if (techStackRequestDto.getId() != null) {
-                techStackService.updateTechStack(techStackRequestDto);
-            } else {
-                throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
-            }
-        }
-
-        if (resumeRequestDto.getSchoolInfo().getId() != null) {
-            schoolService.updateSchool(resumeRequestDto.getSchoolInfo());
-        } else {
-            throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
-        }
+        schoolRepository.findById(resumeUpdateDto.getSchoolInfo().getId())
+                .orElseThrow(() ->
+                        new ApiException(ErrorDefine.ENTITY_NOT_FOUND))
+                .updateSchool(
+                        resumeUpdateDto.getSchoolInfo().getName(),
+                        resumeUpdateDto.getSchoolInfo().getMajor(),
+                        resumeUpdateDto.getSchoolInfo().getSchoolRegister());
 
         return true;
     }

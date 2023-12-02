@@ -24,8 +24,8 @@ public class UserDto {
     private String phoneNumber;
 
     @Builder
-    public UserDto(User user) {
-        this.resumeId = (user.getResume() != null) ? user.getResume().getId() : null;
+    public UserDto(User user, Long resumeId) {
+        this.resumeId = resumeId;
         this.userId = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
