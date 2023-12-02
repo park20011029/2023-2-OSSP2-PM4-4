@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,10 +25,13 @@ public class Review {
     private Long id;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content")
     private String content;
 
-    @Column(name = "score", nullable = false)
+    @Column(name = "partName")
+    private String partName;
+
+    @Column(name = "score")
     private Double score;
 
     @Column(name = "created_date")
@@ -49,13 +53,19 @@ public class Review {
 
     // -------------------------------------------------------------------
 
-    public Review(String content, Double score, User reviewer, User reviewee, BuildingPost buildingPost) {
-        this.content = content;
-        this.score = score;
+    @Builder
+    public Review(User reviewer, User reviewee, BuildingPost buildingPost, String partName) {
+        this.partName = partName;
         this.reviewer = reviewer;
         this.reviewee = reviewee;
         this.buildingPost = buildingPost;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
     }
+
+    public void updateReview(String content, Double score) {
+        this.content = content;
+        this.score = score;
+    }
+
 
 }
