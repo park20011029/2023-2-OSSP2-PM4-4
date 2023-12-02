@@ -2,6 +2,7 @@
   display: flex;
   position: relative;
   height: 50px;
+  width: 100%;
 }
 #introductionBox label span {
   font-size: 13px;

@@ -8,6 +8,9 @@ const DateInput = ({date,setDate}) => {
     const calendarRef = useRef(null);
     const [error, setError ] = useState(false)
     const checkValidDate = (e) =>{
+        if(!date){
+            setError(true);
+        }
         let daysInMonth=[31,28,31,30,31,30,31,31,30,31,30,31];
         const year = parseInt(date.substring(0,4),10);
         if(isLeapYear(year)){
@@ -81,13 +84,13 @@ const DateInput = ({date,setDate}) => {
         <div className="dateInput">
             <div className="input-wrapper" ref={inputRef}>
                 <input className="input"
-                    type="text"
-                    onChange={handleDateChange}
-                    placeholder="YYYY-MM-DD"
-                    maxLength="10"
-                    onBlur={checkValidDate}
-                    value = {date}
-                    required
+                       type="text"
+                       onChange={handleDateChange}
+                       placeholder="YYYY-MM-DD"
+                       maxLength="10"
+                       onBlur={checkValidDate}
+                       value = {date}
+                       required
                 />
                 {error ? <span style={{ color: 'red',fontSize: '12px',position:'absolute',bottom:'1px',left:'22px'}}>유효하지 않은 날짜입니다.</span> : <></>}
                 <button className="calendarButton" type='button' onClick={handleClickButton}>

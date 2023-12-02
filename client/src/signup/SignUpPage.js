@@ -30,6 +30,7 @@ function SignUpPage() {
   const [school, setSchool] = useState(null);
   const [eduState, setEduState] = useState(null);
   const [email, setEmail] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState('010-1234-5678');
   const [awards, setAwards] = useState([]);
   const [congress, setCongress] = useState(null);
   const [awardYear, setAwardYear] = useState(null);
@@ -52,7 +53,7 @@ function SignUpPage() {
           introduction: introduction,
           name: name,
           email: email,
-          phoneNumber: "010-1234-5678",
+          phoneNumber: phoneNumber,
         });
         if (userResponse.status === 200) {
           console.log("PROFILE POST 요청 성공");
