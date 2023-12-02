@@ -33,5 +33,4 @@ public class Scale {
        this.scale = scale;
    }
 
-
 }

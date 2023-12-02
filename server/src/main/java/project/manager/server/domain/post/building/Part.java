@@ -42,7 +42,7 @@ public class Part {
     @JoinColumn(name = "buildingpost_id",nullable = false)
     private BuildingPost buildingPost;
 
-    @OneToMany(mappedBy = "part")
+    @OneToMany(mappedBy = "part", fetch = FetchType.LAZY)
     private List<Apply> applyList;
 
     //---------------------------------------------------------
