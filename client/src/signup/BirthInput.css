@@ -1,0 +1,7 @@
+#ageBox{
+    display: flex;
+    align-items: center;
+}
+#ageBox label{
+    margin-bottom: 20px;
+}
