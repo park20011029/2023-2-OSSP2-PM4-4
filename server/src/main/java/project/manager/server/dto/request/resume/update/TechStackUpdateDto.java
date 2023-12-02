@@ -12,15 +12,15 @@ import project.manager.server.enums.TechType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TechStackUpdateDto {
-    @NotNull(message = "[TechStack Request] Id can not be null")
+    @NotNull(message = "[TechStack Update] Id can not be null")
     private Long id;
 
-    @NotNull(message = "[TechStack Request] Tech type can not be null")
+    @NotNull(message = "[TechStack Update] Tech type can not be null")
     TechType techType;
 
-    @NotNull(message = "[TechStack Request] Tech description can not be null")
+    @NotNull(message = "[TechStack Update] Tech description can not be null")
     String description;
 
-    @NotNull(message = "[TechStack Request] Tech can not be null")
+    @NotNull(message = "[TechStack Update] Tech can not be null")
     String tech;
 }

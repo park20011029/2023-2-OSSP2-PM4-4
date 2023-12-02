@@ -15,16 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResumeUpdateDto {
 
-    @NotNull(message = "[Resume Request] Gu id can not be null")
+    @NotNull(message = "[Resume Update] Gu id can not be null")
     private Long guId;
 
-    @NotNull(message = "[Resume Request] Job can not be null")
+    @NotNull(message = "[Resume Update] Job can not be null")
     private String job;
 
-    @NotNull(message = "[Resume Request] Birth can not be null")
+    @NotNull(message = "[Resume Update] Birth can not be null")
     private LocalDate birth;
 
-    @NotNull(message = "[Resume Request] Gender can not be null")
+    @NotNull(message = "[Resume Update] Gender can not be null")
     private boolean gender;
 
     @NotEmpty

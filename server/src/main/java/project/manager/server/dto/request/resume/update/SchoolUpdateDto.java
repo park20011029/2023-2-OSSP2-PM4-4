@@ -12,12 +12,15 @@ import project.manager.server.enums.SchoolRegister;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SchoolUpdateDto {
-    @NotNull(message = "[School Request] Id can not be null")
+    @NotNull(message = "[School Update] Id can not be null")
     private Long id;
 
-    @NotNull(message = "[School Request] School name can not be null")
+    @NotNull(message = "[School Update] School name can not be null")
     String name;
 
-    @NotNull(message = "[School Request] Register can not be null")
+    @NotNull(message = "[School Update] School major can not be null")
+    String major;
+
+    @NotNull(message = "[School Update] Register can not be null")
     SchoolRegister schoolRegister;
 }
