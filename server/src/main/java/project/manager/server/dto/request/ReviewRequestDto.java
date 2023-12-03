@@ -9,14 +9,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatRoomRequestDto {
-    @NotNull
-    private Long userId;
+public class ReviewRequestDto {
 
     @NotNull
-    private Long postWriterId;
-
+    private String content;
     @NotNull
-    private String roomName;
-
+    private Double score;
 }

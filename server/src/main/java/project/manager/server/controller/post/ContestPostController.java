@@ -1,4 +1,4 @@
-package project.manager.server.controller;
+package project.manager.server.controller.post;
 
 import jakarta.validation.Valid;
 
@@ -28,6 +28,7 @@ public class ContestPostController {
     }
 
     //공모전 게시글 목록 읽어오기
+    //request param으로 카테고리들 다 받아오고,
     @GetMapping("")
     public ResponseDto<Map<String,Object>> readContestPostList(
             @RequestParam(name = "page", defaultValue = "0") Integer page,

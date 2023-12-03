@@ -1,4 +1,4 @@
-package project.manager.server.controller;
+package project.manager.server.controller.post;
 
 import jakarta.validation.Valid;
 

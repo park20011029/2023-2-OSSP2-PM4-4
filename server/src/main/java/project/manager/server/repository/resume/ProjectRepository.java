@@ -10,5 +10,6 @@ import project.manager.server.domain.resume.Project;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    Optional<List<Project>> findByResumeId(Long resumeId);
+    Optional<Project> findById(Long projectId);
+    List<Project> findByResumeId(Long resumeId);
 }

@@ -24,6 +24,9 @@ public class School {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "major", nullable = false)
+    private String major;
+
     @Column(name = "school_register", nullable = false)
     @Enumerated(EnumType.STRING)
     private SchoolRegister schoolRegister;
@@ -37,15 +40,17 @@ public class School {
     // -------------------------------------------------------------------
 
     @Builder
-    public School(String name, SchoolRegister schoolRegister, Resume resume) {
+    public School(String name, SchoolRegister schoolRegister, Resume resume, String major) {
         this.resume = resume;
+        this.major = major;
         this.schoolRegister = schoolRegister;
         this.name = name;
     }
 
-    public void updateSchool(String name, SchoolRegister schoolRegister) {
+    public void updateSchool(String name, String major, SchoolRegister schoolRegister) {
         this.schoolRegister = schoolRegister;
         this.name = name;
+        this.major = major;
     }
 
 }

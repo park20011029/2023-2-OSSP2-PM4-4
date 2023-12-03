@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import project.manager.server.dto.request.resume.TechStackRequestDto;
 import project.manager.server.enums.TechType;
 
 @Entity
@@ -49,10 +48,10 @@ public class TechStack {
         this.description = description;
     }
 
-    public void updateTech(TechStackRequestDto techStackRequestDto) {
-        this.tech = techStackRequestDto.getTech();
-        this.techType = techStackRequestDto.getTechType();
-        this.description = techStackRequestDto.getDescription();
+    public void updateTech(String tech, TechType techType, String description) {
+        this.tech = tech;
+        this.techType = techType;
+        this.description = description;
     }
 
 }

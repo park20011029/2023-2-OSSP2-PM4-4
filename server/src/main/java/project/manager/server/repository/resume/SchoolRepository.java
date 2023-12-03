@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import project.manager.server.domain.resume.School;
 
 public interface SchoolRepository extends JpaRepository<School, Long> {
+    Optional<School> findById(Long schoolId);
     Optional<School> findByResumeId(Long resumeId);
 }

@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import project.manager.server.domain.resume.TechStack;
 
 public interface TechStackRepository extends JpaRepository<TechStack, Long> {
-    Optional<List<TechStack>> findByResumeId(Long resumeId);
+    Optional<TechStack> findById(Long teckStackId);
+    List<TechStack> findByResumeId(Long resumeId);
 }

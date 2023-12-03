@@ -1,4 +1,4 @@
-package project.manager.server.dto.request.resume;
+package project.manager.server.dto.request.resume.create;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AwardRequestDto {
-    private Long id;
 
     @NotNull(message = "[Award Request] Competition name can not be null")
     private String competition;

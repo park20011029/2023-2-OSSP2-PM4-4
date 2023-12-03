@@ -1,4 +1,4 @@
-package project.manager.server.dto.request.resume;
+package project.manager.server.dto.request.resume.create;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -12,10 +12,12 @@ import project.manager.server.enums.SchoolRegister;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SchoolRequestDto {
-    private Long id;
 
     @NotNull(message = "[School Request] School name can not be null")
     String name;
+
+    @NotNull(message = "[School Request] School major can not be null")
+    String major;
 
     @NotNull(message = "[School Request] Register can not be null")
     SchoolRegister schoolRegister;

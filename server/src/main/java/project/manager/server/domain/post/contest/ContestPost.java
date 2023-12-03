@@ -49,7 +49,7 @@ public class ContestPost {
 
     // -----------------------------------------------------
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User writer;
 

@@ -20,7 +20,7 @@ import project.manager.server.dto.request.post.building.BuildingPostRequestDto;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "BUILING_POST")
+@Table(name = "BUILDING_POST_TB")
 @DynamicUpdate
 public class BuildingPost {
     @Id
@@ -80,6 +80,7 @@ public class BuildingPost {
     }
 
     public void deleteBuildingPost() {
+        this.isRecruiting = false;
         this.isDelete = true;
     }
 

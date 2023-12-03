@@ -1,4 +1,4 @@
-package project.manager.server.dto.request.resume;
+package project.manager.server.dto.request.resume.create;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -12,7 +12,6 @@ import project.manager.server.enums.TechType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TechStackRequestDto {
-    private Long id;
 
     @NotNull(message = "[TechStack Request] Tech type can not be null")
     TechType techType;

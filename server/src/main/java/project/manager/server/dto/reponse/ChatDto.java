@@ -1,12 +1,12 @@
 package project.manager.server.dto.reponse;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import project.manager.server.domain.chat.Chat;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import project.manager.server.domain.chat.Chat;
 
 @Getter
 @AllArgsConstructor

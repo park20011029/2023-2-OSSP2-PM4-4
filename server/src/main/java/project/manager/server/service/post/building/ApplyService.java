@@ -1,13 +1,21 @@
 package project.manager.server.service.post.building;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.User;
 import project.manager.server.domain.post.building.Apply;
 import project.manager.server.domain.post.building.Part;
+import project.manager.server.dto.reponse.post.PageInfo;
+import project.manager.server.dto.reponse.post.building.ApplyDto;
 import project.manager.server.dto.request.post.building.ApplyRequestDto;
 import project.manager.server.enums.PartState;
 import project.manager.server.exception.ApiException;
@@ -39,6 +47,33 @@ public class ApplyService {
         applyRepository.save(newApply);
 
         return true;
+    }
+
+    public Map<String, Object> readMyApplyList(Long userId, Integer page, Integer size) {
+        Page<Apply> applies = applyRepository.findByUserIdWithPartAndPost(userId, PageRequest.of(page, size));
+
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(applies.getNumber() + 1)
+                .totalPages(applies.getTotalPages())
+                .pageSize(applies.getSize())
+                .currentItems(applies.getNumberOfElements())
+                .totalItems(applies.getTotalElements())
+                .build();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("applyList", applies.stream()
+                .map(apply -> ApplyDto.builder()
+                        .applyId(apply.getId())
+                        .buildingPostId(apply.getPart().getBuildingPost().getId())
+                        .buildingPost(apply.getPart().getBuildingPost().getTitle())
+                        .partName(apply.getPart().getPartName())
+                        .state(apply.getState().getToKorean())
+                        .build())
+                .collect(Collectors.toList()));
+
+        result.put("pageInfo", pageInfo);
+
+        return result;
     }
 
     public Boolean permitApply(Long writerId, Long applyId, ApplyRequestDto applyRequestDto) { //writerId == @LoginUser
@@ -76,6 +111,10 @@ public class ApplyService {
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         if (!apply.getApplicant().getId().equals(userId)) {
+            throw new ApiException(ErrorDefine.ACCESS_DENIED);
+        }
+
+        if (apply.getState().equals(PartState.APPROVAL)) {
             throw new ApiException(ErrorDefine.ACCESS_DENIED);
         }
         applyRepository.delete(apply);
