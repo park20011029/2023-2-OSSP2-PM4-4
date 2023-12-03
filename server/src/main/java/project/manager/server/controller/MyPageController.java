@@ -63,7 +63,7 @@ public class MyPageController {
     }
 
     //내가 작성해야 할 리뷰 리스트 읽어오기
-    @GetMapping("/writtenReview/{userId}")
+    @GetMapping("/pendingReview/{userId}")
     public ResponseDto<Map<String, Object>> readPendingReviewList(
             @PathVariable Long userId,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
