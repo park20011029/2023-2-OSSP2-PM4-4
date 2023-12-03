@@ -6,8 +6,12 @@ import lombok.Getter;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import project.manager.server.dto.exception.ExceptionDto;
+import project.manager.server.dto.exception.InvalidateArgumentExceptionDto;
+import project.manager.server.dto.exception.JSONConvertExceptionDto;
 import project.manager.server.exception.ApiException;
 
 import io.micrometer.common.lang.Nullable;
@@ -42,6 +46,16 @@ public class ResponseDto<T> {
                                 .isSuccess(false)
                                 .responseDto(null)
                                 .error(new InvalidateArgumentExceptionDto(e))
+                                .build());
+    }
+
+    public static ResponseEntity<Object> toResponseEntity(HttpMessageConversionException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(
+                        ResponseDto.builder()
+                                .isSuccess(false)
+                                .responseDto(null)
+                                .error(new JSONConvertExceptionDto(e))
                                 .build());
     }
 

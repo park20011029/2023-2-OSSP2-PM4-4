@@ -1,6 +1,7 @@
 package project.manager.server.exception;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,6 +17,11 @@ public class GlobalRestExceptionHandler {
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleInvalidArgumentException(MethodArgumentNotValidException e) {
+        return ResponseDto.toResponseEntity(e);
+    }
+
+    @ExceptionHandler(HttpMessageConversionException.class)
+    public ResponseEntity<Object> handleJSONConversionException(HttpMessageConversionException e) {
         return ResponseDto.toResponseEntity(e);
     }
 
