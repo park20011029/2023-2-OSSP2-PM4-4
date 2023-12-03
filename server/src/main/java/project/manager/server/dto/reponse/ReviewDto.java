@@ -1,7 +1,9 @@
 package project.manager.server.dto.reponse;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class ReviewDto {
     private Long reviewId;
