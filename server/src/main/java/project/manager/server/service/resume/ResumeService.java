@@ -100,32 +100,32 @@ public class ResumeService {
                         .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
         Map<String, Object> result = new HashMap<>();
 
-        result.put("Resume", ResumeDto.builder()
+        result.put("resume", ResumeDto.builder()
                 .resume(resume)
                 .build());
 
-        result.put("Projects", projectRepository.findByResumeId(resumeId)
+        result.put("srojects", projectRepository.findByResumeId(resumeId)
                 .stream().map(project ->
                         ProjectDto.builder()
                                 .project(project)
                                 .build())
                 .collect(Collectors.toList()));
 
-        result.put("Awards", awardRepository.findByResumeId(resumeId)
+        result.put("awards", awardRepository.findByResumeId(resumeId)
                 .stream().map(award ->
                         AwardDto.builder()
                                 .award(award)
                                 .build())
                 .collect(Collectors.toList()));
 
-        result.put("TechStacks", techStackRepository.findByResumeId(resumeId)
+        result.put("techStacks", techStackRepository.findByResumeId(resumeId)
                 .stream().map(techStack ->
                         TechStackDto.builder()
                                 .techStack(techStack)
                                 .build())
                 .collect(Collectors.toList()));
 
-        result.put("School", SchoolDto.builder()
+        result.put("schoolInfo", SchoolDto.builder()
                 .school(schoolRepository.findByResumeId(resumeId)
                         .orElseThrow(() ->
                                 new ApiException(ErrorDefine.ENTITY_NOT_FOUND)))

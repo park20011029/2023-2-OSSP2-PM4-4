@@ -3,7 +3,9 @@ package project.manager.server.dto.reponse.post.building;
 import java.time.LocalDate;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class BuildingPostDto {
     private String title;

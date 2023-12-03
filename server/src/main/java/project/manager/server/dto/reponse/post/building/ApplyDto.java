@@ -2,7 +2,9 @@ package project.manager.server.dto.reponse.post.building;
 
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class ApplyDto {
     private Long applyId;
@@ -10,6 +12,4 @@ public class ApplyDto {
     private String partName;
     private String buildingPost;
     private Long buildingPostId;
-
-
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import project.manager.server.domain.region.Si;
 
+@Getter
 @NoArgsConstructor
 public class SiDto {
     private String si;

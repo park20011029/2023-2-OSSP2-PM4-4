@@ -1,4 +1,4 @@
-package project.manager.server.dto;
+package project.manager.server.dto.exception;
 
 import java.util.Map;
 import java.util.stream.Collectors;
