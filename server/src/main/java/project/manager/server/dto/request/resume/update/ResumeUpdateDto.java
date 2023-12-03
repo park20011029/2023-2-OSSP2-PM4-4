@@ -1,6 +1,6 @@
 package project.manager.server.dto.request.resume.update;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -27,10 +27,16 @@ public class ResumeUpdateDto {
     @NotNull(message = "[Resume Update] Gender can not be null")
     private boolean gender;
 
-    @NotEmpty
+    @Valid
+    @NotNull(message = "[Resume Update] SchoolInfo can not be null")
     private SchoolUpdateDto schoolInfo;
 
+    @Valid
     private List<ProjectUpdateDto> projects;
+
+    @Valid
     private List<AwardUpdateDto> awards;
+
+    @Valid
     private List<TechStackUpdateDto> techStacks;
 }
