@@ -1,6 +1,7 @@
 package project.manager.server.service.post.building;
 
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -53,14 +54,26 @@ public class BuildingPostService {
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         ContestPost contestPost = contestPostRepository
                 .findById(contestPostId).orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+        boolean flag =false;
+
+        if (buildingPostRequestDto.isUsePoint()) {
+            if (writer.getPoint() < BuildingPost.BUILDING_POST_POINT) {
+                throw new RuntimeException("포인트도 없는게 돌아가라");
+            }
+            flag = true;
+        }
 
         BuildingPost newBuildingPost = BuildingPost.builder()
                 .buildingPostRequestDto(buildingPostRequestDto)
                 .writer(writer)
                 .contestPost(contestPost)
                 .build();
-
         buildingPostRepository.save(newBuildingPost);
+
+        if (flag) {
+            newBuildingPost.upperPost();
+            writer.updatePoint(writer.getPoint() - BuildingPost.BUILDING_POST_POINT);
+        }
 
         buildingPostRequestDto.getPartList().forEach(partRequestDto ->
                 partRepository.save(Part.builder()
@@ -77,9 +90,13 @@ public class BuildingPostService {
         ContestPost contestPost = contestPostRepository.findById(contestPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
-        Page<BuildingPost> buildingPosts = buildingPostRepository.findByContestPostWithUser(
-                contestPost,
-                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createAt")));
+        Page<BuildingPost> buildingPosts = buildingPostRepository
+                .findByContestPostWithUser(
+                        contestPost,
+                        PageRequest.of(page, size,
+                                Sort.by(Sort.Order.asc("isRecruiting"),
+                                        Sort.Order.desc("upperDate"),
+                                        Sort.Order.desc("createAt"))));
 
         PageInfo pageInfo = PageInfo.builder()
                 .currentPage(buildingPosts.getNumber() + 1)
@@ -95,7 +112,7 @@ public class BuildingPostService {
                         .user(post.getWriter().getName())
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
-                        .buildingId(post.getId())
+                        .postId(post.getId())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
                 .collect(Collectors.toList()));
@@ -150,7 +167,7 @@ public class BuildingPostService {
 
     public Map<String, Object> readMyBuildingList(Long userId, Integer page, Integer size) {
 
-        Page<BuildingPost> buildingPosts = buildingPostRepository.findByUserIdWithUser(
+        Page<BuildingPost> buildingPosts = buildingPostRepository.findBuildingPostByWithUser(
                 userId,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createAt")));
 
@@ -168,7 +185,7 @@ public class BuildingPostService {
                         .user(post.getWriter().getName())
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
-                        .buildingId(post.getId())
+                        .postId(post.getId())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
                 .collect(Collectors.toList()));
@@ -182,6 +199,15 @@ public class BuildingPostService {
         BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
+        if (updateDto.isUsePoint()) {
+            if (buildingPost.getWriter().getPoint() < BuildingPost.BUILDING_POST_POINT) {
+                throw new RuntimeException("포인트도 없는게 돌아가라");
+            } if (!buildingPost.getUpperDate().equals(LocalDate.MIN)) {
+                throw new RuntimeException("수정 못함");
+            }
+            buildingPost.upperPost();
+            buildingPost.getWriter().updatePoint(buildingPost.getWriter().getPoint() - BuildingPost.BUILDING_POST_POINT);
+        }
         buildingPost.updateBuildingPost(updateDto.getTitle(),updateDto.getContent());
 
         return true;

@@ -1,5 +1,6 @@
 package project.manager.server.dto.request.post.building;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,6 +21,9 @@ public class BuildingPostRequestDto {
     private String title;
     @NotNull
     private String content;
+    @NotNull
+    private boolean usePoint;
     @NotEmpty
+    @Valid
     private List<PartRequestDto> partList;
 }
