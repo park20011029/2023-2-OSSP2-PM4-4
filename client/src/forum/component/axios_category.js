@@ -15,7 +15,7 @@ export const contest_CategoryTrans = {
     scale:"수상 규모",
     benefit:"수상 혜택",
     startAt:"시작일",
-    endAt:"마감일"
+    endAt:"마감일",
 }
 //게시판용
 export const contest_CategoryKeyList = {

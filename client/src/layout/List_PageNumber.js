@@ -18,9 +18,9 @@ const List_PageNumber = ({pageInfo, setPageInfo}) => {
     useEffect(() => {
         const calculatePageNumbers = () => {
             const newPageNumbers = [];
-            const pageNumber = pageInfo.pageNumber;
-            const pageLength = pageInfo.pageLength;
-            const pageCount = pageInfo.pageCount;
+            const pageNumber = pageInfo.pageNumber; //현재 페이지 번호
+            const pageLength = pageInfo.pageLength; //한번에 표시할 페이지 수
+            const pageCount = pageInfo.pageCount; //총 페이지 수
 
             let left = 1;
             while (pageNumber - left >= pageLength) left += pageLength;

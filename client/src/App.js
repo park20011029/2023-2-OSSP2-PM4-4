@@ -17,9 +17,9 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<MainPage/>}></Route>
+                <Route path="/" element={<MainPage/>}/>
                 {/*공모전 정보 게시글 목록 페이지 */}    <Route path="/contestInfoListPage"    element={<Contest_ListPage />}/>
-                {/*공모전 정보 게시글 상세 페이지*/}     <Route path="/contestInfoPostPage"     element={<Contest_Info_Post />}/>
+                {/*공모전 정보 게시글 상세 페이지*/}     <Route path="/contestInfoPostPage/:id"     element={<Contest_Info_Post />}/>
                 {/*공모전 정보 게시글 작성 페이지*/}     <Route path={"/contestInfoWritePage"}   element={<Contest_Info_Write />}/>
                 {/*공모전 정보 게시글 팀원모집 탭*/}     <Route path="/contestInfoPostTeamListPage"      element={<Contest_Team_ListTab />}/>
                 {/*팀원모집 글(보기)*/}                <Route path="/contestTeamWriteView/:id"     element={<Contest_Team_WriteView/>}/>

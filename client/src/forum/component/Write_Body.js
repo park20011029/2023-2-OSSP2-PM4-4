@@ -3,7 +3,7 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import {useNavigate} from "react-router-dom";
 import 'react-quill/dist/quill.snow.css';
-import styles from '../css/Contest_Team_Write(Post).module.css';
+import styles from '../css/Team_Write(Post).module.css';
 
 const Write_Body = ({ editorContent, setEditorContent, onRewardChange, onSubmit }) => {
     const useReward = false;
