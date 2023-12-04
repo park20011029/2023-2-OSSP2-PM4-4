@@ -10,6 +10,7 @@ import project.manager.server.dto.ResponseDto;
 import project.manager.server.service.ReviewService;
 import project.manager.server.service.post.building.ApplyService;
 import project.manager.server.service.post.building.BuildingPostService;
+import project.manager.server.service.post.building.ProjectPostService;
 import project.manager.server.service.post.contest.ContestPostService;
 
 @RestController
@@ -20,6 +21,7 @@ public class MyPageController {
     private final ContestPostService contestPostService;
     private final ApplyService applyService;
     private final ReviewService reviewService;
+    private final ProjectPostService projectPostService;
 
     //내가 쓴 공모글 읽어오기
     @GetMapping("/contest/{userId}")
@@ -41,6 +43,16 @@ public class MyPageController {
         return new ResponseDto<>(buildingPostService.readMyBuildingList(userId, page, size));
     }
     //내가 지원한 팀 빌딩 포스트 필요
+
+    //내가 작성한 프로젝트 포스트 읽어오기
+    @GetMapping("/project/{userId}")
+    public ResponseDto<Map<String, Object>> readMyProjectPostList(
+            @PathVariable Long userId,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "size", defaultValue = "12") Integer size) {
+
+        return new ResponseDto<>(projectPostService.readMyProjectList(userId, page, size));
+    }
 
     //내가 받은 리뷰 리스트 읽어오기
     @GetMapping("/myReview/{userId}")
