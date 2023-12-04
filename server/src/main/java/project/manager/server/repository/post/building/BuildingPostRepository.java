@@ -17,19 +17,39 @@ public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long
     Optional<BuildingPost> findById(Long buildingPostId);
 
     //수정, 마감
-    @Query("SELECT b FROM BuildingPost b WHERE b.id = :buildingPostId AND b.isRecruiting = true ")
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.id = :buildingPostId AND b.isRecruiting = true ")
     Optional<BuildingPost> findByIdAndRecruitingIsTrue(@Param("buildingPostId") Long buildingPostId);
 
     //삭제
-    @Query("SELECT bp FROM BuildingPost bp JOIN FETCH bp.writer WHERE bp.id = :buildingPostId AND bp.isDelete = false")
+    @Query("SELECT bp FROM BuildingPost bp " +
+            "JOIN FETCH bp.writer " +
+            "WHERE bp.id = :buildingPostId AND bp.isDelete = false")
     Optional<BuildingPost> findByIdAndIsDeleteFalse(@Param("buildingPostId") Long buildingPostId);
 
     //팀빌딩 게시글 리스트
-    @Query("SELECT b FROM BuildingPost b JOIN FETCH b.writer WHERE b.contestPost = :contestPost AND b.isDelete = false")
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.contestPost = :contestPost AND b.isDelete = false")
     Page<BuildingPost> findByContestPostWithUser(@Param("contestPost") ContestPost contestPost, Pageable pageInfo);
 
-    //유저 게시글 목록
-    @Query("SELECT b FROM BuildingPost b JOIN FETCH b.writer WHERE b.writer.id = :userId AND b.isDelete = false")
-    Page<BuildingPost> findByUserIdWithUser(@Param("userId") Long userId, Pageable pageInfo);
+    //포로젝트 게시글 리스트
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.contestPost IS NULL AND b.isDelete = false")
+    Page<BuildingPost> findProjectPostWithUser(Pageable pageInfo);
+
+    //유저 팀빌딩 게시글 목록
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.writer.id = :userId AND b.isDelete = false And b.contestPost IS NOT NULL")
+    Page<BuildingPost> findBuildingPostByWithUser(@Param("userId") Long userId, Pageable pageInfo);
+
+    //유저 프로젝트 게시글 목록
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.writer.id = :userId AND b.isDelete = false And b.contestPost IS NULL")
+    Page<BuildingPost> findProjectPostByWithUser(@Param("userId") Long userId, Pageable pageInfo);
 
 }
