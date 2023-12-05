@@ -116,12 +116,12 @@ public class ReviewService {
         return result;
     }
 
-    // 리뷰 작성하면 포인트 주기
     public Boolean writeReview(Long reviewId, ReviewRequestDto reviewRequestDto) {
         Review review = reviewRepository.findByIdAndContentIsNull(reviewId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         review.updateReview(reviewRequestDto.getContent(), reviewRequestDto.getScore());
+        review.getReviewer().updatePoint(review.getReviewer().getPoint() + Review.REVIEW_POINT);
 
         return true;
     }

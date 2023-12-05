@@ -14,4 +14,6 @@ public class BuildingPostUpdateDto {
     private String title;
     @NotNull
     private String content;
+    @NotNull
+    private boolean isUsePoint;
 }

@@ -49,6 +49,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column(name = "point")
+    private Integer point;
+
     //https://csy7792.tistory.com/240
     @Column(name = "created_date")
     private Timestamp createdDate;
@@ -68,6 +71,12 @@ public class User {
     @OneToMany(mappedBy = "applicant", fetch = FetchType.LAZY)
     private List<Apply> applyList;
 
+    @OneToMany(mappedBy = "reviewer", fetch = FetchType.LAZY)
+    private List<Review> reviewerList;
+
+    @OneToMany(mappedBy = "reviewee", fetch = FetchType.LAZY)
+    private List<Review> revieweeList;
+
     // -------------------------------------------------------------------
 
     @Builder
@@ -77,6 +86,7 @@ public class User {
         this.nickName = userRequestDto.getNickName();
         this.introduction = userRequestDto.getIntroduction();
         this.role = role;
+        this.point = 0;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
         this.userState = UserState.MEMBER;
         this.phoneNumber = userRequestDto.getPhoneNumber();
@@ -85,6 +95,10 @@ public class User {
     public void updateUser(String nickName, String introduction) {
         this.nickName = nickName;
         this.introduction = introduction;
+    }
+
+    public void updatePoint(Integer point) {
+        this.point = point;
     }
 
     public void withdrawUser() {
