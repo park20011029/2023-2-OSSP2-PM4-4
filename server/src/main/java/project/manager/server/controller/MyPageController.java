@@ -14,7 +14,7 @@ import project.manager.server.service.post.building.ProjectPostService;
 import project.manager.server.service.post.contest.ContestPostService;
 
 @RestController
-@RequestMapping("/mypost")
+@RequestMapping("/myPage")
 @RequiredArgsConstructor
 public class MyPageController {
     private final BuildingPostService buildingPostService;
