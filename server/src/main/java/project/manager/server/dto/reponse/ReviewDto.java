@@ -10,6 +10,8 @@ public class ReviewDto {
     private String content;
     private Long reviewerId;
     private String reviewer;
+    private Long revieweeId;
+    private String reviewee;
     private Double score;
     private String projectName;
     private Long projectId;
