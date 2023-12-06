@@ -94,7 +94,6 @@ public class ResumeService {
         return newResume.getId();
     }
 
-
     public Map<String, Object> readResume(Long resumeId) {
         Resume resume = resumeRepository.findById(resumeId)
                         .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
@@ -104,7 +103,7 @@ public class ResumeService {
                 .resume(resume)
                 .build());
 
-        result.put("srojects", projectRepository.findByResumeId(resumeId)
+        result.put("projects", projectRepository.findByResumeId(resumeId)
                 .stream().map(project ->
                         ProjectDto.builder()
                                 .project(project)

@@ -37,6 +37,8 @@ public class Review {
     @Column(name = "created_date")
     private Timestamp createdDate;
 
+    public static final Integer REVIEW_POINT = 1;
+
     // -------------------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.LAZY)

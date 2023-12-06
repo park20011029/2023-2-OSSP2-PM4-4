@@ -62,4 +62,10 @@ public class BuildingPostController {
         return new ResponseDto<>(buildingPostService.endBuildingPost(buildingPostId));
     }
 
+    //팀빌딩 게시글 삭제
+    @DeleteMapping("{buildingPostId}")
+    public ResponseDto<Boolean> deleteBuildingPost(@PathVariable Long buildingPostId) {
+
+        return new ResponseDto<>(buildingPostService.deleteBuildingPost(buildingPostId));
+    }
 }

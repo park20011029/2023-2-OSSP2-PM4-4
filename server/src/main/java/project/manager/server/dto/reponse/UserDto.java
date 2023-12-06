@@ -16,6 +16,7 @@ public class UserDto {
     @JsonSerialize(using = NullToNullStringSerializer.class)
     private Long resumeId;
 
+    private Integer point;
     private Long userId;
     private String name;
     private String email;
@@ -32,5 +33,6 @@ public class UserDto {
         this.nickName = user.getNickName();
         this.introduction = user.getIntroduction();
         this.phoneNumber = user.getPhoneNumber();
+        this.point = user.getPoint();
     }
 }

@@ -20,7 +20,6 @@ import project.manager.server.domain.User;
 import project.manager.server.domain.post.building.Apply;
 import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.domain.post.building.Part;
-import project.manager.server.domain.post.contest.ContestPost;
 import project.manager.server.dto.reponse.post.PageInfo;
 import project.manager.server.dto.reponse.post.building.BuildingPostDto;
 import project.manager.server.dto.reponse.post.building.BuildingTitleDto;
@@ -35,28 +34,24 @@ import project.manager.server.repository.UserRepository;
 import project.manager.server.repository.post.building.ApplyRepository;
 import project.manager.server.repository.post.building.BuildingPostRepository;
 import project.manager.server.repository.post.building.PartRepository;
-import project.manager.server.repository.post.contest.ContestPostRepository;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BuildingPostService {
+public class ProjectPostService {
 
     private final BuildingPostRepository buildingPostRepository;
     private final PartRepository partRepository;
     private final UserRepository userRepository;
-    private final ContestPostRepository contestPostRepository;
     private final ReviewRepository reviewRepository;
     private final ApplyRepository applyRepository;
 
-    public Boolean createBuildingPost(Long contestPostId , BuildingPostRequestDto buildingPostRequestDto) {
-        User writer = userRepository.findById(buildingPostRequestDto.getUserId())
+    public Boolean createProjectPost(BuildingPostRequestDto projectPostRequestDto) {
+        User writer = userRepository.findById(projectPostRequestDto.getUserId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
-        ContestPost contestPost = contestPostRepository
-                .findById(contestPostId).orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
         boolean flag =false;
 
-        if (buildingPostRequestDto.isUsePoint()) {
+        if (projectPostRequestDto.isUsePoint()) {
             if (writer.getPoint() < BuildingPost.BUILDING_POST_POINT) {
                 throw new RuntimeException("포인트도 없는게 돌아가라");
             }
@@ -64,9 +59,8 @@ public class BuildingPostService {
         }
 
         BuildingPost newBuildingPost = BuildingPost.builder()
-                .buildingPostRequestDto(buildingPostRequestDto)
+                .buildingPostRequestDto(projectPostRequestDto)
                 .writer(writer)
-                .contestPost(contestPost)
                 .build();
         buildingPostRepository.save(newBuildingPost);
 
@@ -75,7 +69,7 @@ public class BuildingPostService {
             writer.updatePoint(writer.getPoint() - BuildingPost.BUILDING_POST_POINT);
         }
 
-        buildingPostRequestDto.getPartList().forEach(partRequestDto ->
+        projectPostRequestDto.getPartList().forEach(partRequestDto ->
                 partRepository.save(Part.builder()
                         .partName(partRequestDto.getPartName())
                         .techType(partRequestDto.getTechType())
@@ -86,13 +80,9 @@ public class BuildingPostService {
         return true;
     }
 
-    public Map<String, Object> readBuildingPostList(Long contestPostId, Integer page, Integer size) {
-        ContestPost contestPost = contestPostRepository.findById(contestPostId)
-                .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
-
+    public Map<String, Object> readProjectPostList(Integer page, Integer size) {
         Page<BuildingPost> buildingPosts = buildingPostRepository
-                .findByContestPostWithUser(
-                        contestPost,
+                .findProjectPostWithUser(
                         PageRequest.of(page, size,
                                 Sort.by(Sort.Order.asc("isRecruiting"),
                                         Sort.Order.desc("upperDate"),
@@ -107,7 +97,7 @@ public class BuildingPostService {
                 .build();
 
         Map<String, Object> result = new HashMap<>();
-        result.put("buildingPosts", buildingPosts.stream()
+        result.put("projectPosts", buildingPosts.stream()
                 .map(post -> BuildingTitleDto.builder()
                         .user(post.getWriter().getName())
                         .userId(post.getWriter().getId())
@@ -122,13 +112,13 @@ public class BuildingPostService {
         return result;
     }
 
-    public Map<String, Object> readBuildingPost(Long buildingPostId) {
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndIsDeleteFalse(buildingPostId)
+    public Map<String, Object> readProjectPost(Long projectPostId) {
+        BuildingPost buildingPost = buildingPostRepository.findByIdAndIsDeleteFalse(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         Map<String, Object> result = new HashMap<>();
 
-        result.put("buildingPost", BuildingPostDto.builder()
+        result.put("projectPost", BuildingPostDto.builder()
                 .title(buildingPost.getTitle())
                 .content(buildingPost.getContent())
                 .userId(buildingPost.getWriter().getId())
@@ -165,22 +155,22 @@ public class BuildingPostService {
         return result;
     }
 
-    public Map<String, Object> readMyBuildingList(Long userId, Integer page, Integer size) {
+    public Map<String, Object> readMyProjectList(Long userId, Integer page, Integer size) {
 
-        Page<BuildingPost> buildingPosts = buildingPostRepository.findBuildingPostByWithUser(
+        Page<BuildingPost> projectPost = buildingPostRepository.findProjectPostByWithUser(
                 userId,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createAt")));
 
         PageInfo pageInfo = PageInfo.builder()
-                .currentPage(buildingPosts.getNumber() + 1)
-                .totalPages(buildingPosts.getTotalPages())
-                .pageSize(buildingPosts.getSize())
-                .currentItems(buildingPosts.getNumberOfElements())
-                .totalItems(buildingPosts.getTotalElements())
+                .currentPage(projectPost.getNumber() + 1)
+                .totalPages(projectPost.getTotalPages())
+                .pageSize(projectPost.getSize())
+                .currentItems(projectPost.getNumberOfElements())
+                .totalItems(projectPost.getTotalElements())
                 .build();
 
         Map<String, Object> result = new HashMap<>();
-        result.put("myBuildingPosts", buildingPosts.stream()
+        result.put("myProjectPosts", projectPost.stream()
                 .map(post -> BuildingTitleDto.builder()
                         .user(post.getWriter().getName())
                         .userId(post.getWriter().getId())
@@ -195,30 +185,30 @@ public class BuildingPostService {
         return result;
     }
 
-    public Boolean updateBuildingPost(Long buildingPostId, BuildingPostUpdateDto updateDto) {
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
+    public Boolean updateProjectPost(Long projectPostId, BuildingPostUpdateDto updateDto) {
+        BuildingPost projectPost = buildingPostRepository.findByIdAndRecruitingIsTrue(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         if (updateDto.isUsePoint()) {
-            if (buildingPost.getWriter().getPoint() < BuildingPost.BUILDING_POST_POINT) {
+            if (projectPost.getWriter().getPoint() < BuildingPost.BUILDING_POST_POINT) {
                 throw new RuntimeException("포인트도 없는게 돌아가라");
-            } if (!buildingPost.getUpperDate().equals(LocalDate.MIN)) {
+            } if (!projectPost.getUpperDate().equals(LocalDate.MIN)) {
                 throw new RuntimeException("수정 못함");
             }
-            buildingPost.upperPost();
-            buildingPost.getWriter().updatePoint(buildingPost.getWriter().getPoint() - BuildingPost.BUILDING_POST_POINT);
+            projectPost.upperPost();
+            projectPost.getWriter().updatePoint(projectPost.getWriter().getPoint() - BuildingPost.BUILDING_POST_POINT);
         }
-        buildingPost.updateBuildingPost(updateDto.getTitle(),updateDto.getContent());
+        projectPost.updateBuildingPost(updateDto.getTitle(),updateDto.getContent());
 
         return true;
     }
 
-    public Boolean endBuildingPost(Long buildingPostId) {
+    public Boolean endProjectPost(Long projectPostId) {
 
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
+        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
-        List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(buildingPostId);
+        List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(projectPostId);
         applyList.forEach(apply -> {
             if (apply.getState().equals(PartState.STANDBY)) {
                 throw new RuntimeException("One or more applys are in STANDBY state.");
@@ -250,18 +240,18 @@ public class BuildingPostService {
     }
 
     // 지원 승인 대기중인 사람 있는지 확인, 지원 승인된 사람 있는지 확인
-    public Boolean deleteBuildingPost(Long buildingPostId) {
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
+    public Boolean deleteProjectPost(Long projectPostId) {
+        BuildingPost projectPost = buildingPostRepository.findByIdAndRecruitingIsTrue(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
-        List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(buildingPostId);
+        List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(projectPostId);
         applyList.forEach(apply -> {
             if (!apply.getState().equals(PartState.REFUSAL)) {
                 throw new RuntimeException("One or more applys are is not REFUSAL state.");
             }
         });
 
-        buildingPost.deleteBuildingPost();
+        projectPost.deleteBuildingPost();
 
         return false;
     }

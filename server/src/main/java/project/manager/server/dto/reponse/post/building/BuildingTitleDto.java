@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class BuildingTitleDto {
-    private Long buildingId;
+    private Long postId;
     private String title;
     private Long userId;
     private String user;

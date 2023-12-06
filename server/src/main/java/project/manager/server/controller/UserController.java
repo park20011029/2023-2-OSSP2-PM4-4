@@ -32,9 +32,16 @@ public class UserController {
         return new ResponseDto<>(userService.readUserProfile(userId));
     }
 
+    //닉네임 중복 확인
+    @GetMapping("/nickname/{nickName}")
+    public ResponseDto<Boolean> existNickName(@PathVariable String nickName){
+
+        return new ResponseDto<>(userService.existNickName(nickName));
+    }
+
     //포로필 수정
     @PutMapping("/{userId}")
-    public ResponseDto<UserDto> updateUser(@PathVariable Long userId, @RequestBody UserRequestDto userRequestDto) {
+    public ResponseDto<UserDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UserRequestDto userRequestDto) {
 
         return new ResponseDto<>(userService.updateUserProfile(userId, userRequestDto));
     }
@@ -46,8 +53,4 @@ public class UserController {
         return new ResponseDto<>(userService.withdrawUser(userId));
     }
 
-    @PutMapping("/nickname/{nickName}")
-    public ResponseDto<Boolean> existNickName(@PathVariable String nickName){
-        return new ResponseDto<>(userService.existNickName(nickName));
-    }
 }

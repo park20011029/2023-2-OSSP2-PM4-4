@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +44,8 @@ public class ReviewService {
                 .map(review -> ReviewDto.builder()
                         .reviewerId(review.getReviewer().getId())
                         .reviewer(review.getReviewer().getName())
+                        .revieweeId(review.getReviewee().getId())
+                        .reviewee(review.getReviewee().getName())
                         .projectId(review.getBuildingPost().getId())
                         .projectName(review.getBuildingPost().getTitle())
                         .content(review.getContent())
@@ -73,6 +76,8 @@ public class ReviewService {
                 .map(review -> ReviewDto.builder()
                         .reviewerId(review.getReviewer().getId())
                         .reviewer(review.getReviewer().getName())
+                        .revieweeId(review.getReviewee().getId())
+                        .reviewee(review.getReviewee().getName())
                         .projectId(review.getBuildingPost().getId())
                         .projectName(review.getBuildingPost().getTitle())
                         .content(review.getContent())
@@ -88,7 +93,7 @@ public class ReviewService {
 
     /** 작성한 리뷰 목록 */
     public Map<String, Object> readWrittenReviewList(Long userId, Integer page, Integer size) {
-        Page<Review> reviews = reviewRepository.findReviewsByReviewerId(userId,PageRequest.of(page, size));
+        Page<Review> reviews = reviewRepository.findReviewsByReviewerId(userId,PageRequest.of(page, size, Sort.by("createdDate").descending()));
 
         PageInfo pageInfo = PageInfo.builder()
                 .currentPage(reviews.getNumber() + 1)
@@ -103,6 +108,8 @@ public class ReviewService {
                 .map(review -> ReviewDto.builder()
                         .reviewerId(review.getReviewer().getId())
                         .reviewer(review.getReviewer().getName())
+                        .revieweeId(review.getReviewee().getId())
+                        .reviewee(review.getReviewee().getName())
                         .projectId(review.getBuildingPost().getId())
                         .projectName(review.getBuildingPost().getTitle())
                         .content(review.getContent())
@@ -116,12 +123,12 @@ public class ReviewService {
         return result;
     }
 
-    // 리뷰 작성하면 포인트 주기
     public Boolean writeReview(Long reviewId, ReviewRequestDto reviewRequestDto) {
         Review review = reviewRepository.findByIdAndContentIsNull(reviewId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         review.updateReview(reviewRequestDto.getContent(), reviewRequestDto.getScore());
+        review.getReviewer().updatePoint(review.getReviewer().getPoint() + Review.REVIEW_POINT);
 
         return true;
     }

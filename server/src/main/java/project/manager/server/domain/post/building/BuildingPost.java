@@ -4,6 +4,7 @@ package project.manager.server.domain.post.building;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,17 +42,22 @@ public class BuildingPost {
     @Column(name = "create_at")
     private Timestamp createAt;
 
-    @Column(name = "is_recruiting")
+    @Column(name = "is_recruiting", nullable = false)
     private boolean isRecruiting;
+
+    @Column(name = "upper_date")
+    private LocalDate upperDate;
+
+    public static final Integer BUILDING_POST_POINT = 15;
 
     //---------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contestpost_id", nullable = false)
+    @JoinColumn(name = "contestpost_id")
     private ContestPost contestPost;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User writer;
 
     @OneToMany(mappedBy = "buildingPost", fetch = FetchType.LAZY)
@@ -68,11 +74,20 @@ public class BuildingPost {
         this.createAt = Timestamp.valueOf(LocalDateTime.now());
         this.contestPost = contestPost;
         this.writer = writer;
+        this.upperDate = LocalDate.MIN;
     }
 
     public void updateBuildingPost(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void upperPost() {
+        this.upperDate = LocalDate.now().plusDays(4);
+    }
+
+    public void initDate() {
+        this.upperDate = LocalDate.MIN;
     }
 
     public void buildingPostClose() {
@@ -83,5 +98,4 @@ public class BuildingPost {
         this.isRecruiting = false;
         this.isDelete = true;
     }
-
 }
