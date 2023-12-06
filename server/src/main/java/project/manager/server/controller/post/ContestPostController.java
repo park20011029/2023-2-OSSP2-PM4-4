@@ -2,6 +2,7 @@ package project.manager.server.controller.post;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,20 @@ public class ContestPostController {
             @RequestParam(name = "size", defaultValue = "12") Integer size) {
 
         return new ResponseDto<>(contestPostService.readContestList(page, size));
+    }
+
+    @GetMapping("/search/{keyWord}")
+    public ResponseDto<Map<String,Object>> findContestPostList(
+            @PathVariable String keyWord,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "size", defaultValue = "12") Integer size,
+            @RequestParam(name = "scale", required = false) List<Long> scale,
+            @RequestParam(name = "category", required = false) List<Long> category,
+            @RequestParam(name = "organization", required = false) List<Long> organization,
+            @RequestParam(name = "target", required = false) List<Long> target,
+            @RequestParam(name = "benefit", required = false) List<Long> benefit) {
+
+        return new ResponseDto<>(contestPostService.findContestPostList(keyWord, page, size, scale, category, organization, target, benefit));
     }
 
     //공모전 게시글 읽어오기
