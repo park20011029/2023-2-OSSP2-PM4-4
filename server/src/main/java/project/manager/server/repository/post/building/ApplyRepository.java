@@ -11,8 +11,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import project.manager.server.domain.post.building.Apply;
-import project.manager.server.domain.post.contest.ContestPost;
-import project.manager.server.dto.reponse.post.building.ApplyDto;
 
 @Repository
 public interface ApplyRepository extends JpaRepository<Apply, Long> {

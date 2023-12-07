@@ -3,15 +3,17 @@ package project.manager.server.repository.post.contest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
-import project.manager.server.domain.post.contest.ContestPost;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.StringJoiner;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
+import project.manager.server.domain.post.contest.ContestPost;
 
 @Repository
 public class CustomRepositoryImpl implements CustomContestRepository{

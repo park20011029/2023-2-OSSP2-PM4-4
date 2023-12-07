@@ -1,11 +1,12 @@
 package project.manager.server.repository.post.contest;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import project.manager.server.domain.post.contest.ContestPost;
-
 import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import project.manager.server.domain.post.contest.ContestPost;
 
 public interface CustomContestRepository {
     Page<ContestPost> searchContestPostList(List<Long> scales,
