@@ -9,11 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.request.report.ResumeReportRequestDto;
 import project.manager.server.dto.request.resume.create.AwardRequestDto;
 import project.manager.server.dto.request.resume.create.ProjectRequestDto;
 import project.manager.server.dto.request.resume.create.ResumeRequestDto;
 import project.manager.server.dto.request.resume.create.TechStackRequestDto;
 import project.manager.server.dto.request.resume.update.ResumeUpdateDto;
+import project.manager.server.service.report.ResumeReportService;
 import project.manager.server.service.resume.*;
 
 @RestController
@@ -25,6 +27,7 @@ public class ResumeController {
     private final ProjectService projectService;
     private final TechStackService techStackService;
     private final AwardService awardService;
+    private final ResumeReportService resumeReportService;
 
     //이력서 생성
     @PostMapping("/{userId}")
@@ -67,6 +70,12 @@ public class ResumeController {
             @Valid @RequestBody AwardRequestDto awardRequestDto) {
 
         return new ResponseDto<>(awardService.addAward(resumeId, awardRequestDto));
+    }
+
+    @PostMapping("/report")
+    public ResponseDto<Boolean> resumeReport(@Valid @RequestBody ResumeReportRequestDto resumeReportRequestDto) {
+
+        return new ResponseDto<>(resumeReportService.creatResumeReport(resumeReportRequestDto));
     }
 
     //이력서 수정 후

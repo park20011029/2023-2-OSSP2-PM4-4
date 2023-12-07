@@ -12,20 +12,30 @@ import org.springframework.web.bind.annotation.*;
 import project.manager.server.dto.ResponseDto;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
+import project.manager.server.dto.request.report.ContestReportRequestDto;
 import project.manager.server.service.post.contest.ContestPostService;
+import project.manager.server.service.report.ContestReportService;
 
 
 @RestController
 @RequestMapping("/contestPost")
 @RequiredArgsConstructor
 public class ContestPostController {
+
     private final ContestPostService contestPostService;
+    private final ContestReportService contestReportService;
 
     //공모전 게시글 생성
     @PostMapping("")
     public ResponseDto<Boolean> createContestPost(@Valid @RequestBody ContestPostRequestDto contestPostRequestDto) {
 
         return new ResponseDto<>(contestPostService.createContestPost(contestPostRequestDto));
+    }
+
+    @PostMapping("/report")
+    public ResponseDto<Boolean> contestPostReport(@Valid @RequestBody ContestReportRequestDto contestReportRequestDto) {
+
+        return new ResponseDto<>(contestReportService.creatContestReport(contestReportRequestDto));
     }
 
     //공모전 게시글 목록 읽어오기
