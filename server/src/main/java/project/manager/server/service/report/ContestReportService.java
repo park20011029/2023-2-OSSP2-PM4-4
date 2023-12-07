@@ -38,7 +38,7 @@ public class ContestReportService {
 
     //신고 시점 데이터 받아오기
     /** */
-    public Boolean creatBuildingReport(ContestReportRequestDto contestReportRequestDto) {
+    public Boolean creatContestReport(ContestReportRequestDto contestReportRequestDto) {
         User reporter = userRepository.findById(contestReportRequestDto.getReporterId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         User defendant = userRepository.findById(contestReportRequestDto.getDefendantId())

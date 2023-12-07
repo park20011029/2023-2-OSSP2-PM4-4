@@ -38,7 +38,7 @@ public class ResumeReportService {
 
     //신고 시점 데이터 받아오기
     /** */
-    public Boolean creatBuildingReport(ResumeReportRequestDto resumeReportRequestDto) {
+    public Boolean creatResumeReport(ResumeReportRequestDto resumeReportRequestDto) {
         User reporter = userRepository.findById(resumeReportRequestDto.getReporterId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         User defendant = userRepository.findById(resumeReportRequestDto.getDefendantId())

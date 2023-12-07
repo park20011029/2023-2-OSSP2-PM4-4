@@ -39,7 +39,7 @@ public class ReviewReportService {
 
     //신고 시점 데이터 받아오기
     /** */
-    public Boolean creatBuildingReport(ReviewReportRequestDto reviewReportRequestDto) {
+    public Boolean creatReviewReport(ReviewReportRequestDto reviewReportRequestDto) {
         User reporter = userRepository.findById(reviewReportRequestDto.getReporterId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         User defendant = userRepository.findById(reviewReportRequestDto.getDefendantId())
