@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import project.manager.server.dto.ResponseDto;
 import project.manager.server.dto.reponse.UserDto;
@@ -20,9 +21,10 @@ public class UserController {
 
     //회원가입시
     @PostMapping("/signup")
-    public ResponseDto<Long> userSignUp(@Valid @RequestBody UserRequestDto userRequestDto) {
+    public ResponseDto<Long> userSignUp(@Valid @RequestBody UserRequestDto userRequestDto,
+                                        @RequestParam("file") MultipartFile file) {
 
-        return new ResponseDto<>(userService.createUser(userRequestDto));
+        return new ResponseDto<>(userService.createUser(userRequestDto, file));
     }
 
     //프로필 읽어오기
@@ -41,7 +43,7 @@ public class UserController {
 
     //포로필 수정
     @PutMapping("/{userId}")
-    public ResponseDto<UserDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UserRequestDto userRequestDto) {
+    public ResponseDto<Boolean> updateUser(@PathVariable Long userId, @Valid @RequestBody UserRequestDto userRequestDto) {
 
         return new ResponseDto<>(userService.updateUserProfile(userId, userRequestDto));
     }
