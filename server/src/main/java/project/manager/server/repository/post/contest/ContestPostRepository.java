@@ -13,7 +13,8 @@ import org.springframework.stereotype.Repository;
 import project.manager.server.domain.post.contest.ContestPost;
 
 @Repository
-public interface ContestPostRepository extends JpaRepository<ContestPost, Long> {
+public interface ContestPostRepository extends JpaRepository<ContestPost, Long>, CustomContestRepository {
+
     Optional<ContestPost> findById(Long contestPostId);
 
     @Query(value = "SELECT c FROM ContestPost c " +
@@ -30,4 +31,5 @@ public interface ContestPostRepository extends JpaRepository<ContestPost, Long> 
             @Param("today") LocalDate today,
             @Param("userId") Long userId,
             Pageable pageInfo);
+
 }

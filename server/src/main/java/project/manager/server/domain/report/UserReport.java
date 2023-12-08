@@ -2,6 +2,9 @@ package project.manager.server.domain.report;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +31,10 @@ public class UserReport {
 
     @Lob
     @Column(name = "description", nullable = false)
-    private Long description;
+    private String description;
+
+    @Column(name = "create_at")
+    private Timestamp createAt;
 
     // -------------------------------------------------------------------
 
@@ -40,10 +46,14 @@ public class UserReport {
     @JoinColumn(name = "defendant_id")
     private User defendant;
 
+    // -------------------------------------------------------------------
+
     @Builder
-    public UserReport(ReportReason reportReason, User reporter, User defendant) {
+    public UserReport(ReportReason reportReason, String description, User reporter, User defendant) {
         this.reportReason = reportReason;
+        this.description = description;
         this.reporter = reporter;
         this.defendant = defendant;
+        this.createAt = Timestamp.valueOf(LocalDateTime.now());
     }
 }

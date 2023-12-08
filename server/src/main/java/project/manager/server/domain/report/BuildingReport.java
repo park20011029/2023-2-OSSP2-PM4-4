@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import project.manager.server.domain.User;
-import project.manager.server.domain.resume.Resume;
+import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.enums.ReportReason;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "RESUME_REPORT_TB")
+@Table(name = "BUILDING_REPORT_TB")
 @DynamicUpdate
-public class ResumeReport {
+public class BuildingReport {
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,18 +48,18 @@ public class ResumeReport {
     private User defendant;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resume_id")
-    private Resume reportedResume;
+    @JoinColumn(name = "buildingpost_id")
+    private BuildingPost reportedBuilding;
 
     // -------------------------------------------------------------------
 
     @Builder
-    public ResumeReport(ReportReason reportReason, String description, User reporter, User defendant, Resume reportedResume) {
+    public BuildingReport(ReportReason reportReason, String description, User reporter, User defendant, BuildingPost reportedBuilding) {
         this.reportReason = reportReason;
         this.description = description;
         this.reporter = reporter;
         this.defendant = defendant;
-        this.reportedResume = reportedResume;
+        this.reportedBuilding = reportedBuilding;
         this.createAt = Timestamp.valueOf(LocalDateTime.now());
     }
 }

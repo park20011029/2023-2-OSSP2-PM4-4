@@ -40,7 +40,9 @@ public enum ErrorDefine {
     USER_EXPEL("4011", HttpStatus.GONE, "GONE: USER expelled"),
 
     // INTERNAL_SERER_ERROR: 500
-    SERVER_ERROR("5000", HttpStatus.INTERNAL_SERVER_ERROR, "Server Error: Internal server error");
+    SERVER_ERROR("5000", HttpStatus.INTERNAL_SERVER_ERROR, "Server Error: Internal server error"),
+    FILE_UPLOAD_ERROR("5001", HttpStatus.INTERNAL_SERVER_ERROR, "Server Error: File upload error"),
+    FILE_CONVERT_ERROR("5002", HttpStatus.INTERNAL_SERVER_ERROR, "Server Error: File convert error");
 
     private final String errorCode;
     private final HttpStatus httpStatus;

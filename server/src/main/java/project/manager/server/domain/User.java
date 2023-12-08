@@ -3,6 +3,7 @@ package project.manager.server.domain;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -56,6 +57,9 @@ public class User {
     @Column(name = "created_date")
     private Timestamp createdDate;
 
+    @Column(name = "execute_date")
+    private LocalDate executeDate;
+
     @Column(name = "user_state")
     @Enumerated(EnumType.STRING)
     private UserState userState;
@@ -77,6 +81,10 @@ public class User {
     @OneToMany(mappedBy = "reviewee", fetch = FetchType.LAZY)
     private List<Review> revieweeList;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userimage_id")
+    private Image userImage;
+
     // -------------------------------------------------------------------
 
     @Builder
@@ -90,19 +98,25 @@ public class User {
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
         this.userState = UserState.MEMBER;
         this.phoneNumber = userRequestDto.getPhoneNumber();
+        this.executeDate = LocalDate.MIN;
     }
 
+    public void updateImage(Image image) {
+        this.userImage = image;
+    }
     public void updateUser(String nickName, String introduction) {
         this.nickName = nickName;
         this.introduction = introduction;
+    }
+
+    public void updateUserState(UserState userState, LocalDate executeDate) {
+        this.userState = userState;
+        this.executeDate = executeDate;
     }
 
     public void updatePoint(Integer point) {
         this.point = point;
     }
 
-    public void withdrawUser() {
-        this.userState = UserState.WITHDRAWAL;
-    }
 
 }
