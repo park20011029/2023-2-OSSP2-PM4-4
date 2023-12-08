@@ -11,12 +11,10 @@ import java.util.StringJoiner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
 import project.manager.server.domain.post.contest.ContestPost;
 
-@Repository
-public class CustomRepositoryImpl implements CustomContestRepository{
+public class CustomContestRepositoryImpl implements CustomContestRepository{
     @PersistenceContext
     private EntityManager entityManager;
 
