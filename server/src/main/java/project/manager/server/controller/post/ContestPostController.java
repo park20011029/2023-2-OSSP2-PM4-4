@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
-import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
 import project.manager.server.dto.request.report.ContestReportRequestDto;

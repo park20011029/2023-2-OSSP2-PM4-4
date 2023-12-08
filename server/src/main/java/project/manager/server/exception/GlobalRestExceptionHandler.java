@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.reponse.ResponseDto;
 
 @RestControllerAdvice
 public class GlobalRestExceptionHandler {

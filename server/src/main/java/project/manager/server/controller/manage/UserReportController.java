@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
-import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.reponse.UserDto;
 import project.manager.server.service.UserService;
 import project.manager.server.service.report.UserReportService;
