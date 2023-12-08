@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
-import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.request.report.ResumeReportRequestDto;
 import project.manager.server.dto.request.resume.create.AwardRequestDto;
 import project.manager.server.dto.request.resume.create.ProjectRequestDto;

@@ -1,4 +1,4 @@
-package project.manager.server.dto;
+package project.manager.server.dto.reponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
