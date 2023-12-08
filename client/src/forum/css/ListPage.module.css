@@ -1,0 +1,145 @@
+.Page {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.smallPage {
+    display:flex;
+    flex-direction: column;
+    margin-top:20px;
+}
+.smallTitle {
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+/* Search.js */
+.SearchInput {
+    position: relative;
+    width: 100%;
+    padding-bottom: 30px;
+}
+
+.SearchInput input {
+    width: 100%;
+    height: 35px;
+    padding-left:10px;
+    padding-right: 30px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.SearchInput img {
+    position: absolute;
+    top: 17px;
+    right: 5px;
+    width:25px;
+    transform: translateY(-50%);
+    max-width: 30px;
+}
+
+/* List_Category.js */
+.Category {
+    position: relative;
+    width: 100%;
+}
+
+.criteria {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: lightblue;
+}
+
+.checkbox {
+    margin-right: 10px;
+    display:flex;
+    flex-direction: row;
+}
+.checkListTitle {
+    width:10%;
+}
+.checkbox label {
+    font-size:17px;
+    font-weight: bold;
+    display: flex;
+    margin:20px;
+}
+.checkbox .checkList {
+    display:flex;
+    align-items: center;
+    margin-right: 30px;
+}
+.checkbox .checkList input {
+    margin-right: 10px;
+}
+
+.buttons {
+    display:flex;
+    justify-content: flex-end;
+}
+.buttons button {
+    border: 1px black solid;
+    border-radius: 5px;
+    margin-right: 20px;
+    padding:5px;
+}
+
+
+/* forumList.js */
+.forumWriteList {
+    margin-top: 30px;
+    width: 100%;
+    border: 2px black solid;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.forumWrite {
+    width: 30%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px;
+    position:relative;
+}
+
+.forumWrite label {
+    font-size:15px;
+    font-weight:bold;
+}
+
+/* projectList.js */
+.projectWriteList {
+    margin-top: 30px;
+    width: 100%;
+    border: 2px black solid;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    width:100%;
+    padding: 10px;
+}
+
+.writeButton {
+    display:flex;
+    width:100%;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+}
+.writeButton button {
+    border: 1px black solid;
+    border-radius:5px;
+    background-color:whitesmoke;
+    padding:5px;
+}
+

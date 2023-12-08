@@ -1,1 +1,7 @@
-spring.profiles.active: local
+spring:
+  profiles:
+    active:
+      - jpa
+      - datasource
+server:
+  port: 8080

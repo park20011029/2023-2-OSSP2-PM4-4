@@ -1,0 +1,8 @@
+#genderBox select{
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 1px;
+}
+#genderBox label{
+    margin-left: 8px;
+}
