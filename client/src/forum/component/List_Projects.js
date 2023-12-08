@@ -1,7 +1,10 @@
-import React from "react";
+//프로젝트 게시글 목록 컴포넌트
+
+import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import renderPageNumber from './RenderPageNumber';
-import styles from "../css/Contest_Team_ListTab.module.css";
+import List_PageNumber from '../../layout/List_PageNumber';
+import styles from "../css/Contest_Post_TeamTab.module.css";
+import axios from "axios";
 
 // dummy data
 let write = {
@@ -11,20 +14,35 @@ let write = {
     date: "2023.11.13"
 };
 const writeList = [write, write, write, write, write, write, write, write, write, write];
-const totalWrite = 100;
-const pageSize = 10;
 
-//Todo: 글 리스트 가져오기
-const getList = () => {
 
-}
-
-const ProjectList = () => {
+const List_Projects = ({listData, pageInfo, setPageInfo}) => {
     const navigate = useNavigate();
-    //상세페이지 이동
-    function moveToWrite(index) {
-        navigate(`/ContestTeamWriteView/${index}`);
+    const [postList, setPostList] = useState(writeList);
+
+    //Todo: 글 리스트 가져오기
+    const getList = async() => {
+        try {
+            let response;
+            //공모전
+            if(listData.type === "contestPost") {
+                response = await axios.get(`/${listData.type}/${listData.id}`);
+            }
+            //프로젝트
+            else if(listData.type === "projectPostPost") {
+                response = await axios.get(`/${listData.type}/`);
+            }
+
+
+        } catch(error) {
+            console.log(error);
+        }
     }
+
+    useEffect(() => {
+       getList();
+    }, []);
+
     return (
         <div className={styles.List}>
             <div className={styles.category_row}>
@@ -34,7 +52,8 @@ const ProjectList = () => {
             </div>
 
             {writeList.map((item, index) => (
-                <div className={styles.item} key={index} onClick={() => moveToWrite(item.number)}>
+                <div className={styles.item} key={index}
+                     onClick={() => navigate(`/ContestTeamWriteView/${item.number}`)}>
                     <label className={styles.title}>{item.title}</label>
                     <label className={styles.writer}>{item.name}</label>
                     <label className={styles.date}>{item.date}</label>
@@ -45,11 +64,11 @@ const ProjectList = () => {
                 <button onClick={()=>{navigate('/contestTeamWritePost')}}>글쓰기</button>
             </div>
             <div className={styles.pageNumber}>
-                {renderPageNumber(totalWrite, pageSize, getList)}
+                {List_PageNumber({pageInfo, setPageInfo})}
             </div>
         </div>
     );
 }
 
 
-export default ProjectList;
+export default List_Projects;

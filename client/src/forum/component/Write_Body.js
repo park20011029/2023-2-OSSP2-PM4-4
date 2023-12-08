@@ -1,16 +1,21 @@
 //팀원 모집글 본문 컴포넌트
-import React from 'react';
+import React, {useState} from 'react';
 import ReactQuill from 'react-quill';
 import {useNavigate} from "react-router-dom";
 import 'react-quill/dist/quill.snow.css';
-import styles from '../css/Contest_Team_Write(Post).module.css';
+import styles from '../css/Team_Write(Post).module.css';
 
-const Write_Body = ({ editorContent, setEditorContent, onRewardChange, onSubmit }) => {
-    const useReward = false;
+const Write_Body = ({ setContent, setReward, submit }) => {
+    const [content, setContent_v] = useState("");
+    const [useReward, setUseReward] = useState(false);
     const navigate = useNavigate();
 
     const handleRewardChange = () => {
-        onRewardChange(!useReward);
+        if(useReward === false)
+            setUseReward(true);
+        else
+            setUseReward(false);
+        setReward(useReward);
     };
 
     return (
@@ -18,8 +23,11 @@ const Write_Body = ({ editorContent, setEditorContent, onRewardChange, onSubmit 
             {/* 본문 입력 창 */}
             <ReactQuill
                 className={styles.input}
-                value={editorContent}
-                onChange={(value) => setEditorContent(value)}
+                value={content}
+                onChange={(value) => {
+                    setContent_v(value);
+                    setContent(value);
+                }}
             />
             {/* 리워드 사용버튼 */}
             <div className={styles.reward}>
@@ -32,11 +40,11 @@ const Write_Body = ({ editorContent, setEditorContent, onRewardChange, onSubmit 
             {/* 작성,취소 버튼 */}
             <div className={styles.submitCancel}>
                 <button className={styles.submit}
-                        onClick={() => onSubmit(editorContent, useReward)}>작성</button>
+                        onClick={submit}>작성</button>
                 <button onClick={() => {
                             if(window.confirm('취소하시겠습니까?')) {
                                 alert("취소되었습니다.");
-                                navigate('/contestInfoPostPage');
+                                navigate(-1);
                             }
                 }}>취소</button>
             </div>

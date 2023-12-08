@@ -1,3 +1,4 @@
+
 .page {
     max-width:75%;
     margin: 30px auto 0;
@@ -9,33 +10,41 @@
 /* 개요 */
 .brief {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom:20px;
 }
 
 .small_image {
-    width:21%;
-    height:30%;
+    border: 2px black solid;
+
     margin-right:30px;
 }
-
-
+.brief_title {
+    font:30px black bold;
+    margin-bottom:10px;
+}
 .brief_labels {
     display:flex;
-}
-
-.category {
+    flex-direction:column;
     margin-right:20px;
 }
-.brief_labels .category label {
+
+.brief_row {
     display:flex;
+    flex-direction: row;
 }
 
-.brief_labels .label label {
-    display:flex;
+.brief_row .rowTitle {
+    margin:5px;
+    font-weight:bold;
+    width:auto;
 }
 
+.brief_row .rowDetail {
+    margin:5px;
+    width:auto;
+}
 /* 탭 */
 .twoTabs {
     width:80%;
@@ -57,6 +66,14 @@
 /* 개요 탭 */
 .big_image {
     width:100%;
+    margin-bottom: 30px;
+    border: 1px black solid;
+}
+
+.content {
+    border: 2px black solid;
+    padding-top: 30px;
+    padding-bottom: 30px;
     margin-bottom: 30px;
 }
 
