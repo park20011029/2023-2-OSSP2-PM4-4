@@ -1,5 +1,6 @@
 package project.manager.server.domain.post.building;
 
+import static project.manager.server.enums.Constant.MYSQL_MIN_DATE;
 
 import jakarta.persistence.*;
 
@@ -48,8 +49,6 @@ public class BuildingPost {
     @Column(name = "upper_date")
     private LocalDate upperDate;
 
-    public static final Integer BUILDING_POST_POINT = 15;
-
     //---------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -74,7 +73,7 @@ public class BuildingPost {
         this.createAt = Timestamp.valueOf(LocalDateTime.now());
         this.contestPost = contestPost;
         this.writer = writer;
-        this.upperDate = LocalDate.MIN;
+        this.upperDate = MYSQL_MIN_DATE;
     }
 
     public void updateBuildingPost(String title, String content) {
@@ -87,7 +86,7 @@ public class BuildingPost {
     }
 
     public void initDate() {
-        this.upperDate = LocalDate.MIN;
+        this.upperDate = MYSQL_MIN_DATE;
     }
 
     public void buildingPostClose() {
