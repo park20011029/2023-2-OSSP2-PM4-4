@@ -40,8 +40,6 @@ public class Review {
     @Column(name = "is_delete")
     private boolean isDelete;
 
-    public static final Integer REVIEW_POINT = 1;
-
     // -------------------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.LAZY)
