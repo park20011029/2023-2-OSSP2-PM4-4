@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Nav from "../../layout/Nav"
 import Footer from "../../layout/Footer"
 import List_Search from "../component/List_Search";
-import List_Category from "../component/List_Category";
+import List_Forum_Category from "../component/List_Forum_Category";
 import List_Forums from "../component/List_Forums";
 import styles from "../css/List.module.css";
 import List_PageNumber from "../../layout/List_PageNumber";
@@ -63,9 +63,6 @@ const writeList = [
     dummyData.write1,
     dummyData.write2,
     dummyData.write3,
-    dummyData.write4,
-    dummyData.write5,
-    dummyData.write6
 ];
 
 const Contest_List = () => {
@@ -80,7 +77,7 @@ const Contest_List = () => {
     //게시글 페이지 정보
     const [pageInfo, setPageInfo] = useState({
         pageNumber:13,        //페이지 번호
-        pageSize:6,         //한 페이지 당 게시글 수
+        pageSize:3,         //한 페이지 당 게시글 수
         pageLength:10,       //한 화면에 표시할 총 페이지 수
         pageCount:55,       //총 페이지 개수
     });
@@ -142,8 +139,8 @@ const Contest_List = () => {
             <Nav />
             <div className={styles.Page}>
                 <List_Search setSearchWord={setSearchWord} search={search} />
-                <List_Category setCategorySelected={setCategorySelected}
-                               search={search} />
+                <List_Forum_Category setCategorySelected={setCategorySelected}
+                                     search={search} />
                 <List_Forums postList={postList} />
             </div>
             <List_PageNumber pageInfo={pageInfo}

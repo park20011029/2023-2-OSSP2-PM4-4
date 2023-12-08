@@ -13,7 +13,7 @@ const Write_Title = ({setTitle}) => {
                    const filteredValue = e.target.value;
                    //console.log("filteredValue:",filteredValue);
                    setData(filteredValue);
-                   setTitle("title", filteredValue);
+                   setTitle(filteredValue);
                }}
         />
     );

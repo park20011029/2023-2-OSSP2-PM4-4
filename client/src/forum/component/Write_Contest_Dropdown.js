@@ -3,7 +3,7 @@ import styles from "../css/Team_Write(Post).module.css";
 import React, {useEffect, useState} from "react";
 import {contest_CategoryTrans, contest_getCategoryAll} from "./axios_category";
 
-const Write_Dropdown = ({ categoryList, handleDataChange }) => {
+const Write_Contest_Dropdown = ({ categoryList, handleDataChange }) => {
     const [categoryData, setCategoryData] = useState(categoryList);
     //카테고리 내용(드롭다운/체크박스)
     const [detail, setDetail] = useState({});
@@ -51,4 +51,4 @@ const Write_Dropdown = ({ categoryList, handleDataChange }) => {
     return labels;
 };
 
-export default Write_Dropdown;
+export default Write_Contest_Dropdown;

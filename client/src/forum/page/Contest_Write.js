@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "../css/Team_Write(Post).module.css";
 import Write_Title from "../component/Write_Title";
-import Write_Dropdown from "../component/Write_Dropdown";
+import Write_Contest_Dropdown from "../component/Write_Contest_Dropdown";
 import Write_Calendar from "../component/write_DatePick";
 import ReactQuill from "react-quill";
 import Nav from "../../layout/Nav";
@@ -50,7 +50,14 @@ const Contest_Write = () => {
         //스크롤 처리
         window.onbeforeunload = function pushRefresh() {
             window.scrollTo(0, 0);
-        };
+        }
+        //유저 id설정
+        /*
+        const id = localStorage.getItem('userId');
+        if(id !== null)
+            setData({...data, userId: {id}});
+        else*/ setData({...data, userId:1});
+        
     }, []);
 
     // 2.입력값을 처리하는 함수
@@ -67,6 +74,12 @@ const Contest_Write = () => {
             preview.readAsDataURL(selectedImage);
         }
     };
+    const setTitle = (title) => {
+        setData((prevData) => ({
+            ...prevData,
+            title: title
+        }))
+    }
     const handleDataChange_Event = (e) => { //나머지 값
         const newID = e.target.value;
         const newKey = e.target.id;
@@ -92,6 +105,7 @@ const Contest_Write = () => {
         if(!content) return(window.alert("본문을 입력하세요."));
 
         // Todo 1.이미지 전송
+        /*
         try {
             const formData = new FormData();
             formData.append('image', image.src);
@@ -101,15 +115,11 @@ const Contest_Write = () => {
         } catch(error) {
             console.error(error);
         }
+        */
 
         //나머지 데이터 전송
+        const postData = {};
         try {
-            const id = localStorage.getItem('userId');
-            if(id !== null)
-                setData({...data, userId: {id}});
-            else setData({...data, userId:1});
-
-            const postData = {};
             Object.keys(contest_CategoryKeyPost).forEach((key) => {
                 postData[contest_CategoryKeyPost[key]] = data[key];
             });
@@ -122,6 +132,7 @@ const Contest_Write = () => {
             }
         } catch(error) {
             window.alert("오류 발생!", error);
+            console.log(postData);
             console.error(error);
         }
     }
@@ -141,11 +152,11 @@ const Contest_Write = () => {
                     </div>
                     <div className={styles.info}>
                         {/* 제목 입력 */}
-                        <Write_Title setTitle={handleDateChange_Param} />
+                        <Write_Title setTitle={setTitle} />
                         {/* 드롭다운 카테고리 선택 */}
                         <div className={styles.briefLabels}>
-                            <Write_Dropdown categoryList={categoryList}
-                                            handleDataChange={handleDataChange_Event} />
+                            <Write_Contest_Dropdown categoryList={categoryList}
+                                                    handleDataChange={handleDataChange_Event} />
                             <Write_Calendar keyName={"startAt"}
                                             setData={handleDateChange_Param} />
                             <Write_Calendar keyName={"endAt"}

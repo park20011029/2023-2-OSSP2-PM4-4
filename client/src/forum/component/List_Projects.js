@@ -23,7 +23,16 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
     //Todo: 글 리스트 가져오기
     const getList = async() => {
         try {
-            const response = await axios.get("URL");
+            let response;
+            //공모전
+            if(listData.type === "contestPost") {
+                response = await axios.get(`/${listData.type}/${listData.id}`);
+            }
+            //프로젝트
+            else if(listData.type === "projectPostPost") {
+                response = await axios.get(`/${listData.type}/`);
+            }
+
 
         } catch(error) {
             console.log(error);

@@ -1,4 +1,4 @@
-//게시글 목록용 카테고리 컴포넌트
+//공모전 게시글 목록용 카테고리 컴포넌트
 import React, { useState, useEffect } from 'react';
 import styles from "../css/List.module.css";
 import {contest_CategoryKeyList, contest_CategoryTrans, contest_getCategoryAll} from "./axios_category";
@@ -38,7 +38,7 @@ const sel = {
     benefit:[]
 }
 
-const List_Category = ({setCategorySelected, search}) => {
+const List_Forum_Category = ({setCategorySelected, search}) => {
     const [categoryData, setCategoryData] = useState(sel);
     const [selected, setSelected] = useState(sel);
 
@@ -126,4 +126,4 @@ const List_Category = ({setCategorySelected, search}) => {
     );
 };
 
-export default List_Category;
+export default List_Forum_Category;
