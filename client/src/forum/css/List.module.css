@@ -14,7 +14,7 @@
     margin-bottom:10px;
 }
 
-/* Search.js */
+/* List_Search.js */
 .SearchInput {
     position: relative;
     width: 100%;
@@ -39,7 +39,7 @@
     max-width: 30px;
 }
 
-/* List_Category.js */
+/* List_Forum_Category.js */
 .Category {
     position: relative;
     width: 100%;
@@ -90,7 +90,7 @@
 }
 
 
-/* forumList.js */
+/* List_Forums.js */
 .forumWriteList {
     margin-top: 30px;
     width: 100%;
@@ -115,7 +115,7 @@
     font-weight:bold;
 }
 
-/* projectList.js */
+/* List_Projects.js */
 .projectWriteList {
     margin-top: 30px;
     width: 100%;
