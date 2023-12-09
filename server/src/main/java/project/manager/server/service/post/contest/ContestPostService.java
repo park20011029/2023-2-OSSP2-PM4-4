@@ -2,6 +2,7 @@ package project.manager.server.service.post.contest;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -101,6 +102,51 @@ public class ContestPostService {
         return ContestPostDto.builder()
                 .contestPost(contestPost)
                 .build();
+    }
+
+    public Map<String, Object> findContestPostList(
+            String keyWord,
+            Integer page,
+            Integer size,
+            List<Long> scales,
+            List<Long> categories,
+            List<Long> organizations,
+            List<Long> targets,
+            List<Long> benefits) {
+
+        Page<ContestPost> contestPosts = contestPostRepository.searchContestPostList(
+                scales,
+                categories,
+                organizations,
+                targets,
+                benefits,
+                keyWord,
+                LocalDate.now(),
+                PageRequest.of(page, size));
+
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(contestPosts.getNumber() + 1)
+                .totalPages(contestPosts.getTotalPages())
+                .pageSize(contestPosts.getSize())
+                .currentItems(contestPosts.getNumberOfElements())
+                .totalItems(contestPosts.getTotalElements())
+                .build();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("contestPosts", contestPosts.stream()
+                .map(post -> ContestTitleDto.builder()
+                        .userId(post.getWriter().getId())
+                        .user(post.getWriter().getName())
+                        .contestId(post.getId())
+                        .title(post.getTitle())
+                        .startAt(post.getStartAt())
+                        .endAt(post.getEndAt())
+                        .build())
+                .collect(Collectors.toList()));
+
+        result.put("pageInfo", pageInfo);
+
+        return result;
     }
 
     public Map<String, Object> readMyContestList(Long userId, Integer page, Integer size) {

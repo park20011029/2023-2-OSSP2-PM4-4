@@ -1,5 +1,6 @@
 package project.manager.server.service.post.building;
 
+import static project.manager.server.enums.Constant.BUILDING_POST_POINT;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -57,7 +58,7 @@ public class BuildingPostService {
         boolean flag =false;
 
         if (buildingPostRequestDto.isUsePoint()) {
-            if (writer.getPoint() < BuildingPost.BUILDING_POST_POINT) {
+            if (writer.getPoint() < BUILDING_POST_POINT) {
                 throw new RuntimeException("포인트도 없는게 돌아가라");
             }
             flag = true;
@@ -72,7 +73,7 @@ public class BuildingPostService {
 
         if (flag) {
             newBuildingPost.upperPost();
-            writer.updatePoint(writer.getPoint() - BuildingPost.BUILDING_POST_POINT);
+            writer.updatePoint(writer.getPoint() - BUILDING_POST_POINT);
         }
 
         buildingPostRequestDto.getPartList().forEach(partRequestDto ->
@@ -200,13 +201,13 @@ public class BuildingPostService {
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         if (updateDto.isUsePoint()) {
-            if (buildingPost.getWriter().getPoint() < BuildingPost.BUILDING_POST_POINT) {
+            if (buildingPost.getWriter().getPoint() < BUILDING_POST_POINT) {
                 throw new RuntimeException("포인트도 없는게 돌아가라");
             } if (!buildingPost.getUpperDate().equals(LocalDate.MIN)) {
                 throw new RuntimeException("수정 못함");
             }
             buildingPost.upperPost();
-            buildingPost.getWriter().updatePoint(buildingPost.getWriter().getPoint() - BuildingPost.BUILDING_POST_POINT);
+            buildingPost.getWriter().updatePoint(buildingPost.getWriter().getPoint() - BUILDING_POST_POINT);
         }
         buildingPost.updateBuildingPost(updateDto.getTitle(),updateDto.getContent());
 

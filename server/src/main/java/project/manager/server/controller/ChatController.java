@@ -13,7 +13,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import project.manager.server.domain.chat.Chat;
-import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.request.ChatRoomRequestDto;
 import project.manager.server.service.chat.ChatRoomService;
 import project.manager.server.service.chat.ChatService;
@@ -48,6 +48,6 @@ public class ChatController {
     public ResponseDto<Long> createChatRoom(
             @Valid @RequestBody ChatRoomRequestDto chatRoomRequestDto) {
         System.err.println(chatRoomRequestDto.getRoomName()+"  "+chatRoomRequestDto.getUserId()+"   "+chatRoomRequestDto.getPostWriterId());
-        return new ResponseDto<Long>(chatRoomService.createChatRoom(chatRoomRequestDto));
+        return new ResponseDto<>(chatRoomService.createChatRoom(chatRoomRequestDto));
     }
 }

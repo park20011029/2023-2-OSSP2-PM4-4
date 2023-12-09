@@ -37,7 +37,8 @@ public class Review {
     @Column(name = "created_date")
     private Timestamp createdDate;
 
-    public static final Integer REVIEW_POINT = 1;
+    @Column(name = "is_delete")
+    private boolean isDelete;
 
     // -------------------------------------------------------------------
 
@@ -62,6 +63,7 @@ public class Review {
         this.reviewee = reviewee;
         this.buildingPost = buildingPost;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
+        this.isDelete = false;
     }
 
     public void updateReview(String content, Double score) {
@@ -69,5 +71,8 @@ public class Review {
         this.score = score;
     }
 
+    public void deleteReview() {
+        this.isDelete = true;
+    }
 
 }

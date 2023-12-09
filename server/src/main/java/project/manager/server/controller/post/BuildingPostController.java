@@ -8,10 +8,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
-import project.manager.server.dto.ResponseDto;
+import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.request.post.building.BuildingPostRequestDto;
 import project.manager.server.dto.request.post.building.BuildingPostUpdateDto;
+import project.manager.server.dto.request.report.BuildingReportRequestDto;
 import project.manager.server.service.post.building.BuildingPostService;
+import project.manager.server.service.report.BuildingReportService;
 
 @RestController
 @RequestMapping("/buildingPost")
@@ -19,6 +21,7 @@ import project.manager.server.service.post.building.BuildingPostService;
 public class BuildingPostController {
 
     private final BuildingPostService buildingPostService;
+    private final BuildingReportService buildingReportService;
 
     //공모전에서 팀빌딩 게시글 생성
     @PostMapping("/{contestPostId}")
@@ -27,6 +30,12 @@ public class BuildingPostController {
             @Valid @RequestBody BuildingPostRequestDto buildingPostRequestDto) {
 
         return new ResponseDto<>(buildingPostService.createBuildingPost(contestPostId,buildingPostRequestDto));
+    }
+
+    @PostMapping("/report")
+    public ResponseDto<Boolean> buildingPostReport(@Valid @RequestBody BuildingReportRequestDto buildingReportRequestDto) {
+
+        return new ResponseDto<>(buildingReportService.creatBuildingReport(buildingReportRequestDto));
     }
 
     //팀빌딩 게시글 목록 읽어오기

@@ -17,6 +17,7 @@ public class UserDto {
     private Long resumeId;
 
     private Integer point;
+    private String url;
     private Long userId;
     private String name;
     private String email;
@@ -26,6 +27,7 @@ public class UserDto {
 
     @Builder
     public UserDto(User user, Long resumeId) {
+        this.url = user.getUserImage().getUrl();
         this.resumeId = resumeId;
         this.userId = user.getId();
         this.name = user.getName();

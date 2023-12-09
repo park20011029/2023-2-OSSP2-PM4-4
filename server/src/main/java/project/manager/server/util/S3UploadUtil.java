@@ -1,23 +1,28 @@
 package project.manager.server.util;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
+import project.manager.server.exception.ApiException;
+import project.manager.server.exception.ErrorDefine;
+
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Component
 @RequiredArgsConstructor
@@ -29,13 +34,16 @@ public class S3UploadUtil {
     public String bucket;  // S3 버킷
 
     // S3 파일 업로드
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    public String upload(MultipartFile multipartFile, String dirName) {
         System.err.println(multipartFile);
         // MultipartFile -> File
-        File convertFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("file convert error")); // 파일을 변환할 수 없으면 에러
-
-
+        File convertFile;
+        try {
+           convertFile = convert(multipartFile)
+                    .orElseThrow(() -> new ApiException(ErrorDefine.FILE_CONVERT_ERROR)); // 파일을 변환할 수 없으면 에러
+        } catch (IOException e) {
+            throw new ApiException(ErrorDefine.FILE_UPLOAD_ERROR);
+        }
 
         // S3에 저장할 파일명
         String fileName = dirName + "/" + UUID.randomUUID() + "_" + convertFile.getName();
@@ -83,7 +91,7 @@ public class S3UploadUtil {
 
 
             String path = url.getPath();
-            String decodedPath = URLDecoder.decode(path, "UTF-8");
+            String decodedPath = URLDecoder.decode(path, StandardCharsets.UTF_8);
 
 
             String[] pathSegments = decodedPath.split("/");
@@ -91,7 +99,7 @@ public class S3UploadUtil {
                 return String.join("/", Arrays.copyOfRange(pathSegments, 2, pathSegments.length)); // Skip the first two segments (empty and the bucket name)
             }
 
-        } catch (MalformedURLException | UnsupportedEncodingException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
