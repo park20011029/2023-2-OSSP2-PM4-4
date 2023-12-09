@@ -51,7 +51,7 @@ const Contest_Write = () => {
         window.onbeforeunload = function pushRefresh() {
             window.scrollTo(0, 0);
         }
-        //유저 id설정
+        //Todo: userId
         /*
         const id = localStorage.getItem('userId');
         if(id !== null)

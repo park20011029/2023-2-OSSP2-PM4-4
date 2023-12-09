@@ -1,24 +1,27 @@
 //팀원 모집 글 작성 페이지
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
 import Write_Title from "../component/Write_Title";
 import Write_Category from "../component/Write_Category";
 import Write_Body from "../component/Write_Body";
 import styles from "../css/Team_Write(Post).module.css";
+import axios from "axios";
 
 const Team_WritePost = () => {
     const navigate = useNavigate();
+    const {postId} = useParams();
+
     //데이터
     const [data, setData] = useState({
-        userId:0,
+        userId:1,
         title:'',
         content:'',
         usePoint:false,
         partList:[],
     });
-    
+
     //데이터 처리
     const setTitle = (title) => {
         setData((prevData) => ({
@@ -53,16 +56,41 @@ const Team_WritePost = () => {
     }, [data]);
 
 
-    //Todo: 리워드 처리, 전송
-    const submit = () => {
+    //Todo: UserId, 리워드 처리
+    const submit = async () => {
         if(!window.confirm("완료하시겠습니까?")) return;
-        try {
 
-        } catch(error) {
-            console.log(error);
+        //적합성 확인
+        if(data.title === "") {
+            window.alert("제목을 입력해주세요.");
+            return;
         }
-        console.log(data.content);
-        navigate(-1);
+        if(data.partList.length === 0) {
+            window.alert("카테고리는 최소 1개 이상 등록해야 합니다.");
+            return;
+        }
+        if(data.content === "") {
+            window.alert("분문을 입력해주세요.");
+            return;
+        }
+
+        try {
+            let response;
+            if(postId !== 0) {
+                response = await axios.post(`/buildingPost/${postId}`, data);
+            } else {
+                response = await axios.post(`/projectPostPost/`, data);
+            }
+            if(response.status === 200) {
+                //성공
+                window.alert("완료되었습니다.");
+                navigate(-1);
+            }
+        } catch(error) {
+            window.alert("오류 발생!", error);
+            console.log(data);
+            console.error(error);
+        }
     }
 
     return(
@@ -80,6 +108,7 @@ const Team_WritePost = () => {
                 {/* 본문 */}
                 <Write_Body setContent={setContent}
                             setReward={setReward}
+                            userId={data.userId}
                             submit={submit}
                 />
             </div>

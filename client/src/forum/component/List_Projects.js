@@ -61,7 +61,12 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
             ))}
 
             <div className={styles.writeButton}>
-                <button onClick={()=>{navigate('/contestTeamWritePost')}}>글쓰기</button>
+                <button onClick={()=>{
+                    if(listData.type === "contestPost")
+                        navigate(`/teamWritePost/${listData.id}`);
+                    else
+                        navigate(`/teamWritePost/0`);
+                }}>글쓰기</button>
             </div>
             <div className={styles.pageNumber}>
                 {List_PageNumber({pageInfo, setPageInfo})}
