@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import styles from "../css/Team_Write(Post).module.css";
 import Write_Title from "../component/Write_Title";
 import Write_Contest_Dropdown from "../component/Write_Contest_Dropdown";
-import Write_Calendar from "../component/write_DatePick";
+import Write_Calendar from "../component/Write_DatePick";
 import ReactQuill from "react-quill";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";

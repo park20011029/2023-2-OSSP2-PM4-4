@@ -76,10 +76,11 @@ const Team_WritePost = () => {
 
         try {
             let response;
-            if(postId !== 0) {
+            if(postId !== '0') {
                 response = await axios.post(`/buildingPost/${postId}`, data);
-            } else {
-                response = await axios.post(`/projectPostPost/`, data);
+            }
+            else if(postId === '0') {
+                response = await axios.post(`/projectPostPost`, data);
             }
             if(response.status === 200) {
                 //성공

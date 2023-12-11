@@ -16,11 +16,12 @@
     display:flex;
     justify-content: space-between;
     margin-bottom:20px;
+    padding-bottom: 10px;
+    border-bottom: 2px black solid;
 }
 .title label {
     display:flex;
     align-items: flex-end;
-    border-bottom: 2px black solid;
 }
 .title .T {
     width:75%;
@@ -45,52 +46,69 @@
 }
 .category .row {
     display:flex;
+    flex-direction: row;
     width:100%;
     margin-right: 30px;
     align-items: center;
     border-bottom: 1px black solid;
     margin-bottom: 20px;
 }
-
-.row label {
-    display:flex;
-    width: 20%;
-    font: 20px bold black;
-}
 .row .categoryTitle {
     display: flex;
     align-items: flex-end;
     width: 20%;
-    font: 30px bold black;
+    font: 20px bold black;
 }
 
-/* 채팅하기/지원하기/... 버튼 */
+
+
+/* 본문 */
+.body {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .appointment {
     display:flex;
     justify-content: flex-end;
     margin-bottom: 30px;
 }
-.appointment button {
-    border: 2px #FAFA80FF solid;
-    background: #FAFAD2FF;
-    margin-left: 20px;
-}
 
-/* 본문 */
 .text {
-    margin:auto;
-    display:flex;
-    padding-left : 10px;
-    border: 2px black solid;
-    margin-bottom: 30px;
+    padding:10px;
+    border:2px black solid;
+    min-height:50vh;
+    margin-bottom:30px;
 }
 
-/* 신고하기 버튼 */
 .report {
     display:flex;
     justify-content: flex-end;
 }
-.report button {
+
+/* 버튼 */
+.redButton {
     border: 2px red solid;
+    padding: 5px 10px;
     background: #FA6161FF;
+    margin-left: 20px;
+}
+.yellowButton {
+    border: 2px #FAFA80FF solid;
+    background: #FAFAD2FF;
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+.blueButton {
+    border: 2px cornflowerblue solid;
+    background: lightskyblue;
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+.whiteButton {
+    border: 2px black solid;
+    background: white;
+    padding: 5px 10px;
+    margin-left:20px;
 }
