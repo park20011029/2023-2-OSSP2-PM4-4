@@ -80,6 +80,20 @@
     background-color: transparent;
 }
 
+th {
+    padding: 5px 30px;
+    text-align: center;
+}
+tbody tr {
+    border:1px black solid;
+}
+td {
+    padding:10px;
+    text-align: center;
+}
+td select {
+    margin:0px;
+}
 /* 팀원 모집글 */
 .categoryDropdown {
 
@@ -173,6 +187,12 @@
 }
 .submit {
     background-color: lightblue;
+}
+.remove {
+    border: 2px red solid;
+    padding: 5px 10px;
+    background: #FA6161FF;
+    margin-left: 20px;
 }
 
 /* 공모전 글쓰기 - 요약 */

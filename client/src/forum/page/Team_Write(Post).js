@@ -11,8 +11,9 @@ import axios from "axios";
 
 const Team_WritePost = () => {
     const navigate = useNavigate();
+    //postID: 공모전 ID. 0이면 프로젝트를 의미함
     const {postId} = useParams();
-
+    
     //데이터
     const [data, setData] = useState({
         userId:1,
@@ -21,6 +22,12 @@ const Team_WritePost = () => {
         usePoint:false,
         partList:[],
     });
+    
+    //Todo: 수정 유효성 검사
+    useEffect(() => {
+        //get UserID and Writer ID
+
+    }, []);
 
     //데이터 처리
     const setTitle = (title) => {

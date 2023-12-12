@@ -6,6 +6,7 @@ import Footer from "../../layout/Footer";
 import styles from "../css/Team_Write(View).module.css";
 import {team_CategoryKOR} from "../component/axios_category";
 import axios from "axios";
+import Team_WriteEdit from "./Team_Write(Edit)";
 
 //DUMMY DATA
 const write = {
@@ -51,6 +52,7 @@ const Team_WriteView = () => {
     const navigate = useNavigate();
     const {id} = useParams();
     const [isAdmin, setIsAdmin] = useState(true);
+    const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
         writer:"",
@@ -65,6 +67,49 @@ const Team_WriteView = () => {
         if(data.title !== "")
             console.log("게시글 정보 수정됨", data);
     }, [data]);
+
+    useEffect(() => {
+        //스크롤 처리
+        window.onbeforeunload = function pushRefresh() {
+            window.scrollTo(0, 0);
+        };
+
+        //글 정보 받아오기
+        const getData = async() => {
+            try {
+                const response = await axios.get(`/buildingPost/${id}`);
+                const jsonData = response.data.responseDto;
+                const brief = jsonData.buildingPost;
+                const catList = [];
+                team_CategoryKOR.map((key) => {
+                    if(jsonData[key] !== undefined)
+                        catList[key] = jsonData[key];
+                });
+                setData({
+                    title:brief.title,
+                    content:brief.content,
+                    writerId:brief.userId,
+                    writer:brief.user,
+                    createAt:brief.creatAt,
+                    partList:catList
+                });
+            } catch(error) {
+                console.log(error);
+            }
+        }
+        getData();
+
+        //사용자 권한 정보 확인
+        //Todo: userId - Role
+        const getUser = async() => {
+            try {
+                const response = await axios.get(`/user/${id}`);
+                const jsonData = response.data.responseDto;
+            } catch(error) {
+                console.log(error);
+            }
+        }
+    }, []);
 
     //카테고리 렌더링
     const renderCategory = () => {
@@ -127,8 +172,10 @@ const Team_WriteView = () => {
         if(isAdmin === true || id === data.writerId) {
             return (
                 <>
-                    <button className={styles.blueButton}>수정</button>
-                    <button className={styles.redButton}>삭제</button>
+                    <button className={styles.blueButton}
+                            onClick={editPost}>수정</button>
+                    <button className={styles.redButton}
+                            onClick={deletePost}>삭제</button>
                 </>
             );
         }
@@ -139,73 +186,63 @@ const Team_WriteView = () => {
             )
         }
     }
-    useEffect(() => {
-        //스크롤 처리
-        window.onbeforeunload = function pushRefresh() {
-            window.scrollTo(0, 0);
-        };
-
-        //글 정보 받아오기
-        const getData = async() => {
-            try {
-                const response = await axios.get(`/buildingPost/${id}`);
-                const jsonData = response.data.responseDto;
-                const brief = jsonData.buildingPost;
-                const catList = [];
-                team_CategoryKOR.map((key) => {
-                    if(jsonData[key] !== undefined)
-                        catList[key] = jsonData[key];
-                });
-                setData({
-                    title:brief.title,
-                    content:brief.content,
-                    writerId:brief.userId,
-                    writer:brief.user,
-                    createAt:brief.creatAt,
-                    partList:catList
-                });
-            } catch(error) {
-                console.log(error);
+    //게시글 수정
+    const editPost = () => {
+        setEdit(true);
+    }
+    //게시글 삭제
+    const deletePost = () => {
+        const temp = async() => {
+            if (window.confirm("게시글을 삭제하시겠습니까?")) {
+                try {
+                    const response = await axios.delete(`/buildingPost/${id}`);
+                    if (response.status === 200) {
+                        window.alert("삭제되었습니다.");
+                        navigate(-1);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
             }
         }
-        getData();
+        temp();
+    }
 
-        //사용자 권한 정보 확인
-        //Todo: userId - Role
-        const getUser = async() => {
-            try {
-                const response = await axios.get(`/user/${id}`);
-                const jsonData = response.data.responseDto;
-            } catch(error) {
-                console.log(error);
-            }
-        }
-    });
-
-    return(
+    return (
         <div>
-            <Nav />
-          <div className={styles.page}>
-              <div className={styles.titleAndCategory}>
-                  <div className={styles.title}>
-                      <label className={styles.T}>{data.title}</label>
-                      <label className={styles.W}>{data.user}</label>
-                      <label className={styles.D}>{data.createAt}</label>
-                  </div>
-                  {renderCategory()}
-              </div>
-              <div className={styles.body}>
-                  <div className={styles.appointment}>
-                      {closeOrChat()}
-                      {applyOrCheck()}
-                  </div>
-                  <div className={styles.text} dangerouslySetInnerHTML={{ __html: data.content }} />
-                  <div className={styles.report}>
-                      {reportOrEdit()}
-                  </div>
-              </div>
-          </div>
-            <Footer />
+            <Nav/>
+            <div className={styles.page}>
+                {edit === false ? (
+                    //게시글 표시
+                    <>
+                        <div className={styles.titleAndCategory}>
+                            <div className={styles.title}>
+                                <label className={styles.T}>{data.title}</label>
+                                <label className={styles.W}>{data.user}</label>
+                                <label className={styles.D}>{data.createAt}</label>
+                            </div>
+                            {renderCategory()}
+                        </div>
+                        <div className={styles.body}>
+                            <div className={styles.appointment}>
+                                {closeOrChat()}
+                                {applyOrCheck()}
+                            </div>
+                            <div className={styles.text} dangerouslySetInnerHTML={{__html: data.content}}/>
+                            <div className={styles.report}>
+                                {reportOrEdit()}
+                            </div>
+                        </div>
+                    </>
+                    ) : (
+                    //게시글 수정
+                    <Team_WriteEdit postId={id}
+                                    setEdit={setEdit}
+                                    data={data}
+                    />
+                    )}
+            </div>
+            <Footer/>
         </div>
     );
 }

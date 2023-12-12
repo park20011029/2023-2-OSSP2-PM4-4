@@ -11,7 +11,6 @@ const Write_Category = ({setCategory}) => {
     //선택한 카테고리
     const [selectedCategory, setSelectedCategory] = useState([]);
 
-
     //선택한 항목을 리스트에 추가
     const addCategory = (techType, partName, maxApplicant) => {
         //console.log(techType, partName, maxApplicant); //debug
