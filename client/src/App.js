@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./main/MainPage";
-import MyPage from "./mypage/MyPage";
 import Project_ListPage    from "./forum/page/Project_List";
 import Contest_ListPage from "./forum/page/Contest_List";
 import Contest_Info_Post   from "./forum/page/Contest_Post_InfoTab";
@@ -12,6 +11,13 @@ import ChatListPage from "./chat/ChatListPage";
 import ChatRoomSocket from "./chat/ChatRoomSocket";
 import SignUpPage from "./signup/SignUpPage";
 import SignInPage from "./signin/SignInPage";
+import MyPage from "./mypage/MyPage";
+import MyPageResume from "./mypage/MyPageResume";
+import MyPageReview from "./mypage/MyPageReview";
+import MyPageApply from "./mypage/MyPageApply";
+import MyPageWritten from "./mypage/MyPageWritten";
+import MyPageReward from "./mypage/MyPageReward";
+import MyPageWriteReview from "./mypage/MyPageWriteReview";
 
 function App() {
     return (
@@ -30,6 +36,12 @@ function App() {
                 <Route path="/sign_in" element={<SignInPage/>}></Route>
                 <Route path="/sign_up" element={<SignUpPage/>}></Route>
                 <Route path="/my_page" element={<MyPage/>}></Route>
+                <Route path="/my_resume" element={<MyPageResume/>}></Route>
+                <Route path="/my_review" element={<MyPageReview/>}></Route>
+                <Route path="/my_apply" element={<MyPageApply/>}></Route>
+                <Route path="/my_writeReview" element={<MyPageWriteReview/>}></Route>
+                <Route path="/my_written" element={<MyPageWritten/>}></Route>
+                <Route path="/my_reward" element={<MyPageReward/>}></Route>
             </Routes>
         </Router>
     );
