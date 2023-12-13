@@ -28,6 +28,7 @@ function SignUpPage() {
   const [city, setCity] = useState(null);
   const [district, setDistrict] = useState(null);
   const [school, setSchool] = useState(null);
+  const [major, setMajor] = useState(null);
   const [eduState, setEduState] = useState(null);
   const [email, setEmail] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('010-1234-5678');
@@ -66,103 +67,20 @@ function SignUpPage() {
                 guId: district,
                 schoolInfo: {
                   name: school,
+                  major: major,
                   schoolRegister: eduState,
                 },
+                awards: awards,
+                projects: projects,
+                techStacks: skills,
               }
           );
-          if (resumeResponse.status === 200) {
-            console.log("RESUME POST 요청 성공");
-            let awardError = 0;
-            awards.forEach((award) => {
-              const data = {
-                competition: award.competition,
-                awardYear: award.awardYear,
-                awardType: award.awardType,
-              };
-              axios
-                  .post(`/resume/award/${resumeResponse.data.responseDto}`, data)
-                  .then((awardResponse) => {
-                    if (awardResponse.status !== 200) {
-                      window.alert(awardResponse.data.error.message);
-                      awardError = 1;
-                    }
-                  })
-                  .catch((error) => {
-                    window.alert(
-                        "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-                    );
-                  });
-            });
-            if (awardError === 0) {
-              console.log("AWARD POST 요청 성공");
-              let techError = 0;
-              skills.forEach((tech) => {
-                const data = {
-                  techType: tech.techType,
-                  tech: tech.tech,
-                  description: tech.description,
-                };
-                axios
-                    .post(
-                        `/resume/techStack/${resumeResponse.data.responseDto}`,
-                        data
-                    )
-                    .then((techResponse) => {
-                      if (techResponse.status !== 200) {
-                        window.alert(techResponse.data.error.message);
-                        techError = 1;
-                      }
-                    })
-                    .catch((error) => {
-                      window.alert(
-                          "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-                      );
-                    });
-              });
-              if (techError === 0) {
-                console.log("TECH POST 요청 성공");
-                let projectError = 0;
-                projects.forEach((project) => {
-                  const data = {
-                    projectName: project.projectName,
-                    description: project.description,
-                    gitUrl: project.gitUrl,
-                  };
-                  axios
-                      .post(
-                          `/resume/project/${resumeResponse.data.responseDto}`,
-                          data
-                      )
-                      .then((projectResponse) => {
-                        if (projectResponse.status !== 200) {
-                          window.alert(projectResponse.data.error.message);
-                          techError = 1;
-                        }
-                      })
-                      .catch((error) => {
-                        window.alert(
-                            "오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-                        );
-                      });
-                });
-                if (projectError === 0) {
-                  window.alert("회원 가입 성공");
-                  window.location.href = '/';
-                } else {
-                  // projectError != 0
-                  window.alert('프로젝트 기록 오류 발생');
-                }
-              } else {
-                // techError != 0
-                window.alert('기술 스택 오류 발생');
-              }
-            } else {
-              // awardError !=0
-              window.alert('수상 내역 오류 발생');
-            }
-          } else {
-            // resumeResponse status != 200
-            window.alert(resumeResponse.data.error.message);
+          if(resumeResponse.status === 200) {
+            window.alert("회원 가입 성공");
+            window.location.href = '/';
+          }
+          else {
+            window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
           }
         } else {
           // userResponse status != 200
@@ -221,8 +139,10 @@ function SignUpPage() {
             />
             <EducationInput
                 school={school}
+                major={major}
                 eduState={eduState}
                 setSchool={setSchool}
+                setMajor={setMajor}
                 setEduState={setEduState}
             />
             <EmailInput email={email} setEmail={setEmail} />
