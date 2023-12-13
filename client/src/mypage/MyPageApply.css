@@ -1,0 +1,63 @@
+.apply-info{
+    display: flex;
+    justify-content: space-between;
+    margin: 70px auto 0 auto;
+    padding: 8px 10px 8px 10px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.apply-container{
+    height: auto;
+}
+.apply-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(128, 128, 128);
+    border-bottom: 1px solid rgb(128, 128, 128);
+    padding: 15px 8px;
+    margin: 0 auto;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.apply-title{
+    font-size: 16px;
+    font-weight: bold;
+}
+.apply-title:hover{
+    text-decoration: underline;
+}
+.apply-part대기{
+    width: auto;
+    text-align: center;
+    border: 1px solid black;
+    padding: 6px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+}
+.apply-part승인{
+    width: auto;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+    border: 3px solid rgb(99, 252, 85);
+}
+.apply-part거절{
+    width: auto;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+    border: 3px solid rgb(252, 85, 85);
+}
+#space{
+    margin-top: 30px;
+}
+.container-body{
+
+    height: auto;
+    margin: auto;
+}
+.post-none{
+    margin-top: 50px;
+}
