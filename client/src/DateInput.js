@@ -11,26 +11,28 @@ const DateInput = ({date,setDate}) => {
         if(!date){
             setError(true);
         }
-        let daysInMonth=[31,28,31,30,31,30,31,31,30,31,30,31];
-        const year = parseInt(date.substring(0,4),10);
-        if(isLeapYear(year)){
-            daysInMonth[1]=29;
-        }
-        const month = parseInt(date.substring(5,7),10);
-        const day = parseInt(date.substring(8,10),10);
-        const isValidDate = /^(19\d{2}|20\d{2})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/.test(date);
-        if(date.length > 0 && !isValidDate) {
-            setDate('');
-            setError(true);
-        }
-        else if(date.length > 0 && isValidDate){
-            if(day <= daysInMonth[month-1]){
-                setDate(date);
-                setError(false);
+        else{
+            let daysInMonth=[31,28,31,30,31,30,31,31,30,31,30,31];
+            const year = parseInt(date.substring(0,4),10);
+            if(isLeapYear(year)){
+                daysInMonth[1]=29;
             }
-            else{
+            const month = parseInt(date.substring(5,7),10);
+            const day = parseInt(date.substring(8,10),10);
+            const isValidDate = /^(19\d{2}|20\d{2})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/.test(date);
+            if(date.length > 0 && !isValidDate) {
                 setDate('');
                 setError(true);
+            }
+            else if(date.length > 0 && isValidDate){
+                if(day <= daysInMonth[month-1]){
+                    setDate(date);
+                    setError(false);
+                }
+                else{
+                    setDate('');
+                    setError(true);
+                }
             }
         }
     }
