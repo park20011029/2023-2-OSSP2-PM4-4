@@ -1,3 +1,4 @@
+//지원하기
 import React, {useEffect, useState} from "react";
 import Modal from 'react-modal';
 import styles from "../css/modal.module.css";

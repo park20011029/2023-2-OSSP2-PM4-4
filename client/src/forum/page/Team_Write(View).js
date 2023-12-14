@@ -7,7 +7,8 @@ import styles from "../css/Team_Write(View).module.css";
 import {team_CategoryKOR} from "../component/axios_category";
 import axios from "axios";
 import Team_WriteEdit from "./Team_Write(Edit)";
-import Write_Apply from "../component/Write_Apply";
+import Write_Apply from "../modal/Write_Apply";
+import Write_ApplyList from "../modal/Write_ApplyList";
 
 //DUMMY DATA
 const write = {
@@ -64,7 +65,10 @@ const Team_WriteView = () => {
         content:"",
         partList:[]
     });
+    //지원하기 모달 관리
     const [applyModalOpen, setApplyModalOpen] = useState(false);
+    //지원 리스트 모달 관리
+    const [applyListModalOpen, setApplyListModalOpen] = useState(false);
 
     //debug
     useEffect(() => {
@@ -161,15 +165,17 @@ const Team_WriteView = () => {
         //지원자 확인
         if(isAdmin === true || id === data.writerId) {
             return (
-                <button className={styles.yellowButton}>지원자 확인</button>
+                <button className={styles.yellowButton}
+                        onClick={() => setApplyListModalOpen(true)}
+                >지원자 확인</button>
             );
         }
         //지원하기
         else {
             return (
                 <button className={styles.yellowButton}
-                        onClick={() => setApplyModalOpen(true)}>
-                    지원하기</button>
+                        onClick={() => setApplyModalOpen(true)}
+                >지원하기</button>
             );
         }
     }
@@ -223,6 +229,12 @@ const Team_WriteView = () => {
                              applyModalOpen={applyModalOpen}
                              setApplyModalOpen={setApplyModalOpen}
                              id={userId} /> : <></>
+            }
+            {applyListModalOpen === true ?
+                <Write_ApplyList postId={id}
+                             applyListModalOpen={applyListModalOpen}
+                             setApplyListModalOpen={setApplyListModalOpen}
+                             /> : <></>
             }
             <Nav/>
             <div className={styles.page}>
