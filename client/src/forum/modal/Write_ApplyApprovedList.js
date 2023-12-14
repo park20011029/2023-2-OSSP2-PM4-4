@@ -1,3 +1,5 @@
+
+
 //지원자 확인
 import React, {useEffect, useState} from "react";
 import Modal from 'react-modal';
@@ -25,7 +27,7 @@ const dummy = {
     ]
 }
 
-const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalOpen}) => {
+const Write_ApplyApprovedList = ({ postId, parts, applyApprovedListModalOpen, setApplyApprovedListModalOpen}) => {
     const [keyList, setKeyList] = useState([]);
     const [applicantList, setApplicantList] = useState({});
     const [init, setInit] = useState(false);
@@ -48,22 +50,17 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
         setInit(true);
     }, []);
 
+    //Todo: 프로필 이동
+    const moveToProfile = (userId) => {
 
-    //승인
-    const approve = () => {
-        //Todo
-    }
-    //거절
-    const deny = () => {
-        //Todo
     }
 
     if(init === false) return;
     else {
         return (
             <Modal className={styles.modal}
-                   isOpen={applyListModalOpen}
-                   onRequestClose={() => setApplyListModalOpen(false)}
+                   isOpen={applyApprovedListModalOpen}
+                   onRequestClose={() => setApplyApprovedListModalOpen(false)}
                    ariaHideApp={false}
             >
                 <div className={styles.modalTitle}>
@@ -75,7 +72,6 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                         <tr>
                             <th>지원파트</th>
                             <th>닉네임</th>
-                            <th />
                             <th />
                         </tr>
                         </thead>
@@ -89,10 +85,7 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                                     )}
                                     <td>{element.userName}</td>
                                     <td>
-                                        <button onClick={() => approve()}>승인</button>
-                                    </td>
-                                    <td>
-                                        <button onClick={() => deny()}>거절</button>
+                                        <button onClick={() => moveToProfile(element.userId)}>프로필 이동</button>
                                     </td>
                                 </tr>
                             ))
@@ -101,11 +94,11 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                     </table>
                 </div>
                 <div>
-                    <button onClick={() => setApplyListModalOpen(false)}>닫기</button>
+                    <button onClick={() => setApplyApprovedListModalOpen(false)}>닫기</button>
                 </div>
             </Modal>
         );
     }
 };
 
-export default Write_ApplyList;
+export default Write_ApplyApprovedList;

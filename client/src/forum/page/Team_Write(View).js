@@ -9,6 +9,7 @@ import axios from "axios";
 import Team_WriteEdit from "./Team_Write(Edit)";
 import Write_Apply from "../modal/Write_Apply";
 import Write_ApplyList from "../modal/Write_ApplyList";
+import Write_ApplyApprovedList from "../modal/Write_ApplyApprovedList";
 
 //DUMMY DATA
 const write = {
@@ -67,13 +68,17 @@ const Team_WriteView = () => {
     });
     //지원하기 모달 관리
     const [applyModalOpen, setApplyModalOpen] = useState(false);
+    const parts = [];
     //지원 리스트 모달 관리
     const [applyListModalOpen, setApplyListModalOpen] = useState(false);
+    //승인된 지원 리스트 모달 관리
+    const [applyApprovedListModalOpen, setApplyApprovedListModalOpen] = useState(false);
 
     //debug
     useEffect(() => {
-        if(data.title !== "")
+        if(data.title !== "") {
             console.log("게시글 정보 수정됨", data);
+        }
     }, [data]);
 
     useEffect(() => {
@@ -91,8 +96,9 @@ const Team_WriteView = () => {
                 console.log(brief);
                 const catList = [];
                 team_CategoryKOR.map((key) => {
-                    if(jsonData[key] !== undefined)
+                    if(jsonData[key] !== undefined) {
                         catList[key] = jsonData[key];
+                    }
                 });
                 setData({
                     title:brief.title,
@@ -124,6 +130,7 @@ const Team_WriteView = () => {
     const renderCategory = () => {
         return (
             <div className={styles.category}>
+                <button onClick={() => setApplyApprovedListModalOpen(true)}>모집정보 확인</button>
                 {Object.entries(data.partList).map(([part, list]) => (
                     <div className={styles.row}>
                         <div className={styles.categoryTitle}>
@@ -144,13 +151,26 @@ const Team_WriteView = () => {
         );
     };
 
-    //Todo: onClick => 마감/채팅/지원/지원자확인/수정/삭제
+    //파트 이름만 모은 리스트
+    const gatherPartName = () => {
+        const parts = [];
+        Object.entries(data.partList).map(([key, list]) => {
+            list.map((element) => {
+                parts.push(element.partName);
+            });
+        });
+        return parts;
+    }
+
+    //Todo: onClick => 채팅
     //마감하기/채팅하기 전환
     const closeOrChat = () => {
         //마감하기
         if(isAdmin === true || id === data.writerId) {
             return (
-                <button className={styles.redButton}>마감하기</button>
+                <button className={styles.redButton}
+                        onClick={() => applyEnd()}
+                >마감하기</button>
             );
         }
         //채팅하기
@@ -158,6 +178,18 @@ const Team_WriteView = () => {
             return (
                 <button className={styles.yellowButton}>채팅하기</button>
             )
+        }
+    }
+    const applyEnd = async () => {
+        if(!window.confirm("마감하시겠습니까?")) return;
+        try {
+            const response = await axios.put(`/buildingPost/end/${id}`);
+            if(response.status === 200) {
+                window.alert("마감되었습니다.");
+                window.location.reload();
+            }
+        } catch(error) {
+            console.log("게시글 마감 오류 발생!");
         }
     }
 
@@ -186,7 +218,7 @@ const Team_WriteView = () => {
             return (
                 <>
                     <button className={styles.blueButton}
-                            onClick={editPost}>수정</button>
+                            onClick={() => setEdit(true)}>수정</button>
                     <button className={styles.redButton}
                             onClick={deletePost}>삭제</button>
                 </>
@@ -199,24 +231,32 @@ const Team_WriteView = () => {
             )
         }
     }
-    //게시글 수정
-    const editPost = () => {
-        setEdit(true);
-    }
     //게시글 삭제
     const deletePost = () => {
-        const temp = async() => {
-
-            if (window.confirm("게시글을 삭제하시겠습니까?")) {
-                try {
-                    const response = await axios.delete(`/buildingPost/${id}`);
-                    if (response.status === 200) {
-                        window.alert("삭제되었습니다.");
-                        navigate(-1);
-                    }
-                } catch (error) {
-                    console.log(error);
+        if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
+        //유효성 검사
+        let noApplicant = true;
+        Object.entries(data.partList).map(([key, list]) => {
+            list.map((element) => {
+                if(element.currentApplicant > 0) {
+                    noApplicant = false;
                 }
+            });
+        });
+        if(noApplicant === false) {
+            window.alert("지원이 승인된 사용자가 있어 삭제가 불가능합니다.");
+            return;
+        }
+        const temp = async() => {
+            try {
+                const response = await axios.delete(`/buildingPost/${id}`);
+                if (response.status === 200) {
+                    window.alert("삭제되었습니다.");
+                    navigate(-1);
+                }
+            } catch (error) {
+                window.alert("오류 발생!");
+                console.log(error);
             }
         }
         temp();
@@ -228,13 +268,22 @@ const Team_WriteView = () => {
                 <Write_Apply postInfo={data}
                              applyModalOpen={applyModalOpen}
                              setApplyModalOpen={setApplyModalOpen}
-                             id={userId} /> : <></>
+                             id={userId}
+                /> : <></>
             }
             {applyListModalOpen === true ?
                 <Write_ApplyList postId={id}
-                             applyListModalOpen={applyListModalOpen}
-                             setApplyListModalOpen={setApplyListModalOpen}
-                             /> : <></>
+                                 parts={gatherPartName()}
+                                 applyListModalOpen={applyListModalOpen}
+                                 setApplyListModalOpen={setApplyListModalOpen}
+                /> : <></>
+            }
+            {applyApprovedListModalOpen === true ?
+                <Write_ApplyApprovedList postId={id}
+                                         parts={gatherPartName()}
+                                         applyApprovedListModalOpen={applyApprovedListModalOpen}
+                                         setApplyApprovedListModalOpen={setApplyApprovedListModalOpen}
+                /> : <></>
             }
             <Nav/>
             <div className={styles.page}>
