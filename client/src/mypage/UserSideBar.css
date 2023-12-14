@@ -1,0 +1,25 @@
+#sideBar {
+    width: 20%;
+    height: 100%;
+    margin-top: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+#userInfo {
+    border-bottom: 1px solid rgba(53, 52, 52, 0.6);
+}
+#userInfo .userData{
+    padding: 20px;
+}
+#userInfo img{
+    margin: 0 auto 15px auto;
+}
+#tabs{
+    margin-top: 10px;
+}
+.sideBarTabs{
+    padding: 20px;
+}
+.sideBarTabs:hover{
+    color: cornflowerblue;
+}

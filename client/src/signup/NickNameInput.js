@@ -15,7 +15,7 @@ function NickNameInput({
             setError("닉네임을 입력하세요.");
         } else {
             setError("");
-            const response = await axios.put(`/user/nickname/${nickName}`);
+            const response = await axios.get(`/user/nickname/${nickName}`);
             if (response.status === 200) {
                 if (response.data.responseDto === false) {
                     // 닉네임 사용 가능
