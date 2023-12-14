@@ -7,6 +7,7 @@ import styles from "../css/Team_Write(View).module.css";
 import {team_CategoryKOR} from "../component/axios_category";
 import axios from "axios";
 import Team_WriteEdit from "./Team_Write(Edit)";
+import Write_Apply from "../component/Write_Apply";
 
 //DUMMY DATA
 const write = {
@@ -51,7 +52,9 @@ const write = {
 const Team_WriteView = () => {
     const navigate = useNavigate();
     const {id} = useParams();
-    const [isAdmin, setIsAdmin] = useState(true);
+    //Todo: userId
+    const [userId, setUserId] = useState(1);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
@@ -61,6 +64,7 @@ const Team_WriteView = () => {
         content:"",
         partList:[]
     });
+    const [applyModalOpen, setApplyModalOpen] = useState(false);
 
     //debug
     useEffect(() => {
@@ -80,6 +84,7 @@ const Team_WriteView = () => {
                 const response = await axios.get(`/buildingPost/${id}`);
                 const jsonData = response.data.responseDto;
                 const brief = jsonData.buildingPost;
+                console.log(brief);
                 const catList = [];
                 team_CategoryKOR.map((key) => {
                     if(jsonData[key] !== undefined)
@@ -91,7 +96,7 @@ const Team_WriteView = () => {
                     writerId:brief.userId,
                     writer:brief.user,
                     createAt:brief.creatAt,
-                    partList:catList
+                    partList:catList,
                 });
             } catch(error) {
                 console.log(error);
@@ -162,8 +167,10 @@ const Team_WriteView = () => {
         //지원하기
         else {
             return (
-                <button className={styles.yellowButton}>지원하기</button>
-            )
+                <button className={styles.yellowButton}
+                        onClick={() => setApplyModalOpen(true)}>
+                    지원하기</button>
+            );
         }
     }
 
@@ -193,6 +200,7 @@ const Team_WriteView = () => {
     //게시글 삭제
     const deletePost = () => {
         const temp = async() => {
+
             if (window.confirm("게시글을 삭제하시겠습니까?")) {
                 try {
                     const response = await axios.delete(`/buildingPost/${id}`);
@@ -210,6 +218,12 @@ const Team_WriteView = () => {
 
     return (
         <div>
+            {applyModalOpen === true ?
+                <Write_Apply postInfo={data}
+                             applyModalOpen={applyModalOpen}
+                             setApplyModalOpen={setApplyModalOpen}
+                             id={userId} /> : <></>
+            }
             <Nav/>
             <div className={styles.page}>
                 {edit === false ? (
@@ -233,6 +247,13 @@ const Team_WriteView = () => {
                                 {reportOrEdit()}
                             </div>
                         </div>
+                        {/* debug: 관리자/일반 전환 */}
+                        <button className={styles.whiteButton}
+                                onClick={() => {
+                                    if(isAdmin === false)
+                                        setIsAdmin(true)
+                                    else setIsAdmin(false)
+                                }}>debug:관리자/일반 전환하기</button>
                     </>
                     ) : (
                     //게시글 수정

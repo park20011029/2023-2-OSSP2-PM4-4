@@ -19,13 +19,13 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
     //데이터를 전송 데이터로 변경
     const modifyData = () => {
         //기존/신규 데이터 partList ID를 리스트화
-        const extractIDList = (object) => {
+        const extractIDList = (list) => {
             let result = [];
-            team_CategoryKOR.map((key) => {
-                object[key].map((element) => {
+            Object.keys(list).forEach((key) => {
+                list[key].map((element) => {
                     if(element.partId !== undefined)
                         result.push(element.partId);
-                });
+                })
             });
             return result;
         }
@@ -33,7 +33,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
         const new_IDList = extractIDList(newData.partList);
 
         //제거된 데이터
-        const removed_List = orig_IDList.filter(id => !new_IDList.includes(id));
+        //const removed_List = orig_IDList.filter(id => !new_IDList.includes(id));
 
         //변경 및 추가된 데이터 처리
         let modified_List = [];
@@ -56,9 +56,9 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                         (item) => item.partName === element.partName
                     );
                     const origElement = origList[origElementIndex];
-                    console.log("origElement:", origElement);
+                    //console.log("origElement:", origElement);
                     if (origElement.maxApplicant !== element.maxApplicant) {
-                        console.log("modified!", element.partId);
+                        //console.log("modified!", element.partId);
                         modified_List.push(element);
                     }
                 }
@@ -69,7 +69,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
         return {
             title: newData.title,
             content: newData.content,
-            removed: removed_List,
+            //removed: removed_List,
             modified: modified_List,
             added: added_List
         };
@@ -77,48 +77,92 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
 
     //debug - 데이터 변경 시
     useEffect(() => {
-        console.log("기존데이터", data);
-        console.log("수정페이지", newData);
+        //console.log("기존데이터", data);
+        //console.log("수정페이지", newData);
     }, [newData]);
 
     const submit = async () => {
-        if(!window.confirm("수정하시겠습니까?")) return;
+        if (!window.confirm("수정하시겠습니까?")) return;
 
-        //적합성 확인
-        if(newData.title === "") {
+        if (newData.title === "") {
             window.alert("제목을 입력해주세요.");
             return;
         }
-        if(newData.partList.length === 0) {
+        /*
+        if (newData.partList.length === 0) {
             window.alert("카테고리는 최소 1개 이상 등록해야 합니다.");
             return;
         }
-        if(newData.content === "") {
+        */
+        if (newData.content === "") {
             window.alert("분문을 입력해주세요.");
             return;
         }
 
+        const transferData = modifyData();
+        const promises = [];
+
+        //추가된 카테고리
+         transferData.added.forEach(async (element) => {
+            try {
+                const response = await axios.post(`/part/${postId}`, element);
+                if (response.status !== 200) {
+                    console.log("모집정보 추가 중 오류 발생!");
+                } else {
+                    console.log("모집정보 추가 완료");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        });
+        //변경된 카테고리
+        transferData.modified.forEach(async (element) => {
+            try {
+                const fixNum = Number(element.maxApplicant);
+                const url = `/part/${element.partId}`;
+                console.log("url:", url);
+                const response = await axios.put(url, {
+                    fixNum: fixNum
+                });
+                if (response.status !== 200) {
+                    console.log("모집정보 변경 중 오류 발생!");
+                } else {
+                    console.log("모집정보 변경 완료");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        });
+        console.log(data.isUsePoint);
+        promises.push(
+            //Todo: error
+            axios.put(`/buildingPost/${postId}`, {
+                title:transferData.title,
+                content:transferData.content,
+                isUsePoint:false //Todo: usePoint수정 불가하도록.
+            }).then(response => {
+                if (response.status === 200) {
+                    console.log("제목 및 내용변경 완료");
+                } else {
+                    console.log("오류 발생: ", response.statusText);
+                }
+            }).catch(error => {
+                console.log("오류 발생: ", error);
+            })
+        );
+
         try {
-            const transferData = modifyData();
-            console.log(transferData);
-            let response;
-            if(postId !== '0') {
-                response = await axios.put(`/buildingPost/${postId}`, transferData);
-            }
-            else if(postId === '0') {
-                response = await axios.put(`/projectPostPost/${postId}`, transferData);
-            }
-            if(response.status === 200) {
-                //성공
-                window.alert("완료되었습니다.");
-                setEdit(false);
-            }
-        } catch(error) {
-            window.alert("오류 발생!", error);
-            console.log(newData);
-            console.error(error);
+            await Promise.all(promises);
+        } catch (error) {
+            window.alert("오류!");
+            console.log("오류 발생: ", error);
+            return;
         }
-    }
+        window.alert("완료되었습니다.");
+        setEdit(false);
+        window.location.reload();
+    };
+
 
     const updateData = (key, list) => {
         setNewData((prevData) => ({
@@ -132,7 +176,8 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
     //카테고리 - 목록에서 추가
     const addCategory = (key, part, applicant) => {
         const innerKey = team_CategoryTrans[key];
-        const selectedIndex = newData.partList[innerKey].findIndex(
+        const pList = newData.partList[innerKey] || [];
+        const selectedIndex = pList.findIndex(
             (item) => item.partName === part
         );
         if(selectedIndex !== -1) {
@@ -164,7 +209,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
     };
     //카테고리 - 최대인원 수정
     const handleMaxChange = (key, element) => (e) => {
-        const newMax = e.target.value;
+        const newMax = Number(e.target.value);
         if (newMax < element.currentApplicant) {
             window.alert("최대 인원은 모집된 인원보다 작을 수 없습니다!");
             return;
@@ -224,17 +269,20 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                                 <td>
                                     <select onChange={handleMaxChange(key, element)} value={element.maxApplicant}>
                                         {Array.from({ length: 9 }, (_, index) => (
-                                            <option key={index + 1} value={Number(index + 1)}>
+                                            <option key={index + 1} value={index + 1}>
                                                 {index + 1}
                                             </option>
                                         ))}
                                     </select>
                                 </td>
                                 <td>
-                                    <button className={styles.remove}
-                                        onClick={() => removeCategory(key, element)}>
-                                        삭제
-                                    </button>
+                                    {element.currentApplicant === 0 ?
+                                        <button className={styles.remove}
+                                                onClick={() => removeCategory(key, element)}>
+                                            삭제
+                                        </button>
+                                        : <></>
+                                    }
                                 </td>
                                 </tr>
                             )));
