@@ -1,0 +1,57 @@
+.page {
+    display:flex;
+    flex-direction: column;
+    margin: 30px;
+    width:75%;
+}
+
+.targetImg {
+    width:100px;
+    height:100px;
+}
+
+.targetName {
+    font:25px black bold;
+    padding-bottom:10px;
+    border-bottom: 2px black solid;
+    margin-bottom:20px;
+}
+
+.chatLog {
+    min-height:200px;
+    border:2px black solid;
+    border-radius:5px;
+    background:lightskyblue;
+}
+
+/* 채팅 로그 */
+.chatDate {
+    display:flex;
+    justify-content: center;
+}
+.chatMyChat {
+    display:flex;
+    justify-content: flex-end;
+}
+.chatNotMyChat {
+    display:flex;
+    justify-content: flex-start;
+}
+.chatMyTime {
+    display:flex;
+    justify-content: flex-end;
+}
+.chatNotMyTime {
+    display:flex;
+    justify-content: flex-start;
+}
+
+.chatInput {
+    display:flex;
+    justify-content: center;
+    width:100%;
+}
+.chatInput input {
+    margin: 0;
+    width:90%;
+}

@@ -1,9 +1,10 @@
 //채팅 목록 페이지
-import Nav from "../layout/Nav";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../layout/Footer";
-import {useState} from "react";
+import Nav from "../layout/Nav";
 import styles from "./ChatListPage.module.css";
-import {useNavigate} from "react-router-dom";
 
 const dummy = [
     {
@@ -22,14 +23,16 @@ const dummy = [
 
 const ChatListPage = () => {
     const navigate = useNavigate();
+    const userId = 1; //Todo: userId
     const [chatList, setChatList] = useState(dummy);
-    //기본 데이터 가져옴
+
+    //채팅 목록 데이터
     useState(() => {
         const getChatList = async() => {
             try {
-                let response;
-                //Todo: 데이터 요청
-                const temp = 1/0;
+                const response = await axios.get(`/chat/list/${userId}`);
+                const jsonData = response.data.responseDto;
+                setChatList(jsonData);
             } catch(error) {
                 console.log(error);
             }
