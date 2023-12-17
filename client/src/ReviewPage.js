@@ -32,7 +32,7 @@ function ReviewPage(){
                 <div className="reviews">
                     <div className="review-header">
                         <div className="star-ratings">
-                            <StarRate value={(score) * 20} />
+                            <StarRate value={score * 10} />
                         </div>
                         <div className="reviewedUser">To : {reviewer}</div>
                         <div className="reviewedUser">From : {reviewee}</div>
