@@ -31,7 +31,7 @@ public class UserService {
     private final ResumeRepository resumeRepository;
     private final S3UploadUtil s3UploadUtil;
     private final ImageRepository imageRepository;
-    @Transactional
+
     public Long createUser(UserRequestDto userRequestDto, MultipartFile file) {
 
         if (userRepository.existsByEmail(userRequestDto.getEmail())) {
@@ -78,7 +78,6 @@ public class UserService {
                 .build();
     }
 
-    @Transactional
     public Boolean updateUserProfile(Long userId, UserRequestDto userRequestDto) {
         User user = userRepository
                         .findById(userId)
@@ -99,7 +98,23 @@ public class UserService {
         return true;
     }
 
-    @Transactional
+    public Boolean updateUserImage(Long userId, MultipartFile file) {
+        User user = userRepository
+                .findByUserWithImage(userId)
+                .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
+
+        String url = s3UploadUtil.upload(file, "pm4/");
+        Image newImage = Image.builder()
+                .url(url)
+                .uploader(user)
+                .build();
+        imageRepository.save(newImage);
+
+        user.updateImage(newImage);
+
+        return true;
+    }
+
     public Boolean withdrawUser(Long userId) {
         User user = userRepository
                         .findById(userId)
@@ -117,8 +132,16 @@ public class UserService {
         return true;
     }
 
-    @Transactional
     public Boolean existNickName(String nickName){
         return userRepository.existsByNickName(nickName);
+    }
+
+    public Boolean signOut(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
+
+        user.signOutUser();
+
+        return true;
     }
 }
