@@ -1,0 +1,12 @@
+#resumeModifyButton {
+    margin-top: 20px;
+    border: 1px solid rgb(168, 219, 255);
+    border-radius: 10px;
+    padding: 8px 15px 8px 15px;
+    background-color: rgb(168, 219, 255);
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
+#resumeModifyButton:hover {
+    background-color: rgb(123, 196, 249);
+}

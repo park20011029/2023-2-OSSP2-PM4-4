@@ -1,5 +1,7 @@
 package project.manager.server.service;
 
+import static project.manager.server.enums.Constant.REVIEW_POINT;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -128,7 +130,7 @@ public class ReviewService {
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         review.updateReview(reviewRequestDto.getContent(), reviewRequestDto.getScore());
-        review.getReviewer().updatePoint(review.getReviewer().getPoint() + Review.REVIEW_POINT);
+        review.getReviewer().updatePoint(review.getReviewer().getPoint() + REVIEW_POINT);
 
         return true;
     }

@@ -2,6 +2,9 @@ package project.manager.server.domain.report;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +14,11 @@ import org.hibernate.annotations.DynamicUpdate;
 import project.manager.server.domain.User;
 import project.manager.server.domain.resume.Resume;
 import project.manager.server.enums.ReportReason;
+
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "USER_REPORT_TB")
+@Table(name = "RESUME_REPORT_TB")
 @DynamicUpdate
 public class ResumeReport {
     @Id
@@ -28,7 +32,10 @@ public class ResumeReport {
 
     @Lob
     @Column(name = "description", nullable = false)
-    private Long description;
+    private String description;
+
+    @Column(name = "create_at")
+    private Timestamp createAt;
 
     // -------------------------------------------------------------------
 
@@ -37,13 +44,22 @@ public class ResumeReport {
     private User reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "defendant_id")
+    private User defendant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id")
     private Resume reportedResume;
 
+    // -------------------------------------------------------------------
+
     @Builder
-    public ResumeReport(ReportReason reportReason, User reporter, Resume reportedResume) {
+    public ResumeReport(ReportReason reportReason, String description, User reporter, User defendant, Resume reportedResume) {
         this.reportReason = reportReason;
+        this.description = description;
         this.reporter = reporter;
+        this.defendant = defendant;
         this.reportedResume = reportedResume;
+        this.createAt = Timestamp.valueOf(LocalDateTime.now());
     }
 }

@@ -1,0 +1,16 @@
+.reward{
+    margin-bottom: 80px;
+}
+#cash{
+    margin: 50px auto;
+}
+.myReward{
+    margin: 10px auto;
+    padding: 8px;
+    width: 25%;
+    border: 1px solid black;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
