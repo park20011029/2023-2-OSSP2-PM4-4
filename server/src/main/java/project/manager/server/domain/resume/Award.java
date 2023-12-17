@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import project.manager.server.domain.Image;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -30,6 +32,10 @@ public class Award {
     @Column(name = "award_type", nullable = false)
     private String awardType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userimage_id")
+    private Image awardImage;
+
     // -------------------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,16 +45,12 @@ public class Award {
     // -------------------------------------------------------------------
 
     @Builder
-    public Award(String competition, LocalDate awardYear, String awardType, Resume resume) {
+    public Award(String competition, LocalDate awardYear, String awardType, Resume resume, Image awardImage) {
         this.resume = resume;
+        this.awardImage = awardImage;
         this.competition = competition;
         this.awardYear = awardYear;
         this.awardType = awardType;
     }
 
-    public void updateAward(String competition, LocalDate awardYear, String awardType) {
-        this.competition = competition;
-        this.awardYear = awardYear;
-        this.awardType = awardType;
-    }
 }

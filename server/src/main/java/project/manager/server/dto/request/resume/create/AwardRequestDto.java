@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AwardRequestDto {
 
+    @NotNull
+    private Long userId;
+
     @NotNull(message = "[Award Request] Competition name can not be null")
     private String competition;
 

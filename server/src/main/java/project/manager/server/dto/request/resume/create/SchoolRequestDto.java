@@ -13,6 +13,9 @@ import project.manager.server.enums.SchoolRegister;
 @NoArgsConstructor
 public class SchoolRequestDto {
 
+    @NotNull
+    private Long userId;
+
     @NotNull(message = "[School Request] School name can not be null")
     String name;
 

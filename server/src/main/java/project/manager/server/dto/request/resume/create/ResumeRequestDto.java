@@ -35,8 +35,5 @@ public class ResumeRequestDto {
     private List<ProjectRequestDto> projects;
 
     @Valid
-    private List<AwardRequestDto> awards;
-
-    @Valid
     private List<TechStackRequestDto> techStacks;
 }

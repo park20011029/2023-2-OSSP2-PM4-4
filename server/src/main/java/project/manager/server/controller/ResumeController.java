@@ -7,6 +7,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.request.report.ResumeReportRequestDto;
@@ -15,6 +16,7 @@ import project.manager.server.dto.request.resume.create.ProjectRequestDto;
 import project.manager.server.dto.request.resume.create.ResumeRequestDto;
 import project.manager.server.dto.request.resume.create.TechStackRequestDto;
 import project.manager.server.dto.request.resume.update.ResumeUpdateDto;
+import project.manager.server.dto.request.resume.update.SchoolUpdateDto;
 import project.manager.server.service.report.ResumeReportService;
 import project.manager.server.service.resume.*;
 
@@ -28,14 +30,16 @@ public class ResumeController {
     private final TechStackService techStackService;
     private final AwardService awardService;
     private final ResumeReportService resumeReportService;
+    private final SchoolService schoolService;
 
-    //이력서 생성
+    //이력서 생성 file은 학교 파일
     @PostMapping("/{userId}")
     public ResponseDto<Long> creatResume(
             @PathVariable Long userId,
-            @Valid @RequestBody ResumeRequestDto resumeRequestDto) {
+            @Valid @RequestBody ResumeRequestDto resumeRequestDto,
+            @RequestParam("file") MultipartFile file) {
 
-        return new ResponseDto<>(resumeService.createResume(userId, resumeRequestDto));
+        return new ResponseDto<>(resumeService.createResume(userId, resumeRequestDto, file));
     }
 
     //이력서 읽어오기
@@ -67,12 +71,22 @@ public class ResumeController {
     @PostMapping("/award/{resumeId}")
     public ResponseDto<Long> addAward(
             @PathVariable Long resumeId,
-            @Valid @RequestBody AwardRequestDto awardRequestDto) {
+            @Valid @RequestBody AwardRequestDto awardRequestDto,
+            @RequestParam("file") MultipartFile file) {
 
-        return new ResponseDto<>(awardService.addAward(resumeId, awardRequestDto));
+        return new ResponseDto<>(awardService.addAward(resumeId, awardRequestDto, file));
     }
 
-    @PostMapping("/report")
+    //이력서 수정에서 학교이력 수정할 때 사용
+    @PutMapping("/school")
+    public ResponseDto<Boolean> updateSchool(
+            @Valid @RequestBody SchoolUpdateDto schoolUpdateDto,
+            @RequestParam("file") MultipartFile file) {
+
+        return new ResponseDto<>(schoolService.updateSchool(schoolUpdateDto, file));
+    }
+
+        @PostMapping("/report")
     public ResponseDto<Boolean> resumeReport(@Valid @RequestBody ResumeReportRequestDto resumeReportRequestDto) {
 
         return new ResponseDto<>(resumeReportService.creatResumeReport(resumeReportRequestDto));
