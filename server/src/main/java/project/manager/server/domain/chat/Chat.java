@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import lombok.*;
 
 import org.hibernate.annotations.CreationTimestamp;
+
 import project.manager.server.domain.User;
 
 @Getter

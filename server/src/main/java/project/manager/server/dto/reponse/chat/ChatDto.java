@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import project.manager.server.domain.chat.Chat;
-import project.manager.server.domain.chat.ChatRoom;
 
 @Getter
 @AllArgsConstructor
