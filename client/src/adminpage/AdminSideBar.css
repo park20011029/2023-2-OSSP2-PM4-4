@@ -1,0 +1,9 @@
+#adminInfo {
+    border-bottom: 1px solid rgba(53, 52, 52, 0.6);
+}
+#adminInfo .userData{
+    padding: 20px;
+}
+#adminInfo img{
+    margin: 0 auto 15px auto;
+}

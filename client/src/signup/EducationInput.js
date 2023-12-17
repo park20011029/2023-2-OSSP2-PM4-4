@@ -1,3 +1,4 @@
+import './EducationInput.css';
 function EducationInput({school, major, eduState, setSchool, setMajor, setEduState}) {
 
   return (

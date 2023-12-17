@@ -50,7 +50,7 @@
     box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
     border: 3px solid rgb(252, 85, 85);
 }
-#space{
+.space{
     margin-top: 30px;
 }
 .container-body{

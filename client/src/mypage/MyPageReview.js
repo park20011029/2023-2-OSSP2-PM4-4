@@ -110,7 +110,7 @@ function MyPageReview() {
                                                         />
                                                     </div>
                                                     <div className="reviewedUser">{item.reviewer}</div>
-                                                    <div className="reviewedDate">2023-11-10</div>
+                                                    <div className="reviewedDate">{item.createDate}</div>
                                                 </div>
                                                 <div className="review-body">{item.content}</div>
                                             </div>
@@ -140,10 +140,9 @@ function MyPageReview() {
                                                     <div className="star-ratings">
                                                         {console.log(item.score)}
                                                         <StarRate value={(item.score) * 20} />
-
                                                     </div>
                                                     <div className="reviewedUser">{item.reviewer}</div>
-                                                    <div className="reviewedDate">2023-11-10</div>
+                                                    <div className="reviewedDate">{item.createDate}</div>
                                                 </div>
                                                 <div className="review-body">{item.content}</div>
                                             </div>

@@ -37,7 +37,7 @@ const Nav = () => {
                       navigate("/");
                     }}
                 >
-                  <p className="border-[2px] border-[#000000] rounded-full p-[14px] text-[20px] text-blue-400 font-bold">
+                  <p className="border-[#000000] rounded-full p-[14px] text-[20px] text-blue-400 font-bold">
                     PM4
                   </p>
                 </button>
@@ -108,8 +108,8 @@ const Nav = () => {
               <div className="flex items-center ml-[30px]">
                 {localStorage.getItem('isLoggedIn')? (<button
                     onClick={() => {
-                      navigate("/my_page");
-                      //navigate("/admin_post_request");
+                      //navigate("/my_page");
+                      navigate("/admin_contest_report");
                     }}
                 >
                   <MyPageIcon></MyPageIcon>
