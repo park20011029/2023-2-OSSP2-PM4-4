@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import project.manager.server.domain.chat.Chat;
+import project.manager.server.domain.chat.ChatRoom;
 import project.manager.server.domain.post.building.Apply;
 import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.domain.post.contest.ContestPost;
@@ -66,8 +68,8 @@ public class User {
 
     // -------------------------------------------------------------------
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
-    private List<ContestPost> contestPosts;
+//    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+//    private List<ContestPost> contestPosts;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<BuildingPost> buildingPosts;
@@ -80,6 +82,15 @@ public class User {
 
     @OneToMany(mappedBy = "reviewee", fetch = FetchType.LAZY)
     private List<Review> revieweeList;
+
+    @OneToMany(mappedBy = "receiverId", fetch = FetchType.LAZY)
+    private List<ChatRoom> userList;
+
+    @OneToMany(mappedBy = "postWriterId", fetch = FetchType.LAZY)
+    private List<ChatRoom> postWriterList;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    private List<Chat> senderList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userimage_id")
