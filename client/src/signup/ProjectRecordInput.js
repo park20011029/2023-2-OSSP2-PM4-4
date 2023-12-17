@@ -48,7 +48,7 @@ function ProjectRecordInput({projects, projectName, description, gitAddress, set
                 const response = await axios.get(`/resume/${resumeId}`);
                 if(response.status === 200){
                     response.data.responseDto.projects.forEach((each)=>{
-                        if(each.id === subtraction.id){
+                        if(each.projectName === subtraction.projectName){
                             const response = axios.delete(`/resume/project/${each.id}`);
                         }
                     })

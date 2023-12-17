@@ -41,8 +41,9 @@ const List_PageNumber = ({pageInfo, setPageInfo}) => {
             );
 
             for (let i = left; i <= right; i++) {
+                const isCurrentPage = i === pageInfo.pageNumber;
                 newPageNumbers.push(
-                    <button key={i} onClick={() => setPageInfo({ ...pageInfo, pageNumber: i })}>
+                    <button key={i} onClick={() => setPageInfo({ ...pageInfo, pageNumber: i })} className={` ${isCurrentPage ? 'text-blue-500' : ''}`}>
                         {i}
                     </button>
                 );

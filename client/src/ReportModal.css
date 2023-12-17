@@ -1,0 +1,9 @@
+.modal-overlay .reportChecks{
+    padding: 10px;
+}
+#reportReasons{
+    margin-bottom: 20px;
+}
+.reportChecks input{
+    margin: 0 5px 0 0;
+}
