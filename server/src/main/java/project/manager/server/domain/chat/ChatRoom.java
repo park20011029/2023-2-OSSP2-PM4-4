@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
+import project.manager.server.domain.User;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,19 +22,22 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+   //-------------------------------------
 
-    @Column(name = "postwriter_Id", nullable = false)
-    private Long postWriterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User receiverId;
 
-    @Column(name = "room_name")
-    private String roomName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_writer_id")
+    private User postWriterId;
+
+    @OneToMany(mappedBy = "chatRoomId", fetch = FetchType.LAZY)
+    private List<Chat> chatList;
 
     @Builder
-    public ChatRoom(Long userId, Long postWriterId, String roomName) {
-        this.userId = userId;
+    public ChatRoom(User user, User postWriterId) {
+        this.receiverId = user;
         this.postWriterId = postWriterId;
-        this.roomName = roomName;
     }
 }
