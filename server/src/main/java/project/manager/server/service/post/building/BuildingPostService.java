@@ -2,7 +2,6 @@ package project.manager.server.service.post.building;
 
 import static project.manager.server.enums.Constant.BUILDING_POST_POINT;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -28,6 +27,7 @@ import project.manager.server.dto.reponse.post.building.BuildingTitleDto;
 import project.manager.server.dto.reponse.post.building.PartDto;
 import project.manager.server.dto.request.post.building.BuildingPostRequestDto;
 import project.manager.server.dto.request.post.building.BuildingPostUpdateDto;
+import project.manager.server.enums.Constant;
 import project.manager.server.enums.PartState;
 import project.manager.server.exception.ApiException;
 import project.manager.server.exception.ErrorDefine;
@@ -203,7 +203,7 @@ public class BuildingPostService {
         if (updateDto.isUsePoint()) {
             if (buildingPost.getWriter().getPoint() < BUILDING_POST_POINT) {
                 throw new RuntimeException("포인트도 없는게 돌아가라");
-            } if (!buildingPost.getUpperDate().equals(LocalDate.MIN)) {
+            } if (!buildingPost.getUpperDate().equals(Constant.MYSQL_MIN_DATE)) {
                 throw new RuntimeException("수정 못함");
             }
             buildingPost.upperPost();

@@ -25,8 +25,8 @@ public class UserController {
     //회원가입시
     @PostMapping("/signup")
     public ResponseDto<Long> userSignUp(
-            @Valid @RequestBody UserRequestDto userRequestDto,
-            @RequestParam("file") MultipartFile file) {
+            @Valid @RequestPart UserRequestDto userRequestDto,
+            @RequestPart MultipartFile file) {
 
         return new ResponseDto<>(userService.createUser(userRequestDto, file));
     }
@@ -62,7 +62,7 @@ public class UserController {
     @PutMapping("/userImage/{userId}")
     public ResponseDto<Boolean> updaterProfileImage(
             @PathVariable Long userId,
-            @RequestParam("file") MultipartFile file) {
+            @RequestPart MultipartFile file) {
 
         return new ResponseDto<>(userService.updateUserImage(userId, file));
     }
