@@ -7,6 +7,7 @@
 .title {
     display:flex;
     flex-direction: column;
+    justify-content: space-between;
     margin-top:30px;
     margin-bottom: 20px;
 }
@@ -17,16 +18,12 @@
 .titleInput {
     border: 1px black solid;
     border-radius: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
+    width:100%;
+    margin-left:0;
+    margin-bottom: 0;
 }
 
 /* 모집 카테고리 선택 */
-.title {
-    font: 20px bold;
-    margin-bottom: 20px;
-}
 .criteria {
     border: 2px black solid;
     border-radius: 5px;
@@ -83,6 +80,64 @@
     background-color: transparent;
 }
 
+th {
+    padding: 5px 30px;
+    text-align: center;
+}
+tbody tr {
+    border:1px black solid;
+}
+td {
+    padding:10px;
+    text-align: center;
+}
+td select {
+    margin:0px;
+}
+/* 팀원 모집글 */
+.categoryDropdown {
+
+}
+.categoryDropdown select {
+    width: 20%;
+    white-space: nowrap;
+}
+.criteria button {
+    padding:3px;
+    border:1px black solid;
+    border-radius: 5px;
+}
+.selectedBox {
+    margin-bottom:10px;
+}
+.selectedBox label {
+    font:20px black bold;
+}
+
+.selectedRow {
+    display:flex;
+    flex-direction: row;
+}
+.selectedRow label {
+    display:flex;
+    font:17px black bold;
+    padding-right: 10px;
+    margin-bottom:20px;
+    align-items: center;
+}
+.selectedRow button {
+    display:flex;
+    align-items: center;
+    margin-left:10px;
+    margin-bottom:20px;
+}
+.selectedRow .l1 {
+    width:20%;
+}
+.selectedRow .l2 {
+    width:20%;
+}
+
 /* 작성 본문 */
 .body {
     min-height: 50vh;
@@ -132,6 +187,12 @@
 }
 .submit {
     background-color: lightblue;
+}
+.remove {
+    border: 2px red solid;
+    padding: 5px 10px;
+    background: #FA6161FF;
+    margin-left: 20px;
 }
 
 /* 공모전 글쓰기 - 요약 */

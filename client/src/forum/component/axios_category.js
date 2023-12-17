@@ -71,11 +71,18 @@ export const contest_getCategoryAll = async (list) => {
 export const team_CategoryList = ["FRONT", "BACK", "AI", "ETC"];
 export const team_CategoryKOR = ["Front-End", "Back-End", "AI", "기타"];
 export const team_CategoryTrans = {
-    FRONT: "Front-end",
-    BACK: "Back-end",
-    AI: "AI",
-    ETC: "기타"
-};
+    FRONT:"Front-End",
+    BACK:"Back-End",
+    AI:"AI",
+    ETC:"기타"
+}
+export const team_CategoryBackTrans = {
+    "Front-End":"FRONT",
+    "Back-End":"BACK",
+    "AI":"AI",
+    "기타":"ETC"
+}
+
 export const team_CategoryDetail = {
     FRONT:["React", "Vue.js", "Angular"],
     BACK:["Spring", "Django", "Ruby"],
