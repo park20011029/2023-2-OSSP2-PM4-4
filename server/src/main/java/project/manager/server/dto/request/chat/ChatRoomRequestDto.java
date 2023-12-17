@@ -1,4 +1,4 @@
-package project.manager.server.dto.request;
+package project.manager.server.dto.request.chat;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -15,8 +15,5 @@ public class ChatRoomRequestDto {
 
     @NotNull
     private Long postWriterId;
-
-    @NotNull
-    private String roomName;
 
 }

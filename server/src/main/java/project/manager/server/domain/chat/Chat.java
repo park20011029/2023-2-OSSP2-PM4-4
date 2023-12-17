@@ -1,23 +1,19 @@
 package project.manager.server.domain.chat;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 import lombok.*;
 
 import org.hibernate.annotations.CreationTimestamp;
+import project.manager.server.domain.User;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 public class Chat {
     @Id
@@ -26,14 +22,6 @@ public class Chat {
     //채팅 아이디
     private int id;
 
-    //채팅방 아이디
-    @Column
-    private Long chatRoomId; // matching Id
-
-    //보낸 사람
-    @Column
-    private Long sender;
-
     @Column
     private String content;
 
@@ -41,4 +29,22 @@ public class Chat {
     @CreationTimestamp
     @Column
     private LocalDateTime sendDate;
+
+    //-------------------------------------
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoomId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender")
+    private User sender;
+
+    @Builder
+    public Chat(ChatRoom chatRoomId, String content, User sender ){
+        this.chatRoomId = chatRoomId;
+        this.content = content;
+        this.sender = sender;
+    }
+
 }

@@ -30,7 +30,7 @@ const ChatLog = ({ chatLog, setNewMessage, submit }) => {
         chatLog.map((element, index) => {
             try {
                 console.log("element:", element);
-                let temp = element.timestamp.split('T');
+                let temp = element.sendDate.split('T');
                 const date = temp[0];
                 temp = temp[1].split(':');
                 const time = temp[0] + ':' + temp[1];
@@ -41,8 +41,8 @@ const ChatLog = ({ chatLog, setNewMessage, submit }) => {
                 }
 
                 //채팅
-                let chatClassName = element.isSentByMe ? styles.chatMyChat : styles.chatNotMyChat;
-                log.push(<div className={chatClassName}>{element.text}</div>);
+                let chatClassName = element.sender===1 ? styles.chatMyChat : styles.chatNotMyChat;
+                log.push(<div className={chatClassName}>{element.content}</div>);
 
                 //시간 처리
                 if (
