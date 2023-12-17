@@ -53,7 +53,7 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
 
             {writeList.map((item, index) => (
                 <div className={styles.item} key={index}
-                     onClick={() => navigate(`/teamWriteView/${item.number}`)}>
+                     onClick={() => navigate(`/TeamWriteView/${item.number}`)}>
                     <label className={styles.title}>{item.title}</label>
                     <label className={styles.writer}>{item.name}</label>
                     <label className={styles.date}>{item.date}</label>
@@ -63,9 +63,9 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
             <div className={styles.writeButton}>
                 <button onClick={()=>{
                     if(listData.type === "contestPost")
-                        navigate(`/teamWritePost/${listData.id}`);
+                        navigate(`/TeamWritePost/${listData.id}`);
                     else
-                        navigate(`/teamWritePost/0`);
+                        navigate(`/TeamWritePost/0`);
                 }}>글쓰기</button>
             </div>
             <div className={styles.pageNumber}>

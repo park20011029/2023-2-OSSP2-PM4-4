@@ -6,6 +6,7 @@ import axios from "axios";
 import {Cash} from "../Cash";
 
 const Nav = () => {
+  const rootURL = 'http://localhost:3000';
   const navigate = useNavigate();
   const [point, setPoint] = useState(null);
   const handleLogout = () => {
@@ -15,6 +16,16 @@ const Nav = () => {
     localStorage.removeItem('isLoggedIn');
     navigate('/');
   };
+
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+
+  // 새 창의 크기를 화면 크기의 50%로 설정하고, 가운데 정렬
+  const newWindowWidth = screenWidth * 0.5;
+  const newWindowHeight = screenHeight * 0.5;
+  const leftPos = (screenWidth - newWindowWidth) / 2;
+  const topPos = (screenHeight - newWindowHeight) / 2;
+
   const getPoint = async() =>{
     try{
       const response = await axios.get(`/user/${localStorage.getItem('userId')}`);
@@ -79,9 +90,9 @@ const Nav = () => {
               </div>
               <div className="flex items-center ml-[30px]">
                 <button
-                    onClick={() => {
-                      navigate("/chat_list");
-                    }}
+                    onClick={() =>
+                      window.open(`http://localhost:3000/chat_list`, "ChatListPage", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`)
+                    }
                 >
                   <ChatIcon></ChatIcon>
                 </button>

@@ -14,11 +14,13 @@ import defaultImage from "../assets/default.png";
 const write = {
     image: 'forum_test.png',
     title: '엘리스 코드 챌린지',
-    area: 'IT',
-    host: '일반기업',
-    startDate: '2023년 10월 26일',
-    endDate: '2023년 11월 24일',
+    category: 'IT',
+    target:"타겟",
+    organization:"일반기업",
+    startAt: '2023년 10월 26일',
+    endAt: '2023년 11월 24일',
     scale: '1천 ~ 3천',
+    benefit:'돈',
     detail: (
         <div className="ProseMirror prose-headings:font-display prose-base md:prose-lg break-keep break-words tracking-[-0.004em] py-10 focus:outline-none">
             <h2><strong><span style={{ color: '#9333EA' }}>/*elice*/<br/>Code Challenge</span></strong></h2>

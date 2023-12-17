@@ -62,6 +62,9 @@ const Team_WritePost = () => {
         console.log("데이터 변경됨", data);
     }, [data]);
 
+    useEffect(() => {
+        console.log("postId:", postId);
+    }, []);
 
     //Todo: UserId, 리워드 처리
     const submit = async () => {
@@ -84,7 +87,9 @@ const Team_WritePost = () => {
         try {
             let response;
             if(postId !== '0') {
-                response = await axios.post(`/buildingPost/${postId}`, data);
+                const url = `/buildingPost/${postId}`;
+                console.log(url);
+                response = await axios.post(url, data);
             }
             else if(postId === '0') {
                 response = await axios.post(`/projectPostPost`, data);
