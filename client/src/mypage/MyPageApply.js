@@ -77,7 +77,7 @@ function MyPageApply() {
                                 ))
                             ):(<div className="post-none">지원 내역이 없습니다.</div>)}
                             {applyList.length ? (
-                                <div id="space"><List_PageNumber
+                                <div className="space"><List_PageNumber
                                     pageInfo={applyPageInfo}
                                     setPageInfo={setApplyPageInfo}
                                 /></div>
