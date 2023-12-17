@@ -97,8 +97,7 @@ function MyPageReview() {
                                             <div key={index} className="reviews">
                                                 <div className="review-header">
                                                     <div className="star-ratings">
-                                                        <StarRate value={(item.score) * 20} />
-
+                                                        <StarRate value={(item.score)* 10} />
                                                     </div>
                                                     <div className="report">
                                                         <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
@@ -110,7 +109,7 @@ function MyPageReview() {
                                                         />
                                                     </div>
                                                     <div className="reviewedUser">{item.reviewer}</div>
-                                                    <div className="reviewedDate">2023-11-10</div>
+                                                    <div className="reviewedDate">{item.createDate}</div>
                                                 </div>
                                                 <div className="review-body">{item.content}</div>
                                             </div>
@@ -138,12 +137,10 @@ function MyPageReview() {
                                             <div key={index} className="reviews">
                                                 <div className="review-header">
                                                     <div className="star-ratings">
-                                                        {console.log(item.score)}
-                                                        <StarRate value={(item.score) * 20} />
-
+                                                        <StarRate value={item.score * 10}/>
                                                     </div>
                                                     <div className="reviewedUser">{item.reviewer}</div>
-                                                    <div className="reviewedDate">2023-11-10</div>
+                                                    <div className="reviewedDate">{item.createDate}</div>
                                                 </div>
                                                 <div className="review-body">{item.content}</div>
                                             </div>

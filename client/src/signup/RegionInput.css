@@ -1,3 +1,9 @@
 #regionBox label{
     margin-left: 8px;
 }
+#regionBox select{
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 3px 4px;
+    margin: 0 20px 20px 20px;
+}

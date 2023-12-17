@@ -6,6 +6,7 @@ import axios from "axios";
 function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰면 리뷰 데이터, 이력서면 이력서 데이터 등
     const [targetNickName, setTargetNickName] = useState(null);
     const [targetId, setTargetId] = useState(null);
+    const [title, setTitle] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
     const [description, setDescription] = useState("");
     const handleOptionChange = (e) => {
@@ -13,8 +14,26 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
     };
     useEffect(() => {
         if(category ==='리뷰'){
-             setTargetId(item.reviewerId);
-             setTargetNickName(item.reviewer);
+            setTargetId(item.reviewerId);
+            setTargetNickName(item.reviewer);
+        }
+        else if(category ==='공모전'){
+            setTargetId(item.writerId);
+            setTitle(item.title);
+        }
+        else if(category ==='빌딩'){
+            setTargetId(item.writerId);
+            setTitle(item.title);
+            setTargetNickName(item.writer);
+        }
+        else if(category ==='유저'){
+            setTargetId(item.targetId);
+            setTargetNickName(item.targetNickName);
+        }
+        else if(category ==='이력서'){
+            setTargetId(item.targetId);
+            setTargetNickName(item.targetNickName);
+            //신고자 아이디
         }
         if (!showModal) {
             setSelectedOption(null); // 모달이 닫힐 때 체크박스 초기화
@@ -32,7 +51,7 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
                     reportReason: selectedOption,
                     reporterId:localStorage.getItem('userId'),
                     defendantId:targetId,
-                    reviewId:item.reviewId,
+                    reviewId:item.reviewId, //item.postId
                 })
                 if(response.status === 200){
                     window.alert("신고가 완료되었습니다.");
@@ -42,7 +61,77 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
             }catch(error){
                 console.error('error reporting review : error');
             }
-
+        }
+        else if(category==='공모전'){
+            try{
+                const response = await axios.post('/contestPost/report', {
+                    description: description,
+                    reportReason: selectedOption,
+                    reporterId:localStorage.getItem('userId'),
+                    defendantId:targetId,
+                    contestPostId:item.postId, //item.postId
+                })
+                if(response.status === 200){
+                    window.alert("신고가 완료되었습니다.");
+                    onClose();
+                    window.location.reload();
+                }
+            }catch(error){
+                console.error('error reporting contest post : error');
+            }
+        }
+        else if(category==='빌딩'){
+            try{
+                const response = await axios.post('/buildingPost/report', {
+                    description: description,
+                    reportReason: selectedOption,
+                    reporterId:localStorage.getItem('userId'),
+                    defendantId:targetId,
+                    contestPostId:item.postId, //item.postId
+                })
+                if(response.status === 200){
+                    window.alert("신고가 완료되었습니다.");
+                    onClose();
+                    window.location.reload();
+                }
+            }catch(error){
+                console.error('error reporting building post : error');
+            }
+        }
+        else if(category==='유저'){
+            try{
+                const response = await axios.post('/user/report', {
+                    description: description,
+                    reportReason: selectedOption,
+                    reporterId:localStorage.getItem('userId'),
+                    defendantId:targetId,
+                })
+                if(response.status === 200){
+                    window.alert("신고가 완료되었습니다.");
+                    onClose();
+                    window.location.reload();
+                }
+            }catch(error){
+                console.error('error reporting user : error');
+            }
+        }
+        else if(category === '이력서'){
+            try{
+                const response = await axios.post('/buildingPost/report', {
+                    description: description,
+                    reportReason: selectedOption,
+                    reporterId:localStorage.getItem('userId'),
+                    defendantId:targetId,
+                    resumeId:item.resumeId, //item.postId
+                })
+                if(response.status === 200){
+                    window.alert("신고가 완료되었습니다.");
+                    onClose();
+                    window.location.reload();
+                }
+            }catch(error){
+                console.error('error reporting resume : error');
+            }
         }
     }
     return (
@@ -57,7 +146,7 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
             </span>
                     </div>
                     <div id="reportModalBody" className="modal-body">
-                        <p>신고 대상 : &nbsp;&nbsp;&nbsp;{targetNickName}<br/><br/></p>
+                        <p>신고 대상 : &nbsp;&nbsp;&nbsp;{title ? ({title}):("")}{targetNickName}<br/><br/></p>
                         <p>신고 항목 : &nbsp;&nbsp;&nbsp;{category}<br/><br/></p>
                         <p>신고 사유 : </p><br/>
                         <div id="reportReasons">

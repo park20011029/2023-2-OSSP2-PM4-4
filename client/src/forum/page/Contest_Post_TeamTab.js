@@ -1,12 +1,12 @@
 //공모전 팀원모집 게시글 리스트
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../css/Contest_Post_TeamTab.module.css"
 import List_Projects from "../component/List_Projects";
 
-const Contest_Post_TeamTab = ({id}) => {
+const Contest_Post_TeamTab = ({contestPostId}) => {
     const [listData, setListData] = useState({
         type:"contestPost",
-        id: id
+        id: contestPostId
     })
     //게시글 페이지 정보
     const [pageInfo, setPageInfo] = useState({

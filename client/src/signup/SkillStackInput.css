@@ -7,7 +7,10 @@
     margin: 0 0 20px 0;
 }
 #skillBox select{
-    margin-left: 0;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 3px 4px;
+    margin: 0 20px 20px 0;
 }
 .list .flex-container {
     justify-content: left;

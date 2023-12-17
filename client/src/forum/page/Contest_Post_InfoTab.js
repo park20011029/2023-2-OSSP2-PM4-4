@@ -1,6 +1,5 @@
 //공모전 정보 게시글 상세
 import React, {useEffect, useState} from "react";
-import { renderToString } from "react-dom/server";
 import { useParams } from "react-router-dom";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
@@ -9,16 +8,20 @@ import styles from "../css/Contest_Post_InfoTab.module.css";
 import axios from "axios";
 import {contest_CategoryTrans} from "../component/axios_category";
 import defaultImage from "../assets/default.png";
+import {Siren} from "../../Siren";
+import ReportModal from "../../ReportModal";
 
 // DUMMY DATA
 const write = {
     image: 'forum_test.png',
     title: '엘리스 코드 챌린지',
-    area: 'IT',
-    host: '일반기업',
-    startDate: '2023년 10월 26일',
-    endDate: '2023년 11월 24일',
+    category: 'IT',
+    target:"타겟",
+    organization:"일반기업",
+    startAt: '2023년 10월 26일',
+    endAt: '2023년 11월 24일',
     scale: '1천 ~ 3천',
+    benefit:'돈',
     detail: (
         <div className="ProseMirror prose-headings:font-display prose-base md:prose-lg break-keep break-words tracking-[-0.004em] py-10 focus:outline-none">
             <h2><strong><span style={{ color: '#9333EA' }}>/*elice*/<br/>Code Challenge</span></strong></h2>
@@ -40,6 +43,8 @@ const Contest_Post_InfoTab = () => {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState('Tab1');
     const [post, setPost] = useState({}); //글 정보
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const userId = 1; //Todo: userId
 
     //탭 변경
     const changeTab = (tab) => { setActiveTab(tab); };
@@ -72,6 +77,9 @@ const Contest_Post_InfoTab = () => {
         getPost();
     }, [id]);
 
+    useEffect(() => {
+        console.log("post:", post);
+    }, [post]);
     //요약 내용 렌더링
     const renderBrief = () => {
         console.log("post:",post);
@@ -98,6 +106,15 @@ const Contest_Post_InfoTab = () => {
         return <div className={styles.content} dangerouslySetInnerHTML={{ __html: post.content }} />;
     }
 
+    //신고 모달
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div>
             <Nav />
@@ -119,6 +136,21 @@ const Contest_Post_InfoTab = () => {
                             <div className={styles.tab1}>
                                 <img className={styles.big_image} src={post.image} alt={"공모전 포스터(대)"} />
                                 {renderContent()}
+                                <div className="report">
+                                    <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
+                                    <ReportModal
+                                        showModal={isModalOpen}
+                                        item={{
+                                            title:post.title,
+                                            userId:userId,
+                                            postId:id,
+                                            //Todo: 공모전 작성자 ID
+                                            writerId:0
+                                        }}
+                                        category={"공모전"}
+                                        onClose={closeModal}
+                                    />
+                                </div>
                             </div>
                         )}
                         {activeTab === 'Tab2' && (
