@@ -30,7 +30,7 @@ public class PartController {
 
     //팀빌딩 게시글 수정에서 모집역할군의 최대모집인원 수정
     @PutMapping("/{partId}")
-    public ResponseDto<Boolean> fixMaxNum(@PathVariable Long partId, Map<String, Integer> body) {
+    public ResponseDto<Boolean> fixMaxNum(@PathVariable Long partId, @RequestBody Map<String, Integer> body) {
 
         return new ResponseDto<>(partService.fixMaxApplicant(partId, body.get("fixNum")));
     }

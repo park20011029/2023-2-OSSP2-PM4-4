@@ -2,6 +2,7 @@ package project.manager.server.service;
 
 import static project.manager.server.enums.Constant.REVIEW_POINT;
 
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,10 +45,11 @@ public class ReviewService {
         Map<String, Object> result = new HashMap<>();
         result.put("myReviews", reviews.stream()
                 .map(review -> ReviewDto.builder()
+                        .createAt(review.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .reviewerId(review.getReviewer().getId())
-                        .reviewer(review.getReviewer().getName())
+                        .reviewer(review.getReviewer().getNickName())
                         .revieweeId(review.getReviewee().getId())
-                        .reviewee(review.getReviewee().getName())
+                        .reviewee(review.getReviewee().getNickName())
                         .projectId(review.getBuildingPost().getId())
                         .projectName(review.getBuildingPost().getTitle())
                         .content(review.getContent())
@@ -76,10 +78,11 @@ public class ReviewService {
         Map<String, Object> result = new HashMap<>();
         result.put("pendingReviews", reviews.stream()
                 .map(review -> ReviewDto.builder()
+                        .createAt(review.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .reviewerId(review.getReviewer().getId())
-                        .reviewer(review.getReviewer().getName())
+                        .reviewer(review.getReviewer().getNickName())
                         .revieweeId(review.getReviewee().getId())
-                        .reviewee(review.getReviewee().getName())
+                        .reviewee(review.getReviewee().getNickName())
                         .projectId(review.getBuildingPost().getId())
                         .projectName(review.getBuildingPost().getTitle())
                         .content(review.getContent())
@@ -108,10 +111,11 @@ public class ReviewService {
         Map<String, Object> result = new HashMap<>();
         result.put("writtenReviews", reviews.stream()
                 .map(review -> ReviewDto.builder()
+                        .createAt(review.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .reviewerId(review.getReviewer().getId())
-                        .reviewer(review.getReviewer().getName())
+                        .reviewer(review.getReviewer().getNickName())
                         .revieweeId(review.getReviewee().getId())
-                        .reviewee(review.getReviewee().getName())
+                        .reviewee(review.getReviewee().getNickName())
                         .projectId(review.getBuildingPost().getId())
                         .projectName(review.getBuildingPost().getTitle())
                         .content(review.getContent())

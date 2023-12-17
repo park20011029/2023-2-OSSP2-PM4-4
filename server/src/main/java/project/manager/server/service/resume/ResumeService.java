@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import project.manager.server.domain.*;
 import project.manager.server.domain.region.Gu;
@@ -20,6 +21,7 @@ import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.*;
 import project.manager.server.repository.region.GuRepository;
 import project.manager.server.repository.resume.*;
+import project.manager.server.util.S3UploadUtil;
 
 @Service
 @Transactional
@@ -33,9 +35,11 @@ public class ResumeService {
     private final ProjectRepository projectRepository;
     private final AwardRepository awardRepository;
     private final TechStackRepository techStackRepository;
+    private final S3UploadUtil s3UploadUtil;
+    private final ImageRepository imageRepository;
 
     // Create
-    public Long createResume(Long userId, ResumeRequestDto resumeRequestDto) {
+    public Long createResume(Long userId, ResumeRequestDto resumeRequestDto, MultipartFile file) {
 
         if (resumeRepository.existsByUserId(userId)) {
             throw new ApiException((ErrorDefine.RESUME_EXIST));
@@ -47,6 +51,14 @@ public class ResumeService {
         Gu gu = guRepository.findById(resumeRequestDto.getGuId())
                         .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
+        String url = s3UploadUtil.upload(file, "pm4/");
+
+        Image newImage = Image.builder()
+                .url(url)
+                .uploader(user)
+                .build();
+        imageRepository.save(newImage);
+
         Resume newResume = Resume.builder()
                         .gu(gu)
                         .birth(resumeRequestDto.getBirth())
@@ -56,15 +68,6 @@ public class ResumeService {
                         .build();
 
         resumeRepository.save(newResume);
-
-        resumeRequestDto.getAwards()
-                .forEach(awardRequestDto ->
-                        awardRepository.save(Award.builder()
-                                .resume(newResume)
-                                .awardYear(awardRequestDto.getAwardYear())
-                                .awardType(awardRequestDto.getAwardType())
-                                .competition(awardRequestDto.getCompetition())
-                                .build()));
 
         resumeRequestDto.getProjects()
                 .forEach(projectRequestDto ->
@@ -85,6 +88,7 @@ public class ResumeService {
                                         .build()));
 
         schoolRepository.save(School.builder()
+                .schoolImage(newImage)
                 .resume(newResume)
                 .schoolRegister(resumeRequestDto.getSchoolInfo().getSchoolRegister())
                 .major(resumeRequestDto.getSchoolInfo().getMajor())
@@ -134,7 +138,7 @@ public class ResumeService {
     }
 
 
-    public boolean updateResume(Long resumeId, ResumeUpdateDto resumeUpdateDto) {
+    public Boolean updateResume(Long resumeId, ResumeUpdateDto resumeUpdateDto) {
         Resume resume = resumeRepository.findById(resumeId)
                         .orElseThrow(() -> new ApiException(ErrorDefine.RESUME_NOT_FOUND));
 
@@ -176,14 +180,6 @@ public class ResumeService {
 //                                        techStackUpdateDto.getTech(),
 //                                        techStackUpdateDto.getTechType(),
 //                                        techStackUpdateDto.getDescription()));
-
-        schoolRepository.findById(resumeUpdateDto.getSchoolInfo().getId())
-                .orElseThrow(() ->
-                        new ApiException(ErrorDefine.ENTITY_NOT_FOUND))
-                .updateSchool(
-                        resumeUpdateDto.getSchoolInfo().getName(),
-                        resumeUpdateDto.getSchoolInfo().getMajor(),
-                        resumeUpdateDto.getSchoolInfo().getSchoolRegister());
 
         return true;
     }

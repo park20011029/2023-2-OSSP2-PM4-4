@@ -96,6 +96,7 @@ public class ReviewReportService {
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         return ReviewDto.builder()
+                .createAt(review.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                 .reviewerId(review.getReviewer().getId())
                 .reviewer(review.getReviewer().getName())
                 .revieweeId(review.getReviewee().getId())

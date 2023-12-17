@@ -15,6 +15,9 @@ public class SchoolUpdateDto {
     @NotNull(message = "[School Update] Id can not be null")
     private Long id;
 
+    @NotNull(message = "[School Update] User id can not be null")
+    private Long userId;
+
     @NotNull(message = "[School Update] School name can not be null")
     String name;
 

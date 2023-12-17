@@ -13,12 +13,14 @@ public class SchoolDto {
     String name;
     String schoolRegister;
     String major;
+    String schoolImage;
 
     @Builder
     public SchoolDto(School school) {
         this.id = school.getId();
         this.name = school.getName();
         this.major = school.getMajor();
+        this.schoolImage = school.getSchoolImage().getUrl();
         this.schoolRegister = school.getSchoolRegister().getToKorean();
     }
 }

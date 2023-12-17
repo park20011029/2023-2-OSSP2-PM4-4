@@ -17,8 +17,8 @@ import project.manager.server.domain.chat.Chat;
 import project.manager.server.domain.chat.ChatRoom;
 import project.manager.server.domain.post.building.Apply;
 import project.manager.server.domain.post.building.BuildingPost;
-import project.manager.server.domain.post.contest.ContestPost;
 import project.manager.server.dto.request.UserRequestDto;
+import project.manager.server.enums.Constant;
 import project.manager.server.enums.UserRole;
 import project.manager.server.enums.UserState;
 
@@ -66,6 +66,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
+    @Column(name = "is_login", columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean isLogin;
+
+    @Column(name = "social_id")
+    private String socialId;
+
+    @Column(name = "refresh_Token")
+    private String refreshToken;
+
     // -------------------------------------------------------------------
 
 //    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
@@ -99,17 +108,20 @@ public class User {
     // -------------------------------------------------------------------
 
     @Builder
-    public User(UserRequestDto userRequestDto, UserRole role) {
+    public User(UserRequestDto userRequestDto, UserRole role, String socialId) {
         this.email = userRequestDto.getEmail();
         this.name = userRequestDto.getName();
         this.nickName = userRequestDto.getNickName();
         this.introduction = userRequestDto.getIntroduction();
         this.role = role;
+        this.isLogin = false;
+        this.refreshToken = null;
         this.point = 0;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
         this.userState = UserState.MEMBER;
         this.phoneNumber = userRequestDto.getPhoneNumber();
-        this.executeDate = LocalDate.MIN;
+        this.executeDate = Constant.MYSQL_MIN_DATE;
+        this.socialId = socialId;
     }
 
     public void updateImage(Image image) {
@@ -119,6 +131,17 @@ public class User {
         this.nickName = nickName;
         this.introduction = introduction;
     }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.isLogin = true;
+        this.refreshToken = refreshToken;
+    }
+
+    public void signOutUser() {
+        this.isLogin = false;
+        this.refreshToken = null;
+    }
+
 
     public void updateUserState(UserState userState, LocalDate executeDate) {
         this.userState = userState;

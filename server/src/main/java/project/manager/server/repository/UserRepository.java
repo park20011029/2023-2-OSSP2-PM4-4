@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import project.manager.server.domain.User;
+import project.manager.server.enums.UserRole;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -25,4 +26,20 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByNickName(String nickName);
 
     boolean existsByIdNotAndNickName(Long id, String nickName);
+
+    Optional<User> findBySocialId(String socialId);
+
+
+    @Query(value = "SELECT u.id AS id, u.role AS userRole FROM User u WHERE u.id = :userId")
+    Optional<UserLoginForm> findUserForAuthentication(@Param("userId") Long userId);
+
+    @Query("SELECT u.id AS id, u.role AS userRole FROM User u WHERE u.id = :userId AND u.isLogin = true AND u.refreshToken = :refreshToken")
+    Optional<UserLoginForm> findByIdAndRefreshToken(@Param("userId") Long userId, @Param("refreshToken") String refreshToken);
+
+    Optional<User> findByIdAndIsLoginAndRefreshTokenIsNotNull(Long userId, Boolean isLogin);
+
+    public interface UserLoginForm {
+        Long getId();
+        UserRole getUserRole();
+    }
 }

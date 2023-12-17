@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import project.manager.server.domain.Image;
 import project.manager.server.enums.SchoolRegister;
 
 @Entity
@@ -37,12 +38,17 @@ public class School {
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schoolimage_id")
+    private Image schoolImage;
+
     // -------------------------------------------------------------------
 
     @Builder
-    public School(String name, SchoolRegister schoolRegister, Resume resume, String major) {
+    public School(String name, SchoolRegister schoolRegister, Resume resume, String major, Image schoolImage) {
         this.resume = resume;
         this.major = major;
+        this.schoolImage = schoolImage;
         this.schoolRegister = schoolRegister;
         this.name = name;
     }
@@ -51,6 +57,10 @@ public class School {
         this.schoolRegister = schoolRegister;
         this.name = name;
         this.major = major;
+    }
+
+    public void updateImage(Image image) {
+        this.schoolImage = image;
     }
 
 }

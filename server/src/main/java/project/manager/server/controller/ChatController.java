@@ -1,6 +1,5 @@
 package project.manager.server.controller;
 
-import com.amazonaws.Response;
 import jakarta.validation.Valid;
 
 import java.util.Map;
@@ -8,14 +7,11 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
-import project.manager.server.domain.chat.Chat;
 import project.manager.server.dto.reponse.ResponseDto;
-import project.manager.server.dto.reponse.chat.ChatRoomDto;
 import project.manager.server.dto.request.chat.ChatRequestDto;
 import project.manager.server.dto.request.chat.ChatRoomRequestDto;
 import project.manager.server.service.chat.ChatRoomService;
