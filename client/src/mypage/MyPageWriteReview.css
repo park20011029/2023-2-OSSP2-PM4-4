@@ -1,0 +1,31 @@
+.writeList{
+    border: 3px solid black;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    width: 50%;
+    margin: 40px auto;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.writeReviewProjectName{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.writeReviewReviewee{
+    margin: 10px 0 0 0;
+}
+
+.writeReviewButton{
+    color: royalblue;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 6px;
+    border-radius: 5px;
+}
+.writeReviewButton:hover{
+    text-decoration: underline;
+}

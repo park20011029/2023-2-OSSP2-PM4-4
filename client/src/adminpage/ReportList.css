@@ -1,0 +1,50 @@
+.report-info{
+    display: flex;
+    justify-content: space-around;
+    margin: 70px auto 0 auto;
+    padding: 8px 10px 8px 10px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.report-container{
+    height: auto;
+}
+.report-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(128, 128, 128);
+    border-bottom: 1px solid rgb(128, 128, 128);
+    padding: 15px 40px;
+    margin: 0 auto;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.defendant{
+    width: 150px;
+    text-align: center;
+}
+.reporter{
+    width: 150px;
+    text-align: center;
+}
+.reportReason{
+    width: 100px;
+    text-align: center;
+}
+.reportDate{
+    width: 150px;
+    text-align: center;
+}
+.moveTo{
+    width: 50px;
+    text-align: center;
+}
+.restrict{
+    width: 50px;
+    text-align: center;
+}
+.deleteReport{
+    width: 50px;
+    text-align: center;
+}

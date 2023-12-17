@@ -1,17 +1,42 @@
 import { ChatIcon } from "./ChatIcon";
 import { MyPageIcon } from "./MyPageIcon";
 import { Link, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {Cash} from "../Cash";
 
-const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
+const Nav = () => {
+  const rootURL = 'http://localhost:3000';
   const navigate = useNavigate();
+  const [point, setPoint] = useState(null);
   const handleLogout = () => {
     // 로그아웃 처리 후
     // ...
-
-    setIsLoggedIn(false); // 로그아웃 상태로 변경
-    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('isLoggedIn');
     navigate('/');
   };
+
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+
+  // 새 창의 크기를 화면 크기의 50%로 설정하고, 가운데 정렬
+  const newWindowWidth = screenWidth * 0.5;
+  const newWindowHeight = screenHeight * 0.5;
+  const leftPos = (screenWidth - newWindowWidth) / 2;
+  const topPos = (screenHeight - newWindowHeight) / 2;
+
+  const getPoint = async() =>{
+    try{
+      const response = await axios.get(`/user/${localStorage.getItem('userId')}`);
+      setPoint(response.data.responseDto.point);
+    }catch (error){
+      console.error("Error fetching profile data: ", error);
+    }
+  }
+  useEffect(() => {
+    getPoint();
+  }, [point]);
   return (
       <header>
         <div className="h-[90px] p-[15px] border-b-[#000000] shadow-md mb-[20px]">
@@ -23,7 +48,7 @@ const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
                       navigate("/");
                     }}
                 >
-                  <p className="border-[2px] border-[#000000] rounded-full p-[14px] text-[20px] text-blue-400 font-bold">
+                  <p className="border-[#000000] rounded-full p-[14px] text-[20px] text-blue-400 font-bold">
                     PM4
                   </p>
                 </button>
@@ -55,16 +80,25 @@ const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
             </div>
             <div className="flex items-center h-[60px]">
               <div className="flex items-center">
+                {localStorage.getItem('isLoggedIn') ? (
+                    <div className="flex items-center border-[1px] border-[#243c5a] shadow-black h-[40px] p-[8px] font-['NotoSansKR'] rounded">
+                      <Cash width={20} height={20}/><span className="ml-[10px]">{point}p</span>
+                    </div>
+                ) : (
+                    <></>
+                )}
+              </div>
+              <div className="flex items-center ml-[30px]">
                 <button
-                    onClick={() => {
-                      navigate("/chat_list");
-                    }}
+                    onClick={() =>
+                      window.open(`http://localhost:3000/chat_list`, "ChatListPage", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`)
+                    }
                 >
                   <ChatIcon></ChatIcon>
                 </button>
               </div>
               <div className="flex items-center ml-[30px]">
-                {isLoggedIn ? (
+                {localStorage.getItem('isLoggedIn') ? (
                     <button
                         className="border-[1px] border-[#243c5a] rounded-lg p-[8px] hover:bg-blue-400 hover:text-[#ffffff]"
                         onClick={handleLogout}
@@ -83,16 +117,15 @@ const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
                 )}
               </div>
               <div className="flex items-center ml-[30px]">
-                {isLoggedIn? (<button
+                {localStorage.getItem('isLoggedIn')? (<button
                     onClick={() => {
-                      navigate("/my_page");
-                      //navigate("/admin_post_request");
+                      //navigate("/my_page");
+                      navigate("/admin_contest_report");
                     }}
                 >
                   <MyPageIcon></MyPageIcon>
                 </button>):(<button
-
-                >
+                onClick={()=>{ window.alert("로그인 후 이용해주세요.")}}>
                   <MyPageIcon></MyPageIcon>
                 </button>)}
               </div>

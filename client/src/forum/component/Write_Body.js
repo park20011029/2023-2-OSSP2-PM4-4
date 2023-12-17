@@ -4,15 +4,31 @@ import ReactQuill from 'react-quill';
 import {useNavigate} from "react-router-dom";
 import 'react-quill/dist/quill.snow.css';
 import styles from '../css/Team_Write(Post).module.css';
+import axios from "axios";
 
-const Write_Body = ({ setContent, setReward, submit }) => {
+const Write_Body = ({ setContent, setReward, userId, submit }) => {
     const [content, setContent_v] = useState("");
     const [useReward, setUseReward] = useState(false);
     const navigate = useNavigate();
 
-    const handleRewardChange = () => {
-        if(useReward === false)
-            setUseReward(true);
+    const handleRewardChange = async() => {
+        //Todo: 리워드 사용 가능여부 검사
+        if(useReward === false) {
+            try {
+                const response = axios.get(`/user/${userId}`);
+                const jsonData = response.data.responseDto;
+                const reward = jsonData.point;
+                if(reward >= 300)
+                    setUseReward(true);
+                else {
+                    window.alert("포인트 잔액이 부족합니다.");
+                    return;
+                }
+            } catch(error) {
+                window.alert("유저정보 조회 중 오류 발생!");
+                return;
+            }
+        }
         else
             setUseReward(false);
         setReward(useReward);

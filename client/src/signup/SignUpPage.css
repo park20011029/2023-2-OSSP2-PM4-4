@@ -26,12 +26,6 @@ input{
     margin: 0 20px 20px 20px;
 
 }
-select{
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 3px 4px;
-    margin: 0 20px 20px 20px;
-}
 .container-top {
   border-bottom: 2px solid black;
   box-shadow: 0 1px 1px rgba(1, 1, 1, 0.3);
