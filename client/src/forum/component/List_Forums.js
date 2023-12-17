@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import styles from "../css/List.module.css";
+import "../css/buttons.css";
 
 const List_Forums = ({postList}) => {
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ const List_Forums = ({postList}) => {
                 ))}
             </div>
             <div className={styles.writeButton}>
-                <button onClick={()=>moveToPost()}>글쓰기</button>
+                <button className="yellowButton" onClick={()=>moveToPost()}>글쓰기</button>
             </div>
 
         </div>

@@ -1,6 +1,7 @@
 .Page {
     width: 75%;
     margin: 0 auto;
+    font-family: "NotoSansKR";
 }
 
 .smallPage {
@@ -28,6 +29,7 @@
     padding-right: 30px;
     border: 2px solid black;
     border-radius: 5px;
+    margin:0;
 }
 
 .SearchInput img {
@@ -44,15 +46,38 @@
     position: relative;
     width: 100%;
 }
+.categoryTable .tableTitle {
+    width:10%;
+    font-weight: bold;
+}
+.categoryTable tr {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border: 0;
+}
+.categoryTable td {
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.categoryTable input {
+    margin: 10px 5px;
+}
+.TableElement {
+    width:15%;
+}
 
 .criteria {
     display: flex;
     flex-direction: column;
     width:100%;
     border: 2px solid black;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: lightblue;
+    padding: 10px;
+    /*border-top-left-radius: 12px;*/
+    border-bottom-right-radius: 20px;
+    background-color: rgba(168, 219, 255, 0.6);
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
 }
 
 .checkbox {
@@ -83,10 +108,8 @@
     justify-content: flex-end;
 }
 .buttons button {
-    border: 1px black solid;
-    border-radius: 5px;
+    margin-top: 10px;
     margin-right: 20px;
-    padding:5px;
 }
 
 
@@ -137,9 +160,7 @@
 
 }
 .writeButton button {
-    border: 1px black solid;
-    border-radius:5px;
-    background-color:whitesmoke;
-    padding:5px;
+    font-size: 16px;
+    padding:10px 20px;
 }
 
