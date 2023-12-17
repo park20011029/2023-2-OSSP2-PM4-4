@@ -4,27 +4,27 @@ import * as SockJS from "sockjs-client";
 import axios from "../api/index";
 import styles from "./ChatPage.module.css";
 import ChatLog from "./ChatLog";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 const dummyData = [
     {
-        time:"2023-12-09 10:42",
-        isMe:true,
+        timestamp:"2023-12-09T10:42:32.262Z",
+        isSentByMe:true,
         text:"안녕하세요"
     },
     {
-        time:"2023-12-09 10:42",
-        isMe:true,
+        timestamp:"2023-12-09T10:42:32.263Z",
+        isSentByMe:true,
         text:"문의할게 있어서요"
     },
     {
-        time:"2023-12-10 11:42",
-        isMe:false,
+        timestamp:"2023-12-10T11:42:32.262Z",
+        isSentByMe:false,
         text:"안녕하세요"
     },
     {
-        time:"2023-12-10 11:43",
-        isMe:false,
+        timestamp:"2023-12-10T11:43:32.262Z",
+        isSentByMe:false,
         text:"어떤 문의사항이신가요?"
     },
 ]
@@ -33,11 +33,10 @@ const ChatRoom = () => {
     const {state} = useLocation();
     const {image, targetName} = state;
     const navigate = useNavigate();
-    let currentUrl = window.location.href;
     const userId = 1 //Todo: userId
     const [messages, setMessages] = useState(dummyData);
     const [newMessage, setNewMessage] = useState("");
-    const [chatRoomId] = useState(new URLSearchParams(currentUrl.split('?')[1]));
+    const [chatRoomId] = useState(useParams());
     const [sender] = useState(userId);
 
     // stompClient를 useState로 관리

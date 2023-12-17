@@ -8,37 +8,54 @@ const ChatLog = ({ chatLog, setNewMessage, submit }) => {
     //스크롤 처리
     useEffect(() => {
         window.scrollTo(0, document.body.scrollHeight);
+        console.log("chatLog:", chatLog);
     }, []);
+
+    const parseDate = (timestamp) => {
+        const dateObject = new Date(timestamp);
+        // 각 부분 추출
+        const year = dateObject.getFullYear();
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObject.getDate()).padStart(2, '0');
+        const hours = String(dateObject.getHours()).padStart(2, '0');
+        const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
 
     const renderLog = () => {
         let today = '1000-01-01';
-        let time = chatLog[0].time.split(" ")[1];
-
         const log = [];
 
         chatLog.map((element, index) => {
-            const temp = element.time.split(" ");
-            const date = temp[0];
-            const time = temp[1];
-            //날짜 변경 처리
-            if(date !== today) {
-                log.push(<div className={styles.chatDate}>{date}</div>);
-                today = date;
-            }
+            try {
+                console.log("element:", element);
+                let temp = element.timestamp.split('T');
+                const date = temp[0];
+                temp = temp[1].split(':');
+                const time = temp[0] + ':' + temp[1];
+                //날짜 변경 처리
+                if (date !== today) {
+                    log.push(<div className={styles.chatDate}>{date}</div>);
+                    today = date;
+                }
 
-            //채팅
-            let chatClassName = element.isMe ? styles.chatMyChat : styles.chatNotMyChat;
-            log.push(<div className={chatClassName}>{element.text}</div>);
+                //채팅
+                let chatClassName = element.isSentByMe ? styles.chatMyChat : styles.chatNotMyChat;
+                log.push(<div className={chatClassName}>{element.text}</div>);
 
-            //시간 처리
-            if(
-                (chatLog[index+1] === undefined) //마지막 채팅이거나
-                || (chatLog[index+1].isMe !== element.isMe) //다음 채팅의 화자가 변경되거나
-                || (time !== chatLog[index+1].time.split(" ")[1]) //다음 채팅의 시간이 변경되거나
-            )
-            {
-                chatClassName = element.isMe ? styles.chatMyTime : styles.chatNotMyTime;
-                log.push(<div className={chatClassName}>{time}</div>);
+                //시간 처리
+                if (
+                    (chatLog[index + 1] === undefined) //마지막 채팅이거나
+                    || (chatLog[index + 1].isSentByMe !== element.isSentByMe) //다음 채팅의 화자가 변경되거나
+                    || (time !== chatLog[index + 1].time.split(" ")[1]) //다음 채팅의 시간이 변경되거나
+                ) {
+                    chatClassName = element.isSentByMe ? styles.chatMyTime : styles.chatNotMyTime;
+                    log.push(<div className={chatClassName}>{time}</div>);
+                }
+            }catch(error) {
+                console.log(error);
+                console.log(element);
             }
         });
 
