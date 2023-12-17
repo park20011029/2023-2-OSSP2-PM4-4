@@ -1,10 +1,48 @@
-import styled from "styled-components";
+
 import { useState, useEffect } from "react";
 
-function StarRate({value}) {
-    const AVR_RATE = value;
+// SVG 아이콘 컴포넌트
+const StarIcon = ({ filled }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill={filled ? "#FFD700" : "#CCCCCC"} // 점수에 따라 색상 변경
+    >
+        {/* SVG 별 아이콘 내용 */}
+        <path d="M12 2L9.38 8.72L2 9.24L7.54 14.14L6.65 21.02L12 17.77L17.35 21.02L16.46 14.14L22 9.24L14.62 8.72L12 2Z" />
+    </svg>
+);
+const HalfOneIcon = ({ filled }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="24"
+        viewBox="0 0 12 24" // 왼쪽 절반만 보이도록 설정
+        fill={filled ? "#FFD700" : "#CCCCCC"} // 점수에 따라 색상 변경
+    >
+        {/* SVG 별 아이콘 내용 */}
+        <path d="M12 2L9.38 8.72L2 9.24L7.54 14.14L6.65 21.02L12 17.77L17.35 21.02L16.46 14.14L22 9.24L14.62 8.72L12 2Z" />
+    </svg>
+);
+const HalfTwoIcon = ({ filled }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="24"
+        viewBox="12 0 12 24"
+        fill={filled ? "#FFD700" : "#CCCCCC"} // 점수에 따라 색상 변경
+    >
+        {/* SVG 별 아이콘 내용 */}
+        <path d="M12 2L9.38 8.72L2 9.24L7.54 14.14L6.65 21.02L12 17.77L17.35 21.02L16.46 14.14L22 9.24L14.62 8.72L12 2Z" />
+    </svg>
+);
+function StarRate({ value }) {
+    const [AVR_RATE, setAVR_RATE] = useState(0);
     const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
     const [ratesResArr, setRatesResArr] = useState([0, 0, 0, 0, 0]);
+
     const calcStarRates = () => {
         let tempStarRatesArr = [0, 0, 0, 0, 0];
         let starVerScore = (AVR_RATE * 70) / 100;
@@ -17,42 +55,34 @@ function StarRate({value}) {
         tempStarRatesArr[idx] = starVerScore;
         return tempStarRatesArr;
     };
+
     useEffect(() => {
-        setRatesResArr(calcStarRates)
-    }, [value])
+        setAVR_RATE(value);
+        setRatesResArr(calcStarRates());
+    }, [AVR_RATE, value]);
+
     return (
-        <StarRateWrap>
-            {STAR_IDX_ARR.map((item, idx) => {
-                return <span className='star_icon' key={`${item}_${idx}`}>
-                    <svg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 14 13' fill='#cacaca'>
-                        <clipPath id={`${item}StarClip`}>
-                            <rect width={`${ratesResArr[idx]}`} height='39' />
-                        </clipPath>
-                        <path
-                            id={`${item}Star`}
-                            d='M9,2l2.163,4.279L16,6.969,12.5,10.3l.826,4.7L9,12.779,4.674,15,5.5,10.3,2,6.969l4.837-.69Z'
-                            transform='translate(-2 -2)'
-                        />
-                        <use clipPath={`url(#${item}StarClip)`} href={`#${item}Star`} fill='#966fd6'
-                        />
-                    </svg>
-                </span>
-            })
-            }
-        </StarRateWrap>
-    )
+        <div className="flex">
+            {ratesResArr.map((rate, index) => (
+                <span key={index} className={`star ${STAR_IDX_ARR[index]}`}>
+                    {rate === 14 ? (
+                        <div>
+                            <StarIcon filled={true} />
+                        </div>
+                    ) : rate === 7 ? (
+                        <div className="flex">
+                            <HalfOneIcon filled={true} />
+                            <HalfTwoIcon filled={false} />
+                        </div>
+                    ) : (
+                        <div>
+                            <StarIcon filled={false} />
+                        </div>
+                    )}
+        </span>
+            ))}
+        </div>
+    );
 }
 
 export default StarRate;
-
-const StarRateWrap = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  .star_icon {
-    display: inline-flex;
-    margin-right: 5px;
-  }
-
-`

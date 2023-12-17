@@ -72,10 +72,10 @@ function ContestReportList() {
                     </div>
                     <div className="container-body">
                         <div className="report-info">
-                            <div>신고 대상</div>
-                            <div className="ml-[20px]">신고자</div>
-                            <div>신고 사유</div>
-                            <div className="mr-[330px]">신고 일자</div>
+                            <div className="w-[150px] text-center">신고 대상</div>
+                            <div className="w-[150px] text-center">신고자</div>
+                            <div className="w-[100px] text-center">신고 사유</div>
+                            <div className="w-[150px] text-center mr-[300px]">신고 일자</div>
                         </div>
                         <div>
                             {contestReportList.length ? (
