@@ -13,7 +13,9 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
         setSelectedOption(e.target.value); // 라디오 버튼 변경 시 선택된 옵션 변경
     };
     useEffect(() => {
-        if(category ==='리뷰'){
+        console.log("아이템 : ", item);
+        console.log("카테고리 : ",category);
+        if(category === '리뷰'){
             setTargetId(item.reviewerId);
             setTargetNickName(item.reviewer);
         }
@@ -62,7 +64,7 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
                 console.error('error reporting review : error');
             }
         }
-        else if(category==='공모전'){
+        else if(category ==='공모전'){
             try{
                 const response = await axios.post('/contestPost/report', {
                     description: description,
@@ -146,7 +148,7 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
             </span>
                     </div>
                     <div id="reportModalBody" className="modal-body">
-                        <p>신고 대상 : &nbsp;&nbsp;&nbsp;{title ? ({title}):("")}{targetNickName}<br/><br/></p>
+                        <p>신고 대상 : &nbsp;&nbsp;&nbsp;{title ? <span>{title}</span> : <span></span>}{title&&targetNickName ? <span> : </span> : <span></span>}{targetNickName ? <span>{targetNickName}</span> : <span></span>}<br/><br/></p>
                         <p>신고 항목 : &nbsp;&nbsp;&nbsp;{category}<br/><br/></p>
                         <p>신고 사유 : </p><br/>
                         <div id="reportReasons">
