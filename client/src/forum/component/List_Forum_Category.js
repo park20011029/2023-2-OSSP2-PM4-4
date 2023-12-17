@@ -1,6 +1,7 @@
 //공모전 게시글 목록용 카테고리 컴포넌트
 import React, { useState, useEffect } from 'react';
 import styles from "../css/List.module.css";
+import "../css/buttons.css";
 import {contest_CategoryKeyList, contest_CategoryTrans, contest_getCategoryAll} from "./axios_category";
 
 const category = {
@@ -59,7 +60,9 @@ const List_Forum_Category = ({setCategorySelected, search}) => {
         fetchData();
     }, []);
 
-
+    useEffect(() => {
+        console.log("categoryData:", categoryData);
+    }, [categoryData]);
     //카테고리 체크
     const isChecked = (category, value) => selected[category].includes(value);
 
@@ -91,17 +94,28 @@ const List_Forum_Category = ({setCategorySelected, search}) => {
         console.log("초기화 진행완료");
     }
 
-    return (
-        <div className={styles.smallPage}>
-            <label className={styles.smallTitle}>카테고리</label>
-            <div className={styles.criteria}>
-                {Object.entries(categoryData).map(([key, list]) => (
-                    <div key={key} className={styles.checkbox}>
-                        <label className={styles.checkListTitle}>
-                            {contest_CategoryTrans[key]}
-                        </label>
-                        <div className={styles.checkList}>
-                            {list.map((value) => (
+    //카테고리 리스트 렌더링
+    const chunkArray = (array, chunkSize) => {
+        const result = [];
+        for (let i = 0; i < array.length; i += chunkSize) {
+            result.push(array.slice(i, i + chunkSize));
+        }
+        return result;
+    }
+    const renderCategory = () => {
+        const chunkSize = 6;
+        const allList = [];
+        {Object.keys(contest_CategoryKeyList).forEach((key) => {
+            const list = categoryData[key];
+            const categoryTitle = contest_CategoryTrans[key];
+            const lines = Math.ceil(list.length/chunkSize);
+            const curList = chunkArray(list, chunkSize);
+            curList.map((list, index) => {
+                allList.push(
+                    <tr>
+                        {index === 0 ? <td className={styles.tableTitle}>{categoryTitle}</td> : <td className={styles.tableTitle}></td> }
+                        {list.map((value) => (
+                            <td className={styles.TableElement}>
                                 <label key={value.id}>
                                     <input
                                         id={value.id}
@@ -112,14 +126,28 @@ const List_Forum_Category = ({setCategorySelected, search}) => {
                                     />
                                     {value[key]}
                                 </label>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+                            </td>
+                        ))}
+                    </tr>
+                );
+            })
+        })}
 
+        return (
+            <table className={styles.categoryTable}>
+                <tbody>{allList}</tbody>
+            </table>
+        );
+    }
+
+    return (
+        <div className={styles.smallPage}>
+            <label className={styles.smallTitle}>카테고리</label>
+            <div className={styles.criteria}>
+                {renderCategory()}
                 <div className={styles.buttons}>
-                    <button onClick={resetCategoryList}>초기화</button>
-                    <button onClick={search}>검색</button>
+                    <button className={"redButton"} onClick={resetCategoryList}>초기화</button>
+                    <button className={"blueButton"} onClick={search}>검색</button>
                 </div>
             </div>
         </div>
