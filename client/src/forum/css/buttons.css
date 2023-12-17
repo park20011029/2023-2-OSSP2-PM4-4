@@ -1,0 +1,27 @@
+.redButton {
+    background-color: #ef4e4e;
+    border-radius: 5px;
+    padding:5px;
+    font-size: 14px;
+    color: white;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+}
+
+.blueButton {
+    background-color: #5087f5;
+    border-radius: 5px;
+    padding:5px;
+    font-size: 14px;
+    color: white;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+}
+
+.yellowButton {
+    background-color: #efd686;
+    border-radius: 5px;
+    padding:5px;
+    font-size: 14px;
+    color: black;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+}
+
