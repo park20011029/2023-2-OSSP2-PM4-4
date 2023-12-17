@@ -68,7 +68,7 @@ const ChatLog = ({ chatLog, setNewMessage, submit }) => {
         }
     }
     const onSubmit = () => {
-        submit(chatInput);
+        submit();
         setChatInput("");
         setNewMessage("");
     }

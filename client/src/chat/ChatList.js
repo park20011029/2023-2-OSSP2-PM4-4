@@ -8,13 +8,13 @@ import ChatRoom from "./ChatRoom";
 const dummy = [
     {
         image: "defaultProfile.svg",
-        name: "이름1",
+        opponentNickname: "이름1",
         chatRoomId:1,
         lastChat: "안녕하세요"
     },
     {
         image:"defaultProfile.svg",
-        name:"이름2",
+        opponentNickname:"이름2",
         chatRoomId:2,
         lastChat:"반갑습니다"
     }
@@ -23,14 +23,14 @@ const dummy = [
 const ChatList = () => {
     const navigate = useNavigate();
     const userId = 1; //Todo: userId
-    const [chatList, setChatList] = useState(dummy);
+    const [chatList, setChatList] = useState();
 
     //채팅 목록 데이터
     useEffect(() => {
         const getChatList = async() => {
             try {
                 const response = await axios.get(`/chat/list/${userId}`);
-                const jsonData = response.data.responseDto;
+                const jsonData = response.data.responseDto.ChatRoomList;
                 setChatList(jsonData);
             } catch(error) {
                 console.log(error);
@@ -50,10 +50,10 @@ const ChatList = () => {
                 {chatList.map((chat) => (
                     <div className={styles.chatLine}
                          onClick={() => navigate(`/chatRoom/${chat.chatRoomId}`,
-                             {state:{image:chat.image, targetName:chat.name}})}>
+                             {state:{image:chat.image, targetName:chat.opponentNickname}})}>
                         <img src={chat.image} alt={"프로필사진"}/>
                         <div className={styles.nameNchat}>
-                            <label>{chat.name}</label>
+                            <label>{chat.opponentNickname}</label>
                             <label>{chat.lastChat}</label>
                         </div>
                     </div>

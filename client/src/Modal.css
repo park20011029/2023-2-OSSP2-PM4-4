@@ -14,6 +14,7 @@
 
 /* 실제 모달 창 스타일 */
 .modal {
+    font-family: "NotoSansKR";
     font-weight: bold;
     background-color: white;
     border-radius: 8px;

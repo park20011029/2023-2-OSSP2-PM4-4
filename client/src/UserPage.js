@@ -1,9 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import Nav from "./layout/Nav";
+import UserSideBar from "./mypage/UserSideBar";
+import StarRate from "./layout/StarRate";
+import {Siren} from "./Siren";
+import ReportModal from "./ReportModal";
+import List_PageNumber from "./layout/List_PageNumber";
+import Footer from "./layout/Footer";
 
 function UserPage(){
     const { id } = useParams();
+    const userId = 1; //Todo: userId
+    const [resumeId, setResumeId] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [nickName, setNickName] = useState(null);
     const [introduction, setIntroduction] = useState(null);
@@ -19,6 +28,38 @@ function UserPage(){
     const [awards, setAwards] = useState([]);
     const [skills, setSkills] = useState([]);
     const [projects, setProjects] = useState([]);
+    /* 리뷰 */
+    const [reviewList, setReviewList] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [reviewPageInfo, setReviewPageInfo] = useState({
+        pageNumber: 1, //페이지 번호
+        pageSize: 4, //한 페이지 당 게시글 수
+        pageLength: 10, //페이지 시작번호(1 + n*pageSize)
+        pageCount: 10, //총 페이지 개수
+    });
+    const getReview = async () => {
+        try {
+            const response = await axios.get(
+                `/myPage/myReview/${localStorage.getItem("userId")}?page=${
+                    reviewPageInfo.pageNumber - 1
+                }&size=${reviewPageInfo.pageSize}`
+            );
+            setReviewPageInfo({
+                pageNumber: response.data.responseDto.pageInfo.currentPage,
+                pageSize: reviewPageInfo.pageSize,
+                pageLength: reviewPageInfo.pageLength,
+                pageCount: response.data.responseDto.pageInfo.totalPages,
+            });
+            setReviewList(response.data.responseDto.myReviews);
+            console.log("받은", response.data.responseDto);
+        } catch (error) {
+            console.log("Error fetching review list data: ", error);
+        }
+    };
+    useEffect(() => {
+        getReview();
+    }, [reviewPageInfo.pageNumber]);
+
     const getUserData = async()=>{
         try{
             const response = await axios.get(`/userReport/user/${id}`);
@@ -28,6 +69,7 @@ function UserPage(){
             setName(response.data.responseDto.name);
             setNickName(response.data.responseDto.nickName);
             setPhoneNumber(response.data.responseDto.phoneNumber);
+            setResumeId(response.data.responseDto.resumeId);
             setImageUrl(response.data.responseDto.url.substring(1, response.data.responseDto.url.length-1));
             if(response.status === 200){
                 const response1 = await axios.get(`/resumeReport/resume/${response.data.responseDto.resumeId}`);
@@ -52,11 +94,33 @@ function UserPage(){
     useEffect(() => {
         getUserData();
     }, [id]);
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
     return (
         <div className="font-['NoToSansKR']">
             <div className="profileContainer w-[80%] mx-auto my-[50px]">
                 <div className="container-top">
                     <h2>프로필</h2>
+                </div>
+                <div className="report">
+                    <Siren width={20} height={20} /><button onClick={openModal}>유저 신고</button>
+                    <ReportModal
+                        showModal={isModalOpen}
+                        item={{
+                            targetId:id,
+                            targetName:nickName,
+                            userId:userId
+                        }}
+                        category={"유저"}
+                        onClose={closeModal}
+                    />
                 </div>
                 <div className="flex items-center justify-around">
                     <img src={imageUrl} alt="profileImage"/>
@@ -69,6 +133,20 @@ function UserPage(){
             <div className="resumeContainer w-[80%] mx-auto my-[50px]">
                 <div className="container-top">
                     <h2>이력서</h2>
+                </div>
+                <div className="report">
+                    <Siren width={20} height={20} /><button onClick={openModal}>이력서 신고</button>
+                    <ReportModal
+                        showModal={isModalOpen}
+                        item={{
+                            targetId:id,
+                            targetName:nickName,
+                            userId:userId,
+                            resumeId:resumeId
+                        }}
+                        category={"이력서"}
+                        onClose={closeModal}
+                    />
                 </div>
                 <div className="grid grid-cols-2 gap-y-[20px] gap-x-[60px] px-[20px]">
                     <div className="flex items-center border-b-[1px] border-b-[#000000] pb-[20px] px-[10px]"><div className="font-bold">이름</div> : {name}</div>
@@ -101,6 +179,49 @@ function UserPage(){
                                 <div>ID : {project.id}</div> <div>ProjectName : {project.projectName}</div> <div>Description : {project.description}</div> <div>GitUrl : {project.gitUrl}</div>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </div>
+            <div className="reviewContainer w-[80%] mx-auto my-[50px]">
+                <div className="review-area">
+                    <div className="container-top">
+                        <h2>리뷰</h2>
+                    </div>
+                    <div>
+                        {reviewList.length ? (
+                            reviewList.map((item, index) => (
+                                <div className="review-container">
+                                    <div key={index} className="reviews">
+                                        <div className="review-header">
+                                            <div className="star-ratings">
+                                                <StarRate value={(item.score) * 20} />
+
+                                            </div>
+                                            <div className="report">
+                                                <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
+                                                <ReportModal
+                                                    showModal={isModalOpen}
+                                                    item={item}
+                                                    category={"리뷰"}
+                                                    onClose={closeModal}
+                                                />
+                                            </div>
+                                            <div className="reviewedUser">{item.reviewer}</div>
+                                            <div className="reviewedDate">{item.createDate}</div>
+                                        </div>
+                                        <div className="review-body">{item.content}</div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="post-none">받은 리뷰가 없습니다.</div>
+                        )}
+                        {reviewList.length ? (
+                            <div><List_PageNumber
+                                pageInfo={reviewPageInfo}
+                                setPageInfo={setReviewPageInfo}
+                            /></div>
+                        ):(<></>)}
                     </div>
                 </div>
             </div>

@@ -10,6 +10,8 @@ import Team_WriteEdit from "./Team_Write(Edit)";
 import Write_Apply from "../modal/Write_Apply";
 import Write_ApplyList from "../modal/Write_ApplyList";
 import Write_ApplyApprovedList from "../modal/Write_ApplyApprovedList";
+import {Siren} from "../../Siren";
+import ReportModal from "../../ReportModal";
 
 //DUMMY DATA
 const write = {
@@ -60,6 +62,7 @@ const Team_WriteView = () => {
     const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
+        //Todo: 실제 이름이 아닌 닉네임을 받아오도록
         writer:"",
         writerId:0,
         date:"",
@@ -73,6 +76,8 @@ const Team_WriteView = () => {
     const [applyListModalOpen, setApplyListModalOpen] = useState(false);
     //승인된 지원 리스트 모달 관리
     const [applyApprovedListModalOpen, setApplyApprovedListModalOpen] = useState(false);
+    //신고 모달 관리
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
     //debug
     useEffect(() => {
@@ -213,6 +218,13 @@ const Team_WriteView = () => {
     }
 
     const reportOrEdit = () => {
+        const openModal = () => {
+            setIsReportModalOpen(true);
+        };
+
+        const closeModal = () => {
+            setIsReportModalOpen(false);
+        };
         //수정/삭제
         if(isAdmin === true || id === data.writerId) {
             return (
@@ -227,7 +239,21 @@ const Team_WriteView = () => {
         //신고하기
         else {
             return (
-                <button className={styles.redButton}>신고하기</button>
+                <div className="report">
+                    <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
+                    <ReportModal
+                        showModal={isReportModalOpen}
+                        item={{
+                            title:data.title,
+                            userId:userId,
+                            writerId:data.writerId,
+                            writer:data.writer,
+                            postId:id
+                        }}
+                        category={"빌딩"}
+                        onClose={closeModal}
+                    />
+                </div>
             )
         }
     }

@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import Modal from 'react-modal';
 import styles from "../css/modal.module.css";
 import axios from "axios";
+import UserPage from "../../UserPage";
 
 //더미데이터
 const partTemp = ["React", "Spring"];
@@ -48,6 +49,19 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
         setInit(true);
     }, []);
 
+    //유저 페이지로 이동
+    function moveToUserPage(userId) {
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+
+        // 새 창의 크기를 화면 크기의 50%로 설정하고, 가운데 정렬
+        const newWindowWidth = screenWidth * 0.7;
+        const newWindowHeight = screenHeight * 0.7;
+        const leftPos = (screenWidth - newWindowWidth) / 2;
+        const topPos = (screenHeight - newWindowHeight) / 2;
+        window.open(`http://localhost:3000/userPage/${userId}`, "UserPage",
+            "width=${newWindowWidth},height=${newWindowHeight},left=${leftPos},top=${topPos}");
+    }
 
     //승인
     const approve = () => {
@@ -87,7 +101,7 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                                         <td className={styles.specialTd}
                                             rowSpan={applicantList[key].length}>{key}</td>
                                     )}
-                                    <td>{element.userName}</td>
+                                    <td onClick={() => moveToUserPage(element.userId)}>{element.userName}</td>
                                     <td>
                                         <button onClick={() => approve()}>승인</button>
                                     </td>

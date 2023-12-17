@@ -10,22 +10,22 @@ const dummyData = [
     {
         timestamp:"2023-12-09T10:42:32.262Z",
         isSentByMe:true,
-        text:"안녕하세요"
+        content:"안녕하세요"
     },
     {
         timestamp:"2023-12-09T10:42:32.263Z",
         isSentByMe:true,
-        text:"문의할게 있어서요"
+        content:"문의할게 있어서요"
     },
     {
         timestamp:"2023-12-10T11:42:32.262Z",
         isSentByMe:false,
-        text:"안녕하세요"
+        content:"안녕하세요"
     },
     {
         timestamp:"2023-12-10T11:43:32.262Z",
         isSentByMe:false,
-        text:"어떤 문의사항이신가요?"
+        content:"어떤 문의사항이신가요?"
     },
 ]
 
@@ -36,8 +36,9 @@ const ChatRoom = () => {
     const userId = 1 //Todo: userId
     const [messages, setMessages] = useState(dummyData);
     const [newMessage, setNewMessage] = useState("");
-    const [chatRoomId] = useState(useParams());
+    const [chatRoomId] = useState(useParams().chatRoomId);
     const [sender] = useState(userId);
+    const [isConnected, setIsConnected] = useState(false);
 
     // stompClient를 useState로 관리
     const [stompClient, setStompClient] = useState(null);
@@ -119,7 +120,7 @@ const ChatRoom = () => {
 
         const sentMessage = {
             id: Date.now(),
-            text: newMessage,
+            content: newMessage,
             isSentByMe: true,
             timestamp: new Date().toISOString(),
             sender: parseInt(sender),
@@ -136,7 +137,7 @@ const ChatRoom = () => {
             .get(`/chatting/${chatRoomId}`)
             .then((response) => {
                 if (response.data && response.data.responseDto) {
-                    setMessages(response.data.responseDto);
+                    setMessages(response.data.responseDto.ChatLog);
                 } else {
                     console.error("Invalid server response:", response);
                 }
@@ -151,6 +152,7 @@ const ChatRoom = () => {
 
     useEffect(()=> {
         connectToWebSocket();
+        setIsConnected(true);
     }, []);
 
     const submit = () => {};
@@ -161,10 +163,11 @@ const ChatRoom = () => {
             <img className={styles.targetImg} src={image} alt={"프로필사진"}/>
             <label className={styles.targetName}>{targetName} 과의 대화</label>
             <div className={styles.chat}>
-                <ChatLog chatLog={messages}
-                         setNewMessage={setNewMessage}
-                         submit={sendMessage}
-                />
+                {isConnected ?
+                    <ChatLog chatLog={messages}
+                             setNewMessage={setNewMessage}
+                             submit={sendMessage}
+                    /> : <></> }
             </div>
         </div>
     );
