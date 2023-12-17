@@ -36,8 +36,8 @@ public class ResumeController {
     @PostMapping("/{userId}")
     public ResponseDto<Long> creatResume(
             @PathVariable Long userId,
-            @Valid @RequestBody ResumeRequestDto resumeRequestDto,
-            @RequestParam("file") MultipartFile file) {
+            @Valid @RequestPart ResumeRequestDto resumeRequestDto,
+            @RequestPart MultipartFile file) {
 
         return new ResponseDto<>(resumeService.createResume(userId, resumeRequestDto, file));
     }
@@ -71,8 +71,8 @@ public class ResumeController {
     @PostMapping("/award/{resumeId}")
     public ResponseDto<Long> addAward(
             @PathVariable Long resumeId,
-            @Valid @RequestBody AwardRequestDto awardRequestDto,
-            @RequestParam("file") MultipartFile file) {
+            @Valid @RequestPart AwardRequestDto awardRequestDto,
+            @RequestPart MultipartFile file) {
 
         return new ResponseDto<>(awardService.addAward(resumeId, awardRequestDto, file));
     }
@@ -80,8 +80,8 @@ public class ResumeController {
     //이력서 수정에서 학교이력 수정할 때 사용
     @PutMapping("/school")
     public ResponseDto<Boolean> updateSchool(
-            @Valid @RequestBody SchoolUpdateDto schoolUpdateDto,
-            @RequestParam("file") MultipartFile file) {
+            @Valid @RequestPart SchoolUpdateDto schoolUpdateDto,
+            @RequestPart MultipartFile file) {
 
         return new ResponseDto<>(schoolService.updateSchool(schoolUpdateDto, file));
     }

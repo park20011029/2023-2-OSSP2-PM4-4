@@ -17,8 +17,8 @@ import project.manager.server.domain.chat.Chat;
 import project.manager.server.domain.chat.ChatRoom;
 import project.manager.server.domain.post.building.Apply;
 import project.manager.server.domain.post.building.BuildingPost;
-import project.manager.server.domain.post.contest.ContestPost;
 import project.manager.server.dto.request.UserRequestDto;
+import project.manager.server.enums.Constant;
 import project.manager.server.enums.UserRole;
 import project.manager.server.enums.UserState;
 
@@ -108,7 +108,7 @@ public class User {
     // -------------------------------------------------------------------
 
     @Builder
-    public User(UserRequestDto userRequestDto, UserRole role) {
+    public User(UserRequestDto userRequestDto, UserRole role, String socialId) {
         this.email = userRequestDto.getEmail();
         this.name = userRequestDto.getName();
         this.nickName = userRequestDto.getNickName();
@@ -120,7 +120,8 @@ public class User {
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
         this.userState = UserState.MEMBER;
         this.phoneNumber = userRequestDto.getPhoneNumber();
-        this.executeDate = LocalDate.MIN;
+        this.executeDate = Constant.MYSQL_MIN_DATE;
+        this.socialId = socialId;
     }
 
     public void updateImage(Image image) {
@@ -136,7 +137,7 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
-    public void logoutUser() {
+    public void signOutUser() {
         this.isLogin = false;
         this.refreshToken = null;
     }
