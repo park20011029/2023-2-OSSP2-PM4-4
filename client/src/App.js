@@ -18,6 +18,13 @@ import MyPageApply from "./mypage/MyPageApply";
 import MyPageWritten from "./mypage/MyPageWritten";
 import MyPageReward from "./mypage/MyPageReward";
 import MyPageWriteReview from "./mypage/MyPageWriteReview";
+import BuildingReportList from "./adminpage/BuildingReportList";
+import ContestReportList from "./adminpage/ContestReportList";
+import ReviewReportList from "./adminpage/ReviewReportList";
+import UserReportList from "./adminpage/UserReportList";
+import ResumeReportList from "./adminpage/ResumeReportList";
+import UserPage from "./UserPage";
+import ReviewPage from "./ReviewPage";
 
 function App() {
     return (
@@ -42,6 +49,13 @@ function App() {
                 <Route path="/my_writeReview" element={<MyPageWriteReview/>}></Route>
                 <Route path="/my_written" element={<MyPageWritten/>}></Route>
                 <Route path="/my_reward" element={<MyPageReward/>}></Route>
+                <Route path="/admin_contest_report" element={<ContestReportList/>}></Route>
+                <Route path="/admin_building_report" element={<BuildingReportList/>}></Route>
+                <Route path="/admin_review_report" element={<ReviewReportList/>}></Route>
+                <Route path="/admin_user_report" element={<UserReportList/>}></Route>
+                <Route path="/admin_resume_report" element={<ResumeReportList/>}></Route>
+                <Route path="/userPage/:id" element={<UserPage/>}></Route>
+                <Route path="/reviewPage/:id" element={<ReviewPage/>}></Route>
             </Routes>
         </Router>
     );
