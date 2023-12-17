@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import styles from './ChatPage.module.css';
 
-const ChatLog = ({ chatLog, submit }) => {
+const ChatLog = ({ chatLog, setNewMessage, submit }) => {
     const [chatInput, setChatInput] = useState("");
 
     //스크롤 처리
@@ -53,6 +53,7 @@ const ChatLog = ({ chatLog, submit }) => {
     const onSubmit = () => {
         submit(chatInput);
         setChatInput("");
+        setNewMessage("");
     }
 
     return(
@@ -60,7 +61,10 @@ const ChatLog = ({ chatLog, submit }) => {
             {renderLog()}
             <div className={styles.chatInput}>
                 <input type={"text"} value={chatInput}
-                       onChange={(e) => setChatInput(e.target.value)}
+                       onChange={(e) => {
+                           setChatInput(e.target.value);
+                           setNewMessage(e.target.value);
+                       }}
                        onKeyPress={handleEnter}
                        placeholder={"채팅을 입력하세요"}/>
                 <button onClick={onSubmit}>전송</button>

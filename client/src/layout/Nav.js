@@ -3,6 +3,7 @@ import { MyPageIcon } from "./MyPageIcon";
 import { Link, useNavigate } from "react-router-dom";
 
 const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
+  const rootURL = 'http://localhost:3000';
   const navigate = useNavigate();
   const handleLogout = () => {
     // 로그아웃 처리 후
@@ -12,6 +13,16 @@ const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
     localStorage.removeItem('token');
     navigate('/');
   };
+
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+
+  // 새 창의 크기를 화면 크기의 50%로 설정하고, 가운데 정렬
+  const newWindowWidth = screenWidth * 0.5;
+  const newWindowHeight = screenHeight * 0.5;
+  const leftPos = (screenWidth - newWindowWidth) / 2;
+  const topPos = (screenHeight - newWindowHeight) / 2;
+
   return (
       <header>
         <div className="h-[90px] p-[15px] border-b-[#000000] shadow-md mb-[20px]">
@@ -56,9 +67,9 @@ const Nav = ({ isLoggedIn, setIsLoggedIn }) => {
             <div className="flex items-center h-[60px]">
               <div className="flex items-center">
                 <button
-                    onClick={() => {
-                      navigate("/chat_list");
-                    }}
+                    onClick={() =>
+                      window.open(`http://localhost:3000/chat_list`, "ChatListPage", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`)
+                    }
                 >
                   <ChatIcon></ChatIcon>
                 </button>
