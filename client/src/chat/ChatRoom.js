@@ -6,35 +6,13 @@ import styles from "./ChatPage.module.css";
 import ChatLog from "./ChatLog";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
-const dummyData = [
-    {
-        timestamp:"2023-12-09T10:42:32.262Z",
-        isSentByMe:true,
-        content:"안녕하세요"
-    },
-    {
-        timestamp:"2023-12-09T10:42:32.263Z",
-        isSentByMe:true,
-        content:"문의할게 있어서요"
-    },
-    {
-        timestamp:"2023-12-10T11:42:32.262Z",
-        isSentByMe:false,
-        content:"안녕하세요"
-    },
-    {
-        timestamp:"2023-12-10T11:43:32.262Z",
-        isSentByMe:false,
-        content:"어떤 문의사항이신가요?"
-    },
-]
 
 const ChatRoom = () => {
     const {state} = useLocation();
     const {image, targetName} = state;
     const navigate = useNavigate();
     const userId = 1 //Todo: userId
-    const [messages, setMessages] = useState(dummyData);
+    const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [chatRoomId] = useState(useParams().chatRoomId);
     const [sender] = useState(userId);
