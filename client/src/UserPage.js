@@ -108,19 +108,19 @@ function UserPage(){
             <div className="profileContainer w-[80%] mx-auto my-[50px]">
                 <div className="container-top">
                     <h2>프로필</h2>
-                    <div className="report">
-                        <Siren width={20} height={20} /><button onClick={openModal}>유저 신고</button>
-                        <ReportModal
-                            showModal={isModalOpen}
-                            item={{
-                                targetId:id,
-                                targetName:nickName,
-                                userId:userId
-                            }}
-                            category={"유저"}
-                            onClose={closeModal}
-                        />
-                    </div>
+                </div>
+                <div className="report">
+                    <Siren width={20} height={20} /><button onClick={openModal}>유저 신고</button>
+                    <ReportModal
+                        showModal={isModalOpen}
+                        item={{
+                            targetId:id,
+                            targetName:nickName,
+                            userId:userId
+                        }}
+                        category={"유저"}
+                        onClose={closeModal}
+                    />
                 </div>
                 <div className="flex items-center justify-around">
                     <img src={imageUrl} alt="profileImage"/>
@@ -133,20 +133,20 @@ function UserPage(){
             <div className="resumeContainer w-[80%] mx-auto my-[50px]">
                 <div className="container-top">
                     <h2>이력서</h2>
-                    <div className="report">
-                        <Siren width={20} height={20} /><button onClick={openModal}>이력서 신고</button>
-                        <ReportModal
-                            showModal={isModalOpen}
-                            item={{
-                                targetId:id,
-                                targetName:nickName,
-                                userId:userId,
-                                resumeId:resumeId
-                            }}
-                            category={"이력서"}
-                            onClose={closeModal}
-                        />
-                    </div>
+                </div>
+                <div className="report">
+                    <Siren width={20} height={20} /><button onClick={openModal}>이력서 신고</button>
+                    <ReportModal
+                        showModal={isModalOpen}
+                        item={{
+                            targetId:id,
+                            targetName:nickName,
+                            userId:userId,
+                            resumeId:resumeId
+                        }}
+                        category={"이력서"}
+                        onClose={closeModal}
+                    />
                 </div>
                 <div className="grid grid-cols-2 gap-y-[20px] gap-x-[60px] px-[20px]">
                     <div className="flex items-center border-b-[1px] border-b-[#000000] pb-[20px] px-[10px]"><div className="font-bold">이름</div> : {name}</div>
