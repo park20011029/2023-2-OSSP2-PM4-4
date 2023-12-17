@@ -66,6 +66,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
+    @Column(name = "is_login", columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean isLogin;
+
+    @Column(name = "social_id")
+    private String socialId;
+
+    @Column(name = "refresh_Token")
+    private String refreshToken;
+
     // -------------------------------------------------------------------
 
 //    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
@@ -105,6 +114,8 @@ public class User {
         this.nickName = userRequestDto.getNickName();
         this.introduction = userRequestDto.getIntroduction();
         this.role = role;
+        this.isLogin = false;
+        this.refreshToken = null;
         this.point = 0;
         this.createdDate = Timestamp.valueOf(LocalDateTime.now());
         this.userState = UserState.MEMBER;
@@ -119,6 +130,17 @@ public class User {
         this.nickName = nickName;
         this.introduction = introduction;
     }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.isLogin = true;
+        this.refreshToken = refreshToken;
+    }
+
+    public void logoutUser() {
+        this.isLogin = false;
+        this.refreshToken = null;
+    }
+
 
     public void updateUserState(UserState userState, LocalDate executeDate) {
         this.userState = userState;

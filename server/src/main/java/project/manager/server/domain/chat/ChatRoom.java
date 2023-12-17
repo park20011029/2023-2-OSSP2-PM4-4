@@ -2,14 +2,15 @@ package project.manager.server.domain.chat;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
-import project.manager.server.domain.User;
 
-import java.util.List;
+import project.manager.server.domain.User;
 
 @Entity
 @Getter

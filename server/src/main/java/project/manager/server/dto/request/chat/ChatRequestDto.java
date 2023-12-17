@@ -1,6 +1,7 @@
 package project.manager.server.dto.request.chat;
 
 import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

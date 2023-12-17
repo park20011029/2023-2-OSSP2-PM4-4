@@ -16,10 +16,12 @@ public class AwardDto {
     private String competition;
     private String awardType;
     private LocalDate awardYear;
+    private String awardImage;
 
     @Builder
     public AwardDto(Award award) {
         this.id = award.getId();
+        this.awardImage = award.getAwardImage().getUrl();
         this.competition = award.getCompetition();
         this.awardType = award.getAwardType();
         this.awardYear = award.getAwardYear();
