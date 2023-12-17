@@ -69,6 +69,7 @@ public class Review {
     public void updateReview(String content, Double score) {
         this.content = content;
         this.score = score;
+        this.createdDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public void deleteReview() {
