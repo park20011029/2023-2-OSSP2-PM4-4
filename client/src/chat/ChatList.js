@@ -25,10 +25,6 @@ const ChatList = () => {
         getChatList();
     },[]);
 
-    const moveToChat = (image, name) => {
-        return <ChatRoom image={image}
-                         targetName={name} />
-    }
     return (
         <div className={styles.page}>
             <label className={styles.bigTitle}>채팅 목록</label>
@@ -37,9 +33,9 @@ const ChatList = () => {
                     <div className={styles.chatLine}
                          onClick={() => navigate(`/chatRoom/${chat.chatRoomId}`,
                              {state:{image:chat.image, targetName:chat.opponentNickname}})}>
-                        <img src={"defaultProfile.svg"} alt={"프로필사진"}/> {/*Todo: 이거하기*/}
+                        <img src={"/defaultProfile.svg"} alt={"프로필사진"}/> {/*Todo: 이거하기*/}
                         <div className={styles.nameNchat}>
-                            <label>{chat.opponentNickname}</label>
+                            <label>{chat.opponentNickname}과의 대화</label>
                             <label>{chat.lastChat}</label>
                         </div>
                     </div>

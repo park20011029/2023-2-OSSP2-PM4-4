@@ -137,16 +137,19 @@ const ChatRoom = () => {
 
     return (
         <div className={styles.page}>
-            <button onClick={() => navigate(-1)}>목록</button>
-            <img className={styles.targetImg} src={image} alt={"프로필사진"}/>
-            <label className={styles.targetName}>{targetName} 과의 대화</label>
-            <div className={styles.chat}>
-                {isConnected ?
-                    <ChatLog chatLog={messages}
-                             setNewMessage={setNewMessage}
-                             submit={sendMessage}
-                    /> : <></> }
+            <div className={styles.goBack} onClick={() => navigate(-1)}>
+                <img src="/backIcon.svg" alt={'뒤로가기'}></img>
+                <button>목록</button>
             </div>
+            <div className={styles.targetInfo}>
+                <img className={styles.targetImg} src={image || '/defaultProfile.svg'} alt={"프로필사진"}/>
+                <label className={styles.targetName}>{targetName} 과의 대화</label>
+            </div>
+            {isConnected ?
+                <ChatLog chatLog={messages}
+                         setNewMessage={setNewMessage}
+                         submit={sendMessage}
+                /> : <></> }
         </div>
     );
     /*

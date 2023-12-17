@@ -1,16 +1,41 @@
 .page {
     display:flex;
     flex-direction: column;
-    margin: 30px;
+    margin: 30px auto;
     width:75%;
+    font-family: "NotoSansKR";
 }
 
+.goBack {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+.goBack:hover {
+    cursor: pointer;
+}
+.goBack label {
+    display: flex;
+    align-items: center;
+}
+
+.targetInfo {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .targetImg {
     width:100px;
     height:100px;
+    margin-bottom: 20px;
 }
 
 .targetName {
+    width:100%;
+    display:flex;
+    justify-content: center;
     font:25px black bold;
     padding-bottom:10px;
     border-bottom: 2px black solid;
@@ -20,26 +45,53 @@
 .chatLog {
     min-height:200px;
     border:2px black solid;
-    border-radius:5px;
-    background:lightskyblue;
+    border-bottom-right-radius: 20px;
+    background-color: rgba(168, 219, 255, 0.6);
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
 }
 
 /* 채팅 로그 */
 .chatDate {
     display:flex;
     justify-content: center;
+    margin: 10px 0;
 }
-.chatMyChat {
-    display:flex;
+
+.goRight {
+    display: flex;
     justify-content: flex-end;
 }
-.chatNotMyChat {
-    display:flex;
+.goLeft {
+    display: flex;
     justify-content: flex-start;
 }
+.chatMyChat {
+    margin-top: 5px;
+    margin-right: 20px;
+    padding: 0 5px;
+    width:fit-content;
+
+    border: #fafa80 solid;
+    background-color: #fafa80;
+    border-radius: 20px;
+}
+
+.chatNotMyChat {
+    margin-top: 5px;
+    margin-left: 20px;
+    padding: 0 5px;
+    width:fit-content;
+
+    border: #5087f5 solid;
+    background-color: #5087f5;
+    border-radius: 20px;
+}
+
 .chatMyTime {
-    display:flex;
-    justify-content: flex-end;
+    color:grey;
+    font-size:10px;
+    margin-bottom: 5px;
+    margin-right: 30px;
 }
 .chatNotMyTime {
     display:flex;
@@ -47,11 +99,27 @@
 }
 
 .chatInput {
-    display:flex;
+    display: flex;
     justify-content: center;
-    width:100%;
+    width: auto;
+    padding: 20px;
+    position: relative;
 }
+
 .chatInput input {
     margin: 0;
-    width:90%;
+    width: 100%;
+    padding-right: 30px;
+}
+
+.chatInput img {
+    position: absolute;
+    bottom:23px;
+    right: 30px;
+    cursor: pointer;
+}
+
+.chatInput input:focus {
+    border: 2px #1d5dd9 solid;
+    outline: none;
 }
