@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {team_CategoryDetail, team_CategoryList, team_CategoryTrans} from "./axios_category";
 import styles from "../css/Team_Write(Post).module.css";
+import "../css/buttons.css";
 
 const RenderDropdown = ({ addCategory }) => {
     const [selectedKey, setSelectedKey] = useState("");
@@ -32,7 +33,7 @@ const RenderDropdown = ({ addCategory }) => {
 
     return (
         <div className={styles.categoryDropdown}>
-            <select onChange={handleKeyChange} value={selectedKey}>
+            <select className={styles.dropDown} onChange={handleKeyChange} value={selectedKey}>
                 <option value="" disabled selected hidden>
                     분야
                 </option>
@@ -42,7 +43,7 @@ const RenderDropdown = ({ addCategory }) => {
                     </option>
                 ))}
             </select>
-            <select onChange={handlePartChange} value={selectedPart}>
+            <select className={styles.dropDown} onChange={handlePartChange} value={selectedPart}>
                 <option value="" disabled selected hidden>
                     프레임워크
                 </option>
@@ -53,7 +54,7 @@ const RenderDropdown = ({ addCategory }) => {
                 ))}
             </select>
 
-            <select onChange={handleApplicantChange} value={selectedApplicant}>
+            <select className={styles.dropDown} onChange={handleApplicantChange} value={selectedApplicant}>
                 <option value="" disabled selected hidden>
                     인원
                 </option>
@@ -64,7 +65,7 @@ const RenderDropdown = ({ addCategory }) => {
                 ))}
             </select>
 
-            <button onClick={() => {
+            <button className="blueButton" onClick={() => {
                 addCategory(selectedKey, selectedPart, selectedApplicant);
                 setSelectedPart("");
                 setSelectedApplicant("");

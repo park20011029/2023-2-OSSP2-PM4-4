@@ -2,6 +2,7 @@
 //모집하려는 카테고리와 인원을 선택할 수 있게 함.
 import React, { useState, useEffect } from 'react';
 import styles from '../css/Team_Write(Post).module.css';
+import "../css/buttons.css";
 import {team_CategoryDetail, team_CategoryList, team_CategoryTrans} from "./axios_category";
 import RenderDropdown from "./Write_Category_Dropdown";
 
@@ -64,8 +65,8 @@ const Write_Category = ({setCategory}) => {
     }, [selectedCategory]);
 
     return (
-        <div>
-            <div className={styles.categoryTitle}>
+        <div className={styles.category}>
+            <div className={styles.bigTitle}>
                 <label>모집 카테고리 선택</label>
             </div>
             {/* 각 카테고리 제목 */}
@@ -75,12 +76,12 @@ const Write_Category = ({setCategory}) => {
                     <label>선택한 항목</label>
                 </div>
                 {selectedCategory.map((element) => (
-                    <div className={styles.selectedRow}>
-                        <label className={styles.l1}>[{team_CategoryTrans[element.techType]}]</label>
-                        <label className={styles.l2}>{element.partName}</label>
-                        <label className={styles.l3}>{element.maxApplicant}명</label>
-                        <button onClick={() => removeCategory(element)}>제거하기</button>
-                    </div>
+                    <tr className={styles.selectedRow}>
+                        <td>[{team_CategoryTrans[element.techType]}]</td>
+                        <td>{element.partName}</td>
+                        <td>{element.maxApplicant}명</td>
+                        <td><button className={"redButton"} onClick={() => removeCategory(element)}>제거하기</button></td>
+                    </tr>
                 ))}
             </div>
         </div>

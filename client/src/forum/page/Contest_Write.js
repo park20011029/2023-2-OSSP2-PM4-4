@@ -1,13 +1,14 @@
 //공모전 정보 게시글 작성
 import React, {useEffect, useState} from "react";
 import styles from "../css/Team_Write(Post).module.css";
+import "../css/buttons.css";
 import Write_Title from "../component/Write_Title";
 import Write_Contest_Dropdown from "../component/Write_Contest_Dropdown";
 import Write_Calendar from "../component/Write_DatePick";
 import ReactQuill from "react-quill";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
-import axios, {post} from "axios";
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {contest_CategoryKOR, contest_CategoryList, contest_CategoryKeyPost} from "../component/axios_category";
 
@@ -32,8 +33,8 @@ const Contest_Write = () => {
 
     //전송할 객체
     const [image, setImage] = useState({
-        src: "upload.svg",
-        url: ""
+        src: "/upload.svg",
+        url: "/upload.svg"
     });
     const [data, setData] = useState({});
     const [content, setContent] = useState('');
@@ -153,7 +154,7 @@ const Contest_Write = () => {
                 <div className={styles.bigTitle}>게시글 작성</div>
                 <div className={styles.brief}>
                     <div className={styles.imageUpload}>
-                        {image.url && <img className={styles.image} src={image.url} alt="Preview"/>}
+                        {image.src && <img className={styles.image} src={image.src} alt="Preview"/>}
                         <input type="file" accept="image/*"
                                onChange={handleImgChange} />
                     </div>
@@ -161,14 +162,14 @@ const Contest_Write = () => {
                         {/* 제목 입력 */}
                         <Write_Title setTitle={setTitle} />
                         {/* 드롭다운 카테고리 선택 */}
-                        <div className={styles.briefLabels}>
+                        <table className={styles.briefTable}>
                             <Write_Contest_Dropdown categoryList={categoryList}
                                                     handleDataChange={handleDataChange_Event} />
                             <Write_Calendar keyName={"startAt"}
                                             setData={handleDateChange_Param} />
                             <Write_Calendar keyName={"endAt"}
                                             setData={handleDateChange_Param} />
-                        </div>
+                        </table>
                     </div>
                 </div>
                 <div className={styles.body}>
@@ -183,8 +184,8 @@ const Contest_Write = () => {
                     />
                 </div>
                 <div className={styles.submitCancel}>
-                    <button className={styles.submit} onClick={upload}>신청</button>
-                    <button className={styles.cancel} onClick={() => {
+                    <button className={"blueButton"} onClick={upload}>신청</button>
+                    <button className={"redButton"} onClick={() => {
                         if(window.confirm("취소하시겠습니까?")) { navigate(-1); }
                     }}>취소</button>
                 </div>

@@ -38,3 +38,16 @@
     transform: scale(0.9);
 }
 
+.greyButton {
+    background-color: rgba(0, 0, 0, 0.46);
+    border-radius: 5px;
+    padding:5px;
+    font-size: 14px;
+    color: black;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease-in-out;
+}
+.greyButton:hover {
+    transform: scale(0.9);
+}
+

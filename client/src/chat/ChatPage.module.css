@@ -44,6 +44,7 @@
 
 .chatLog {
     min-height:200px;
+    overflow-y: auto;
     border:2px black solid;
     border-bottom-right-radius: 20px;
     background-color: rgba(168, 219, 255, 0.6);

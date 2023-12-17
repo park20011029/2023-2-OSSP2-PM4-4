@@ -25,26 +25,28 @@ const Write_Contest_Dropdown = ({ categoryList, handleDataChange }) => {
 
     Object.entries(detail).map(([key, list]) => {
         labels.push(
-            <div className={styles.detailLine} key={`detailLine-${key}`}>
-                <label key={`label-${key}`}>
+            <tr key={`detailLine-${key}`}>
+                <td className={styles.dropdownTitle}>
                     {categoryData[key]} :
-                </label>
-                <select key={`select-${key}`} id={key} onChange={handleDataChange}>
-                    <option value="" disabled selected hidden>
-                        선택하세요
-                    </option>
-                    {list.map((option) => (
-                        <option
-                            key={option[key]}
-                            id={option[key]}
-                            value={option.id}
-                            onChange={handleDataChange}
-                        >
-                            {option[key]}
+                </td>
+                <td>
+                    <select className={styles.dropDown} key={`select-${key}`} id={key} onChange={handleDataChange}>
+                        <option value="" disabled selected hidden>
+                            선택하세요
                         </option>
-                    ))}
-                </select>
-            </div>
+                        {list.map((option) => (
+                            <option
+                                key={option[key]}
+                                id={option[key]}
+                                value={option.id}
+                                onChange={handleDataChange}
+                            >
+                                {option[key]}
+                            </option>
+                        ))}
+                    </select>
+                </td>
+            </tr>
         );
     });
 
