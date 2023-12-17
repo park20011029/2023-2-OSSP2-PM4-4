@@ -11,7 +11,6 @@ const Write_Category = ({setCategory}) => {
     //선택한 카테고리
     const [selectedCategory, setSelectedCategory] = useState([]);
 
-
     //선택한 항목을 리스트에 추가
     const addCategory = (techType, partName, maxApplicant) => {
         //console.log(techType, partName, maxApplicant); //debug
@@ -28,7 +27,8 @@ const Write_Category = ({setCategory}) => {
         );
 
         if(findObject) { //목록에 있음 - 수정
-            findObject.maxApplicant = maxApplicant;
+            window.alert("해당 항목은 이미 목록에 있습니다!");
+            return;
         }
         else { //목록에 없음 - 추가
             setSelectedCategory(prevSelected => [
@@ -39,8 +39,14 @@ const Write_Category = ({setCategory}) => {
                     maxApplicant: maxApplicant
                 }
             ]);
+            //setSelectedCategory(sortedArray);
         }
     };
+    //정렬
+    const sortedArray = selectedCategory.sort((a, b) =>
+        team_CategoryList.indexOf(a.techType) - team_CategoryList.indexOf(b.techType)
+    );
+
 
     //목록에서 제거
     const removeCategory = (element) => {
@@ -59,17 +65,20 @@ const Write_Category = ({setCategory}) => {
 
     return (
         <div>
-            <div className={styles.title}>모집 카테고리 선택</div>
+            <div className={styles.categoryTitle}>
+                <label>모집 카테고리 선택</label>
+            </div>
             {/* 각 카테고리 제목 */}
-            <label>카테고리 선택</label>
-            <RenderDropdown addCategory={addCategory} />
-            <div className={styles.selectedBox}>
-                <label>선택한 항목</label>
+            <div className={styles.criteria}>
+                <RenderDropdown addCategory={addCategory} />
+                <div className={styles.selectedBox}>
+                    <label>선택한 항목</label>
+                </div>
                 {selectedCategory.map((element) => (
                     <div className={styles.selectedRow}>
-                        <label>{element.techType}</label>
-                        <label>{element.partName}</label>
-                        <label>{element.maxApplicant}</label>
+                        <label className={styles.l1}>[{team_CategoryTrans[element.techType]}]</label>
+                        <label className={styles.l2}>{element.partName}</label>
+                        <label className={styles.l3}>{element.maxApplicant}명</label>
                         <button onClick={() => removeCategory(element)}>제거하기</button>
                     </div>
                 ))}

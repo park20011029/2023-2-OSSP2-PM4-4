@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {team_CategoryDetail, team_CategoryList, team_CategoryTrans} from "./axios_category";
+import styles from "../css/Team_Write(Post).module.css";
 
 const RenderDropdown = ({ addCategory }) => {
     const [selectedKey, setSelectedKey] = useState("");
@@ -30,7 +31,7 @@ const RenderDropdown = ({ addCategory }) => {
     };
 
     return (
-        <div>
+        <div className={styles.categoryDropdown}>
             <select onChange={handleKeyChange} value={selectedKey}>
                 <option value="" disabled selected hidden>
                     분야
@@ -69,7 +70,7 @@ const RenderDropdown = ({ addCategory }) => {
                 setSelectedApplicant("");
                 setSelectedKey("");
             }}>
-                추가하기
+                추가
             </button>
         </div>
     );

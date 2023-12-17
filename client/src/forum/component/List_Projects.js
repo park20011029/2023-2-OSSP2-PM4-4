@@ -8,7 +8,7 @@ import axios from "axios";
 
 // dummy data
 let write = {
-    number: "123", //글번호
+    number: "32", //글번호
     title: "프로젝트 글 제목",
     name: "작성자",
     date: "2023.11.13"
@@ -53,7 +53,7 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
 
             {writeList.map((item, index) => (
                 <div className={styles.item} key={index}
-                     onClick={() => navigate(`/ContestTeamWriteView/${item.number}`)}>
+                     onClick={() => navigate(`/teamWriteView/${item.number}`)}>
                     <label className={styles.title}>{item.title}</label>
                     <label className={styles.writer}>{item.name}</label>
                     <label className={styles.date}>{item.date}</label>
@@ -61,7 +61,12 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
             ))}
 
             <div className={styles.writeButton}>
-                <button onClick={()=>{navigate('/contestTeamWritePost')}}>글쓰기</button>
+                <button onClick={()=>{
+                    if(listData.type === "contestPost")
+                        navigate(`/teamWritePost/${listData.id}`);
+                    else
+                        navigate(`/teamWritePost/0`);
+                }}>글쓰기</button>
             </div>
             <div className={styles.pageNumber}>
                 {List_PageNumber({pageInfo, setPageInfo})}
