@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import project.manager.server.dto.reponse.ResponseDto;
+import project.manager.server.dto.reponse.chat.ChatCreate;
 import project.manager.server.dto.request.chat.ChatRequestDto;
 import project.manager.server.dto.request.chat.ChatRoomRequestDto;
 import project.manager.server.service.chat.ChatRoomService;
@@ -29,7 +30,6 @@ public class ChatController {
     public ResponseDto<Boolean> chat(
             @Valid @RequestBody ChatRequestDto chatRequestDto
             ) {
-        System.err.println(chatRequestDto.getChatRoomId()+"박민기"+chatRequestDto.getSender()+"박민기"+chatRequestDto.getContent());
         return new ResponseDto<>(chatService.save(chatRequestDto));
     }
 
@@ -39,9 +39,12 @@ public class ChatController {
         return new ResponseDto<>(chatService.findAllChatByRoomId(chatRoomId));
     }
 
+
+
     @PostMapping("/chatroom")
-    public ResponseDto<Long> createChatRoom(
+    public ResponseDto<ChatCreate> createChatRoom(
             @Valid @RequestBody ChatRoomRequestDto chatRoomRequestDto) {
+        System.err.println("ddk");
         return new ResponseDto<>(chatRoomService.createChatRoom(chatRoomRequestDto));
     }
 
