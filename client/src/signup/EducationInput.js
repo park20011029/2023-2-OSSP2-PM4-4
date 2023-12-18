@@ -1,6 +1,18 @@
 import './EducationInput.css';
-function EducationInput({school, major, eduState, setSchool, setMajor, setEduState}) {
+import React from "react";
+function EducationInput({school, major, eduState, eduImage, setSchool, setMajor, setEduState, setEduImage}) {
 
+    const handleEduImageUpload = (event) => {
+        const selectedFile = event.target.files[0];
+
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setEduImage(selectedFile);
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    };
   return (
     <div id="educationBox" className="grid-element">
       <label>*최종 학력:</label>
@@ -12,6 +24,9 @@ function EducationInput({school, major, eduState, setSchool, setMajor, setEduSta
           <option value="ENROLLED">재학</option>
           <option value="GRADUATE">졸업</option>
       </select>
+        <input className="w-[150px]" type="file" accept="image/*" onChange={handleEduImageUpload}
+        />
+
     </div>
   );
 }

@@ -10,6 +10,11 @@ function RegionInput({city, district, setCity, setDistrict}) {
            axios.get("/region/si").then(response =>{setCityList(response.data.responseDto)})
                .catch(error => {console.error('Error fetching city data: ',error)});
   },[]);
+
+    useEffect(()=>{
+        axios.get(`/region/gu/${city}`).then(response =>{setDistrictList(response.data.responseDto)})
+            .catch(error => {console.error('Error fetching district data: ',error)});
+    },[city]);
   const handleCityChange = async (e) => {
       setCity(e.target.value);
       try {

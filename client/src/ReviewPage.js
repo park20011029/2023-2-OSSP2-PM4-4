@@ -18,7 +18,7 @@ function ReviewPage(){
             setContent(response.data.responseDto.content);
             setReviewee(response.data.responseDto.reviewee);
             setReviewer(response.data.responseDto.reviewer);
-            setReviewDate(response.data.responseDto.createDate);
+            setReviewDate(response.data.responseDto.createAt);
         }catch(error){
             console.error("error fetching review report data : ", error);
         }
@@ -34,8 +34,8 @@ function ReviewPage(){
                         <div className="star-ratings">
                             <StarRate value={score * 10} />
                         </div>
-                        <div className="reviewedUser">To : {reviewer}</div>
-                        <div className="reviewedUser">From : {reviewee}</div>
+                        <div className="reviewedUser">To : {reviewee}</div>
+                        <div className="reviewedUser">From : {reviewer}</div>
                         <div className="reviewedDate">{reviewDate}</div>
                     </div>
                     <div className="review-body">{content}</div>

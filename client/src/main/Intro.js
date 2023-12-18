@@ -4,7 +4,7 @@ function Intro() {
             <div className="w-1/3 h-full">
                 <img src="image.png" alt="Introducing Image" className="h-full"></img>
             </div>
-            <div className="w-2/3 h-100%">
+            <div className="w-2/3 h-100% ml-[10px]">
                 <p className="p-[10px]">
                     Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever

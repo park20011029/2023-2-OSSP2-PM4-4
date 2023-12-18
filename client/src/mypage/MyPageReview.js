@@ -108,8 +108,9 @@ function MyPageReview() {
                                                             onClose={closeModal}
                                                         />
                                                     </div>
-                                                    <div className="reviewedUser">{item.reviewer}</div>
-                                                    <div className="reviewedDate">{item.createDate}</div>
+                                                    <div className="reviewedUser">To : {item.reviewee}</div>
+                                                    <div className="reviewedUser">From : {item.reviewer}</div>
+                                                    <div className="reviewedDate">{item.createAt}</div>
                                                 </div>
                                                 <div className="review-body">{item.content}</div>
                                             </div>
@@ -139,8 +140,9 @@ function MyPageReview() {
                                                     <div className="star-ratings">
                                                         <StarRate value={item.score * 10}/>
                                                     </div>
-                                                    <div className="reviewedUser">{item.reviewer}</div>
-                                                    <div className="reviewedDate">{item.createDate}</div>
+                                                    <div className="reviewedUser">To : {item.reviewee}</div>
+                                                    <div className="reviewedUser">From : {item.reviewer}</div>
+                                                    <div className="reviewedDate">{item.createAt}</div>
                                                 </div>
                                                 <div className="review-body">{item.content}</div>
                                             </div>

@@ -18,6 +18,9 @@ import ProjectRecordInput from "./ProjectRecordInput";
 import Footer from "../layout/Footer";
 
 function SignUpPage() {
+  const [profileImage, setProfileImage] = useState(null);
+  const [url, setUrl] = useState('https://via.placeholder.com/150');
+  const [eduImage, setEduImage] = useState(null);
   const [nickName, setNickName] = useState(null);
   const [isNickNameAvailable, setIsNickNameAvailable] = useState(false);
   const [introduction, setIntroduction] = useState(null);
@@ -36,7 +39,8 @@ function SignUpPage() {
   const [congress, setCongress] = useState(null);
   const [awardYear, setAwardYear] = useState(null);
   const [awardType, setAwardType] = useState(null);
-  const [awardFile, setAwardFile] = useState(null);
+  const [awardImage, setAwardImage] = useState(null);
+  const [awardImageArray, setAwardImageArray] = useState([]);
   const [skills, setSkills] = useState([]);
   const [techType, setTechType] = useState(null);
   const [tech, setTech] = useState(null);
@@ -49,42 +53,74 @@ function SignUpPage() {
   const handleUserData = async () => {
     if (isNickNameAvailable) {
       try {
-        const userResponse = await axios.post("/user/signup", {
-          nickName: nickName,
-          introduction: introduction,
-          name: name,
-          email: email,
-          phoneNumber: phoneNumber,
-        });
+        const profileFormData = new FormData();
+        profileFormData.append('file', profileImage);
+        const signUp = {
+          "nickName": nickName,
+          "introduction": introduction,
+          "name": name,
+          "email": email,
+          "phoneNumber": phoneNumber,
+        }
+
+        profileFormData.append("userRequestDto", new Blob([JSON.stringify(signUp)],{type: "application/json"}));
+        const userResponse = await axios.post("/user/signup", profileFormData);
         if (userResponse.status === 200) {
-          console.log("PROFILE POST 요청 성공");
+          console.log("PROFILE POST 요청 성공", userResponse.data.responseDto);
+          const projectsWithUserId = projects.map(project => ({
+            ...project, userId: userResponse.data.responseDto}));
+          console.log(projectsWithUserId);
+          const resume = {
+            "job": job,
+            "birth": date,
+            "gender": gender,
+            "guId": district,
+            "schoolInfo": {
+              "userId": userResponse.data.responseDto,
+              "name": school,
+              "major": major,
+              "schoolRegister": eduState,
+            },
+            "projects" : projectsWithUserId,
+            "techStacks": skills,
+          }
+          const resumeFormData = new FormData();
+          resumeFormData.append('file', eduImage);
+          resumeFormData.append("resumeRequestDto", new Blob([JSON.stringify(resume)],{type: "application/json"}));
           const resumeResponse = await axios.post(
-              `/resume/${userResponse.data.responseDto}`,
-              {
-                job: job,
-                birth: date,
-                gender: gender,
-                guId: district,
-                schoolInfo: {
-                  name: school,
-                  major: major,
-                  schoolRegister: eduState,
-                },
-                awards: awards,
-                projects: projects,
-                techStacks: skills,
-              }
-          );
+              `/resume/${userResponse.data.responseDto}`, resumeFormData);
           if(resumeResponse.status === 200) {
-            window.alert("회원 가입 성공");
-            window.location.href = '/';
+            console.log("RESUME POST 요청 성공", resumeResponse.data.responseDto);
+            let isAwardOK = true;
+            const awardFormData = new FormData();
+            for(let i=0; i<awardImageArray.length; i++) {
+              awardFormData.append('file', awardImageArray[i].awardImage);
+              let award ={
+                "userId": userResponse.data.responseDto,
+                "competition": awards[i].competition,
+                "awardYear":awards[i].awardYear,
+                "awardType":awards[i].awardType,
+              }
+              awardFormData.append("awardRequestDto", new Blob([JSON.stringify(award)],{type:"application/json"}));
+              const awardResponse = await axios.post(`/resume/award/${resumeResponse.data.responseDto}`,awardFormData);
+              if(awardResponse.status !== 200){
+                isAwardOK = false;
+              }
+            }
+            if(isAwardOK === true){
+              window.alert("회원 가입 성공");
+              // window.location.href = '/';
+            }
+            else{
+              window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            }
           }
           else {
             window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
           }
         } else {
           // userResponse status != 200
-          window.alert(userResponse.data.error.message);
+          window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
         }
       } catch (error) {
         window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -103,7 +139,7 @@ function SignUpPage() {
             <p>* 항목은 필수 입력</p>
           </div>
           <div id="profile-container">
-            <ProfileImageUpload></ProfileImageUpload>
+            <ProfileImageUpload profileImage={profileImage} url={url} setProfileImage={setProfileImage} setUrl={setUrl}/>
             <div>
               <div>
                 <NickNameInput
@@ -141,9 +177,11 @@ function SignUpPage() {
                 school={school}
                 major={major}
                 eduState={eduState}
+                eduImage={eduImage}
                 setSchool={setSchool}
                 setMajor={setMajor}
                 setEduState={setEduState}
+                setEduImage={setEduImage}
             />
             <EmailInput email={email} setEmail={setEmail} />
             <AwardInput
@@ -151,12 +189,14 @@ function SignUpPage() {
                 congress={congress}
                 awardYear={awardYear}
                 awardType={awardType}
-                awardFile={awardFile}
+                awardImage={awardImage}
+                awardImageArray={awardImageArray}
                 setAwards={setAwards}
                 setCongress={setCongress}
                 setAwardYear={setAwardYear}
                 setAwardType={setAwardType}
-                setAwardFile={setAwardFile}
+                setAwardImage={setAwardImage}
+                setAwardImageArray={setAwardImageArray}
             />
             <SkillStackInput
                 skills={skills}

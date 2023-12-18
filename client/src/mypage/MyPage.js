@@ -10,6 +10,8 @@ import "./MyPage.css";
 
 function MyPage() {
     const [nickName, setNickName] = useState(null);
+    const [profileImage, setProfileImage] = useState(null);
+    const [url, setUrl] = useState('https://via.placeholder.com/150');
     const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
     const [introduction, setIntroduction] = useState(null);
     const [name, setName] = useState(null);
@@ -19,10 +21,12 @@ function MyPage() {
         axios
             .get(`/user/${localStorage.getItem('userId')}`)
             .then((response) => {
+                console.log(response.data);
                 setNickName(response.data.responseDto.nickName);
                 setIntroduction(response.data.responseDto.introduction);
                 setName(response.data.responseDto.name);
                 setEmail(response.data.responseDto.email);
+                setUrl(response.data.responseDto.url);
             })
             .catch((error) => {
                 console.error("Error fetching profile data: ", error);
@@ -32,16 +36,27 @@ function MyPage() {
     const modifyProfileData = async ()=> {
         if(isNickNameAvailable){
             try {
+                const profileFormData = new FormData();
+                profileFormData.append("file", profileImage);
                 const response = await axios.put(`/user/${localStorage.getItem('userId')}`, {
                     nickName: nickName,
                     introduction: introduction,
-                    phoneNumber: phoneNumber,
-                    email: email,
                     name: name,
-                })
+                    email: email,
+                    phoneNumber: phoneNumber,
+                });
                 if(response.status === 200){
-                    window.alert('프로필 수정이 완료되었습니다.');
-                    window.location.reload();
+                    if(profileImage !== null){
+                        const response = await axios.put(`/user/userImage/${localStorage.getItem('userId')}`,profileFormData);
+                        if(response.status === 200) {
+                            window.alert('프로필 수정이 완료되었습니다.');
+                            window.location.reload();
+                        }
+                    }
+                    else{
+                        window.alert('프로필 수정이 완료되었습니다.');
+                        window.location.reload();
+                    }
                 }
                 else{
                     window.alert(response.data.error.message);
@@ -66,7 +81,7 @@ function MyPage() {
                     </div>
                     <div className="main-content">
                         <div id="profileImg" className="main-element">
-                            <ProfileImageUpload/>
+                            <ProfileImageUpload profileImage={profileImage} url={url} setProfileImage={setProfileImage} setUrl={setUrl}/>
                         </div>
                         <div id="nick" className="main-element">
                             <NickNameInput nickName={nickName} setNickName={setNickName} isNickNameAvailable={isNickNameAvailable} setIsNickNameAvailable={setIsNickNameAvailable}/>

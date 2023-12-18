@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../layout/Nav";
 import UserSideBar from "./UserSideBar";
 import NameInput from "../signup/NameInput";
@@ -15,6 +15,9 @@ import Footer from "../layout/Footer";
 import "./MyPageResume.css";
 import axios from "axios";
 function MyPageResume() {
+    const [profileImage, setProfileImage] = useState(null);
+    const [eduImage, setEduImage] = useState(null);
+    const [eduUrl, setEduUrl] = useState(null);
     const [nickName, setNickName] = useState(null);
     const [introduction, setIntroduction] = useState(null);
     const [resumeId, setResumeId] = useState(null);
@@ -34,7 +37,8 @@ function MyPageResume() {
     const [congress, setCongress] = useState(null);
     const [awardYear, setAwardYear] = useState(null);
     const [awardType, setAwardType] = useState(null);
-    const [awardFile, setAwardFile] = useState(null);
+    const [awardImage, setAwardImage] = useState(null);
+    const [awardImageArray, setAwardImageArray] = useState([]);
     const [skills, setSkills] = useState([]);
     const [techType, setTechType] = useState(null);
     const [tech, setTech] = useState(null);
@@ -94,6 +98,7 @@ function MyPageResume() {
                 setEduState("");
             }
             setMajor(resumeResponse.data.responseDto.schoolInfo.major);
+            setEduUrl(resumeResponse.data.responseDto.schoolInfo.schoolImage);
             setAwards(resumeResponse.data.responseDto.awards);
             setProjects(resumeResponse.data.responseDto.projects);
             resumeResponse.data.responseDto.techStacks.forEach((each)=>{
@@ -125,39 +130,74 @@ function MyPageResume() {
 
     const modifyResumeData = async ()=> {
         try {
-            const response = await axios.put(`/resume/${resumeId}`, {
-                job: job,
-                birth: date,
-                gender: gender,
-                guId: district,
-                schoolInfo: {
-                    id: schoolId,
-                    name: school,
-                    major: major,
-                    schoolRegister: eduState,
-                },
-                // awards: awards,
-                // techStacks: skills,
-                // projects: projects,
-            })
-            if(response.status === 200){
-                const response = await axios.put(`/user/${localStorage.getItem('userId')}`,{
-                    nickName: nickName,
-                    introduction: introduction,
-                    name: name,
-                    phoneNumber: phoneNumber,
-                    email: email,
-                })
+            if(eduImage !== null){
+                const eduFormData = new FormData();
+                eduFormData.append('file', eduImage);
+                const schoolInfo ={
+                    "id": schoolId,
+                    "userId": localStorage.getItem("userId"),
+                    "name": school,
+                    "major": major,
+                    "schoolRegister": eduState,
+                }
+                eduFormData.append("schoolUpdateDto", new Blob([JSON.stringify(schoolInfo)],{type: "application/json"}));
+                const response = await axios.put('/resume/school', eduFormData);
                 if(response.status === 200){
-                    window.alert('이력서 수정이 완료되었습니다.');
-                    window.location.reload();
+                    const response = await axios.put(`/resume/${resumeId}`, {
+                        "job": job,
+                        "birth": date,
+                        "guId": district,
+                        "gender": gender,
+                        "userId": localStorage.getItem("userId"),
+                    });
+                    if(response.status === 200){
+                        const response = await axios.put(`/user/${localStorage.getItem('userId')}`, {
+                            nickName: nickName,
+                            introduction: introduction,
+                            name: name,
+                            phoneNumber: phoneNumber,
+                            email: email,
+                        })
+                        if(response.status === 200){
+                            window.alert('이력서 수정이 완료되었습니다.');
+                            window.location.reload();
+                        }
+                        else{
+                            window.alert(response.data.error.message);
+                        }
+                    }
+                    else{
+                        window.alert(response.data.error.message);
+                    }
+                }
+            }
+            else{
+                const response = await axios.put(`/resume/${resumeId}`, {
+                    "job": job,
+                    "birth": date,
+                    "guId": district,
+                    "gender": gender,
+                    "userId": localStorage.getItem("userId"),
+                });
+                if(response.status === 200){
+                    const response = await axios.put(`/user/${localStorage.getItem('userId')}`, {
+                        nickName: nickName,
+                        introduction: introduction,
+                        name: name,
+                        phoneNumber: phoneNumber,
+                        email: email,
+                    })
+                    if(response.status === 200){
+                        window.alert('이력서 수정이 완료되었습니다.');
+                        window.location.reload();
+                    }
+                    else{
+                        window.alert(response.data.error.message);
+                    }
                 }
                 else{
                     window.alert(response.data.error.message);
                 }
-            }
-            else{
-                window.alert(response.data.error.message);
             }
         }catch(error){
             window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -188,9 +228,11 @@ function MyPageResume() {
                                 school={school}
                                 major={major}
                                 eduState={eduState}
+                                eduImage={eduImage}
                                 setSchool={setSchool}
                                 setMajor={setMajor}
                                 setEduState={setEduState}
+                                setEduImage={setEduImage}
                             />
                             <EmailInput email={email} setEmail={setEmail} />
                             <AwardInput
@@ -198,12 +240,14 @@ function MyPageResume() {
                                 congress={congress}
                                 awardYear={awardYear}
                                 awardType={awardType}
-                                awardFile={awardFile}
+                                awardImage={awardImage}
+                                awardImageArray={awardImageArray}
                                 setAwards={setAwards}
                                 setCongress={setCongress}
                                 setAwardYear={setAwardYear}
                                 setAwardType={setAwardType}
-                                setAwardFile={setAwardFile}
+                                setAwardImage={setAwardImage}
+                                setAwardImageArray={setAwardImageArray}
                             />
                             <SkillStackInput
                                 skills={skills}

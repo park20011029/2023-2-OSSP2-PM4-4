@@ -5,10 +5,21 @@ import DateInput from "../DateInput";
 import React from "react";
 import axios from "axios";
 
-function AwardInput({awards, congress, awardYear, awardType, awardFile, setAwards, setCongress, setAwardYear, setAwardType, setAwardFile}) {
+function AwardInput({awards, congress, awardYear, awardType, awardImage,awardImageArray, setAwards, setCongress, setAwardYear, setAwardType, setAwardImage, setAwardImageArray}) {
+    const handleAwardImageUpload = (event) => {
+        const selectedFile = event.target.files[0];
+
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setAwardImage(selectedFile);
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    };
     const handleAddAward = async() => {
         if(localStorage.getItem('userId')){
-            if (congress && awardYear && awardType && awardFile) {
+            if (congress && awardYear && awardType && awardImage) {
                 const newAwards = [
                     ...awards,
                     { competition: congress, awardYear: awardYear, awardType: awardType /*awardFile: awardFile*/ },
@@ -16,27 +27,40 @@ function AwardInput({awards, congress, awardYear, awardType, awardFile, setAward
                 setAwards(newAwards);
                 const response = await axios.get(`/user/${localStorage.getItem('userId')}`);
                 const resumeId = response.data.responseDto.resumeId;
-                const addition = { competition: congress, awardYear: awardYear, awardType: awardType};
-                setCongress('');
-                setAwardYear('');
-                setAwardType('');
-                setAwardFile(null);
                 if(response.status === 200){
-                    const response = await axios.post(`/resume/award/${resumeId}`,addition);
+                    const awardFormData = new FormData();
+                    awardFormData.append('file', awardImage);
+                    const awardInfo={
+                        "userId":localStorage.getItem('userId'),
+                        "competition":congress,
+                        "awardType":awardType,
+                        "awardYear":awardYear,
+                    }
+                    awardFormData.append("awardRequestDto", new Blob([JSON.stringify(awardInfo)],{type:"application/json"}));
+                    const response = await axios.post(`/resume/award/${resumeId}`, awardFormData);
+                    if(response.status === 200){
+                        setCongress('');
+                        setAwardYear('');
+                        setAwardType('');
+                        setAwardImage(null);
+                    }
                 }
             }
         }
         else{
-            if (congress && awardYear && awardType && awardFile) {
+            if (congress && awardYear && awardType && awardImage) {
                 const newAwards = [
                     ...awards,
-                    { competition: congress, awardYear: awardYear, awardType: awardType /*awardFile: awardFile*/ },
+                    { competition: congress, awardYear: awardYear, awardType: awardType},
                 ];
                 setAwards(newAwards);
+                const newArray = [...awardImageArray, {awardImage},];
+                setAwardImageArray(newArray);
+                console.log(awardImageArray);
                 setCongress('');
                 setAwardYear('');
                 setAwardType('');
-                setAwardFile(null);
+                setAwardImage(null);
             }
         }
     }
@@ -85,9 +109,9 @@ function AwardInput({awards, congress, awardYear, awardType, awardFile, setAward
                 <input className="awardText"
                        type="file"
                        accept="image/*"
-                       onChange={(e) => setAwardFile(e.target.files[0])}
+                       onChange={handleAwardImageUpload}
                 />
-                {/*<span role="img" aria-label="attach-file">📎</span>*/}
+
                 <button className="add-button" onClick={handleAddAward}><AddButton size={25}/></button>
             </div>
             <div className="list">
@@ -96,10 +120,7 @@ function AwardInput({awards, congress, awardYear, awardType, awardFile, setAward
                         {index+1}{'.'}<span/>
                         {awardData.competition}<span>/</span>
                         {awardData.awardYear}<span>/</span>
-                        {awardData.awardType}<span>/</span>
-                        {awardData.awardFile && (
-                            <img src={URL.createObjectURL(awardData.awardFile)} alt="Award" />
-                        )}
+                        {awardData.awardType}
                         <button className="del-button" onClick={() => handleRemoveAward(index)}><DeleteButton size={25}/></button>
                     </div>
                 ))}

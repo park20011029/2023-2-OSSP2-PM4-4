@@ -30,13 +30,16 @@ function UserPage(){
     const [projects, setProjects] = useState([]);
     /* 리뷰 */
     const [reviewList, setReviewList] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [reviewPageInfo, setReviewPageInfo] = useState({
         pageNumber: 1, //페이지 번호
         pageSize: 4, //한 페이지 당 게시글 수
         pageLength: 10, //페이지 시작번호(1 + n*pageSize)
         pageCount: 10, //총 페이지 개수
     });
+    const [selectedCategory, setSelectedCategory] = useState("");
     const getReview = async () => {
         try {
             const response = await axios.get(
@@ -70,7 +73,7 @@ function UserPage(){
             setNickName(response.data.responseDto.nickName);
             setPhoneNumber(response.data.responseDto.phoneNumber);
             setResumeId(response.data.responseDto.resumeId);
-            setImageUrl(response.data.responseDto.url.substring(1, response.data.responseDto.url.length-1));
+            setImageUrl(response.data.responseDto.url);
             if(response.status === 200){
                 const response1 = await axios.get(`/resumeReport/resume/${response.data.responseDto.resumeId}`);
                 console.log("이력서 : ", response1.data.responseDto);
@@ -94,13 +97,6 @@ function UserPage(){
     useEffect(() => {
         getUserData();
     }, [id]);
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
 
     return (
@@ -110,16 +106,17 @@ function UserPage(){
                     <h2>프로필</h2>
                 </div>
                 <div className="report">
-                    <Siren width={20} height={20} /><button onClick={openModal}>유저 신고</button>
+                    <Siren width={20} height={20} />
+                    <button onClick={() => setIsProfileModalOpen(true)}>유저 신고</button>
                     <ReportModal
-                        showModal={isModalOpen}
+                        showModal={isProfileModalOpen}
                         item={{
                             targetId:id,
                             targetName:nickName,
                             userId:userId
                         }}
                         category={"유저"}
-                        onClose={closeModal}
+                        onClose={() => setIsProfileModalOpen(false)}
                     />
                 </div>
                 <div className="flex items-center justify-around">
@@ -135,17 +132,18 @@ function UserPage(){
                     <h2>이력서</h2>
                 </div>
                 <div className="report">
-                    <Siren width={20} height={20} /><button onClick={openModal}>이력서 신고</button>
+                    <Siren width={20} height={20} />
+                    <button onClick={() => setIsResumeModalOpen(true)}>이력서 신고</button>
                     <ReportModal
-                        showModal={isModalOpen}
+                        showModal={isResumeModalOpen}
                         item={{
                             targetId:id,
                             targetName:nickName,
                             userId:userId,
-                            resumeId:resumeId
+                            resumeId:resumeId,
                         }}
                         category={"이력서"}
-                        onClose={closeModal}
+                        onClose={() => setIsResumeModalOpen(false)}
                     />
                 </div>
                 <div className="grid grid-cols-2 gap-y-[20px] gap-x-[60px] px-[20px]">
@@ -194,20 +192,22 @@ function UserPage(){
                                     <div key={index} className="reviews">
                                         <div className="review-header">
                                             <div className="star-ratings">
-                                                <StarRate value={(item.score) * 20} />
+                                                <StarRate value={(item.score) * 10} />
 
                                             </div>
                                             <div className="report">
-                                                <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
+                                                <Siren width={20} height={20} />
+                                                <button onClick={() => setIsReviewModalOpen(true)}>신고</button>
                                                 <ReportModal
-                                                    showModal={isModalOpen}
+                                                    showModal={isReviewModalOpen}
                                                     item={item}
                                                     category={"리뷰"}
-                                                    onClose={closeModal}
+                                                    onClose={() => setIsReviewModalOpen(false)}
                                                 />
                                             </div>
-                                            <div className="reviewedUser">{item.reviewer}</div>
-                                            <div className="reviewedDate">{item.createDate}</div>
+                                            <div className="reviewedUser">To : {item.reviewee}</div>
+                                            <div className="reviewedUser">From : {item.reviewer}</div>
+                                            <div className="reviewedDate">{item.createAt}</div>
                                         </div>
                                         <div className="review-body">{item.content}</div>
                                     </div>
