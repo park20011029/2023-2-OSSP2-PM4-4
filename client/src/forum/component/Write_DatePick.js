@@ -18,19 +18,21 @@ const Write_Calendar = ({keyName, setData}) => {
     const index = contest_CategoryList.indexOf(keyName);
 
     return (
-        <div className={styles.briefLine}>
-            <label>{contest_CategoryKOR[index]} : </label>
-            <DatePicker
-                selected={selectedDate}
-                onChange={(date) => {
-                    const newDate = formatDate(date);
-                    setSelectedDate(date);
-                    setData(keyName, newDate);
-                }}
-                dateFormat="yyyy-MM-dd"
-                placeholderText="날짜를 선택하세요"
-            />
-        </div>
+        <tr className={styles.datePick}>
+            <td className={styles.dropdownTitle}>{contest_CategoryKOR[index]} : </td>
+            <td>
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => {
+                        const newDate = formatDate(date);
+                        setSelectedDate(date);
+                        setData(keyName, newDate);
+                    }}
+                    dateFormat="yyyy-MM-dd"
+                    placeholderText="날짜를 선택하세요"
+                />
+            </td>
+        </tr>
     );
 };
 

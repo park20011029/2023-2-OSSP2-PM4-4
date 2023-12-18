@@ -1,5 +1,5 @@
 .modal {
-    width: 50vw;
+    min-width: 40vw;
     height: 70vh;
     overflow-y: auto;
     border: 2px black solid;
@@ -8,8 +8,59 @@
     left:50%;
     transform: translate(-50%, -50%);
     background-color: white;
+
+    display:flex;
+    flex-direction: column;
+    font-family: 'NotoSansKR';
+    overflow-y: auto;
 }
 
 .specialTd {
-    border:1px black solid;
+    border-top:1px black solid;
+}
+
+.modalBigTitle {
+    font-size:20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.modalCategory {
+    margin-top:20px;
+    text-align: center;
+}
+.modalCategory th {
+    width:15%;
+    padding-bottom: 10px;
+    border-bottom: 2px black solid;
+}
+.modalCategory tr {
+    margin:20px 0;
+}
+.modalCategory td {
+    padding:10px;
+}
+.modalCategory input[type="checkbox"] {
+    margin:0;
+}
+
+.confirm {
+    margin-top: 20px;
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.complete {
+    text-align: center;
+    font-size: 15px;
+    border: 1px solid rgb(168, 219, 255);
+    padding: 6px 10px;
+    border-radius: 10px;
+    background-color: rgb(168, 219, 255);
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+.modal-content .complete:hover {
+    transform: scale(0.9);
 }

@@ -110,12 +110,8 @@ const Team_WritePost = () => {
         <div>
             <Nav />
             <div className={styles.page}>
-                <div className={styles.title}>
-                    {/*게시글 작성*/}
-                    <label>게시글 작성</label>
-                    {/*제목 입력 창*/}
-                    <Write_Title setTitle={setTitle}/>
-                </div>
+                <div className={styles.bigTitle}>게시글 작성</div>
+                <Write_Title setTitle={setTitle}/>
                 {/*모집 카테고리 선택*/}
                 <Write_Category setCategory={setCategory} />
                 {/* 본문 */}

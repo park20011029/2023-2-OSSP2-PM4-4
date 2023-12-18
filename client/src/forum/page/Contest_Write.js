@@ -1,13 +1,14 @@
 //공모전 정보 게시글 작성
 import React, {useEffect, useState} from "react";
 import styles from "../css/Team_Write(Post).module.css";
+import "../css/buttons.css";
 import Write_Title from "../component/Write_Title";
 import Write_Contest_Dropdown from "../component/Write_Contest_Dropdown";
 import Write_Calendar from "../component/Write_DatePick";
 import ReactQuill from "react-quill";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
-import axios, {post} from "axios";
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {contest_CategoryKOR, contest_CategoryList, contest_CategoryKeyPost} from "../component/axios_category";
 
@@ -32,8 +33,8 @@ const Contest_Write = () => {
 
     //전송할 객체
     const [image, setImage] = useState({
-        src: null,
-        url: ''
+        src: "/upload.svg",
+        url: "/upload.svg"
     });
     const [data, setData] = useState({});
     const [content, setContent] = useState('');
@@ -63,8 +64,15 @@ const Contest_Write = () => {
     // 2.입력값을 처리하는 함수
     const handleImgChange = (e) => { //이미지
         const selectedImage = e.target.files[0];
-        setImage({src:selectedImage, url:URL.createObjectURL(selectedImage)});
-
+        const prevData = {...image};
+        try {
+            const url = URL.createObjectURL(selectedImage);
+            console.log("imageurl:", url);
+            setImage({src:selectedImage, url:url});
+        } catch(error) {
+            console.log(error);
+            setImage(prevData);
+        }
         //미리보기
         const preview = new FileReader();
         preview.onloadend = () => {
@@ -92,8 +100,9 @@ const Contest_Write = () => {
     // 4.작성완료 버튼
     const upload = async() => {
         if(!window.confirm("작성하시겠습니까?")) return;
+        console.log(image);
         //유효성 검사
-        //if(!image.src) return(window.alert("이미지를 업로드하세요"));
+        //if(!image.url) return(window.alert("이미지를 업로드하세요"));
         if(!data.title) return(window.alert("제목을 입력하세요"));
         for(let i=0; i<contest_CategoryList.length; i++) {
             if(!data[contest_CategoryList[i]])
@@ -104,35 +113,36 @@ const Contest_Write = () => {
         if(sdate >= edate) return(window.alert("시작일은 마감일보다 빨라야합니다."));
         if(!content) return(window.alert("본문을 입력하세요."));
 
-        // Todo 1.이미지 전송
-        /*
         try {
+            //Todo: 이미지 처리
             const formData = new FormData();
-            formData.append('image', image.src);
-            const imgResponse = await axios.post("URL", formData, {
-                headers: {'Content-Type': 'multipart/form-data'},
-            });
-        } catch(error) {
-            console.error(error);
-        }
-        */
-
-        //나머지 데이터 전송
-        const postData = {};
-        try {
+            formData.append('image', image.url);
+            console.log(image.src);
+            //나머지 데이터 처리
+            const postData = {};
             Object.keys(contest_CategoryKeyPost).forEach((key) => {
                 postData[contest_CategoryKeyPost[key]] = data[key];
             });
-            console.log("post객체:", postData);
+            formData.append(
+                "requestDto", new Blob([JSON.stringify(data)], {type: "application/json"})
+            );
+
+            const config = {"Content-Type": 'image/jpeg',};
+
             const response = await axios.post("/contestPost", postData);
+            /*{
+                headers: {
+                    Authorization: `Bearer ${"accessToken"}`, //Todo: accessToken
+                }, config
+            });
+             */
+
             if(response.status === 200) {
-                //성공
                 window.alert("완료되었습니다.");
                 navigate(-1);
             }
         } catch(error) {
             window.alert("오류 발생!", error);
-            console.log(postData);
             console.error(error);
         }
     }
@@ -143,25 +153,23 @@ const Contest_Write = () => {
             <div className={styles.page}>
                 <div className={styles.bigTitle}>게시글 작성</div>
                 <div className={styles.brief}>
-                    <div className={styles.image}>
-                        {image.url && <img src={image.url} alt="Preview"
-                                           style={{ maxWidth: '100%', maxHeight: '200px' }} />}
+                    <div className={styles.imageUpload}>
+                        {image.src && <img className={styles.image} src={image.src} alt="Preview"/>}
                         <input type="file" accept="image/*"
                                onChange={handleImgChange} />
-                        {/*Todo: 이미지 업로드 버튼 위치 변경*/}
                     </div>
                     <div className={styles.info}>
                         {/* 제목 입력 */}
                         <Write_Title setTitle={setTitle} />
                         {/* 드롭다운 카테고리 선택 */}
-                        <div className={styles.briefLabels}>
+                        <table className={styles.briefTable}>
                             <Write_Contest_Dropdown categoryList={categoryList}
                                                     handleDataChange={handleDataChange_Event} />
                             <Write_Calendar keyName={"startAt"}
                                             setData={handleDateChange_Param} />
                             <Write_Calendar keyName={"endAt"}
                                             setData={handleDateChange_Param} />
-                        </div>
+                        </table>
                     </div>
                 </div>
                 <div className={styles.body}>
@@ -176,8 +184,8 @@ const Contest_Write = () => {
                     />
                 </div>
                 <div className={styles.submitCancel}>
-                    <button className={styles.submit} onClick={upload}>신청</button>
-                    <button className={styles.cancel} onClick={() => {
+                    <button className={"blueButton"} onClick={upload}>신청</button>
+                    <button className={"redButton"} onClick={() => {
                         if(window.confirm("취소하시겠습니까?")) { navigate(-1); }
                     }}>취소</button>
                 </div>
@@ -187,3 +195,45 @@ const Contest_Write = () => {
     );
 }
 export default Contest_Write;
+
+/*
+        try {
+
+            const imgResponse = await axios.post("URL", formData, {
+                headers: {'Content-Type': 'multipart/form-data'},
+            });
+        } catch(error) {
+            console.error(error);
+        }
+
+            //이미지
+    const addStore = () => {
+        const url = "http://13.125.112.60:8080/api/v1/managers/stores"
+
+        const formData = new FormData();
+        formData.append('imageFile', storeThumbnail); //이미지파일 이름
+
+        const data = {
+            "name": store_name,
+            "address":address,
+            "callNumber":phoneNumber
+        };
+        console.log(data);
+        console.log(storeThumbnail);
+
+
+
+        try {
+
+            console.log("post객체:", postData);
+            const response = await axios.post("/contestPost", postData);
+            if(response.status === 200) {
+                //성공
+                window.alert("완료되었습니다.");
+                navigate(-1);
+            }
+        } catch(error) {
+
+        }
+    }
+        */

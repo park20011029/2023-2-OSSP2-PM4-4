@@ -1,15 +1,28 @@
 .List {
     margin-top:30px;
+    width:100%;
 }
-
+.List tr {
+    margin:20px 0;
+    padding:10px 0;
+}
+.List .item:hover {
+    color: #1d5dd9;
+    border-bottom: 2px #1d5dd9 solid;
+    cursor: pointer;
+}
+.item td {
+    transition: transform 0.1s ease-in-out;
+}
+.item td:hover {
+    transform: scale(1.1
+    );
+}
 .category_row, .item {
     display:flex;
     border-bottom: 2px black solid;
 }
-.category_row label, .item label {
-    display:flex;
 
-}
 .title {
     display:flex;
     width:75%;
@@ -17,12 +30,12 @@
 }
 .writer {
     display:flex;
-    width:10%;
+    min-width:10%;
     justify-content: center;
 }
 .date {
     display:flex;
-    width:15%;
+    min-width:15%;
     justify-content: center;
 }
 .item label {
@@ -30,22 +43,16 @@
     padding-bottom:10px;
 }
 
-.writeButton {
-    width:100%;
+.button {
     display:flex;
+    flex-direction: row;
     justify-content: flex-end;
-    background: transparent;
-    border: transparent;
-    margin-top: 20px;
-    padding:5px;
+}
+.button button {
+    font-size: 16px;
+    padding:10px 20px;
 }
 
-.writeButton button {
-    border: 1px black solid;
-    border-radius:5px;
-    background-color:whitesmoke;
-    padding:2px;
-}
 
 .pageNumber {
     display: flex;

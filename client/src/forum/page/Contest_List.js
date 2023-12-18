@@ -7,20 +7,7 @@ import List_Forum_Category from "../component/List_Forum_Category";
 import List_Forums from "../component/List_Forums";
 import styles from "../css/List.module.css";
 import List_PageNumber from "../../layout/List_PageNumber";
-
-/*
- * 데이터 구조
- * Board
- *   variables:
- *      searchWord = "",
- *      categorySelected = {},
- *      postList = []
- *
- *   components:
- *      1 Search    : 검색창
- *      2 Category  : 카테고리
- *      3 List      : 글 목록
- */
+import axios from "axios";
 
 //dummy
 const dummyData = {
@@ -76,7 +63,7 @@ const Contest_List = () => {
     const [postList, setPostList] = useState(writeList);
     //게시글 페이지 정보
     const [pageInfo, setPageInfo] = useState({
-        pageNumber:13,        //페이지 번호
+        pageNumber:0,        //페이지 번호
         pageSize:3,         //한 페이지 당 게시글 수
         pageLength:10,       //한 화면에 표시할 총 페이지 수
         pageCount:55,       //총 페이지 개수
@@ -92,34 +79,28 @@ const Contest_List = () => {
 
     
 
-    // 2. Todo: 검색기능 구현 - 카테고리 데이터형식 변경
-    //검색어는 pathVariable, 나머지는 requestParam
-    const search = () => {
-        console.log("search method called!");
-        //console.log("Word: " + searchWord);
-        //console.log("Category: ");
-        //console.log(categorySelected);
-    }
-    /*
+    // 검색
     const search = async () => {
         console.log("search method called!");
         console.log("Word: " + searchWord);
-        console.log("Category: ");
-        console.log(categorySelected);
+        console.log("Category: ", categorySelected);
+
+        let url = `/contestPost/${searchWord}?page=${pageInfo.pageNumber}&size=${pageInfo.pageSize}`;
+        Object.entries(categorySelected).map(([key, list]) => {
+            list.map((element) => {
+                url += `&${key}=${element}`;
+            });
+        });
+        console.log("url:", url);
 
         try {
-            const response = await axios.post(`/contestPost/`, {
-                searchWord: searchWord,
-                category: categorySelected,
-                pageNumber: pageInfo.pageNumber,
-                pageSize: pageInfo.pageSize
-            });
+            const response = await axios.get(url);
             setPostList(response.data.responseDto);
         } catch (error) {
-            setPostList(DwriteList);
             console.error(error);
         }
-    }*/
+    }
+
 
     // 4. 페이지 번호 변경 시 목록 렌더링
     useEffect(() => {
