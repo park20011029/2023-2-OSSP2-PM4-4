@@ -42,6 +42,7 @@
     border-bottom-right-radius: 20px;
     background-color: rgba(168, 219, 255, 0.6);
     box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
 }
 .row {
     display:flex;
@@ -94,6 +95,7 @@
 .categoryDropdown {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     margin-bottom: 10px;
 }
@@ -249,3 +251,11 @@
         .datePick input {
             margin:0;
         }
+
+.table {
+
+}
+.table td {
+    text-align: center;
+    padding:10px 0;
+}

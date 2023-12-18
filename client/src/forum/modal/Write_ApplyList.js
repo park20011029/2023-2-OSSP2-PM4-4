@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from "react";
 import Modal from 'react-modal';
 import styles from "../css/modal.module.css";
+import "../../Modal.css";
+import "../css/buttons.css";
 import axios from "axios";
 import UserPage from "../../UserPage";
 
@@ -80,42 +82,46 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                    onRequestClose={() => setApplyListModalOpen(false)}
                    ariaHideApp={false}
             >
-                <div className={styles.modalTitle}>
-                    지원자 목록
-                </div>
-                <div className={styles.category}>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>지원파트</th>
-                            <th>닉네임</th>
-                            <th />
-                            <th />
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {keyList.map((key) => (
-                            applicantList[key].map((element, elementIndex) => (
-                                <tr key={elementIndex}>
-                                    {elementIndex === 0 && (
-                                        <td className={styles.specialTd}
-                                            rowSpan={applicantList[key].length}>{key}</td>
-                                    )}
-                                    <td onClick={() => moveToUserPage(element.userId)}>{element.userName}</td>
-                                    <td>
-                                        <button onClick={() => approve()}>승인</button>
-                                    </td>
-                                    <td>
-                                        <button onClick={() => deny()}>거절</button>
-                                    </td>
-                                </tr>
-                            ))
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    <button onClick={() => setApplyListModalOpen(false)}>닫기</button>
+                <div className={"modal-header"}>지원자 목록</div>
+                <div className={"modal-body"}>
+                    <div className={styles.modalBigTitle}>
+                        지원자 목록
+                    </div>
+                    <div className={styles.modalCategory}>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>지원파트</th>
+                                <th>닉네임</th>
+                                <th />
+                                <th />
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {keyList.map((key) => (
+                                applicantList[key].map((element, elementIndex) => (
+                                    <tr key={elementIndex}>
+                                        {elementIndex === 0 && (
+                                            <td className={styles.specialTd}
+                                                rowSpan={applicantList[key].length}>{key}</td>
+                                        )}
+                                        <td onClick={() => moveToUserPage(element.userId)}>{element.userName}</td>
+                                        <td>
+                                            <button className={"blueButton"} onClick={() => approve()}>승인</button>
+                                        </td>
+                                        <td>
+                                            <button className={"redButton"} onClick={() => deny()}>거절</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className={styles.confirm}>
+                        <button className={"close"}
+                            onClick={() => setApplyListModalOpen(false)}>닫기</button>
+                    </div>
                 </div>
             </Modal>
         );
