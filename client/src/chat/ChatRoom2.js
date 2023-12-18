@@ -7,9 +7,9 @@ import ChatLog from "./ChatLog";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 
-const ChatRoom = () => {
-    const {state} = useLocation();
-    const {image, targetName} = state;
+const ChatRoom2 = () => {
+    const image = localStorage.getItem("EnemyImage") || "defaultProfile.svg";
+    const targetName = localStorage.getItem("EnemyName")
     const navigate = useNavigate();
     const userId = 1 //Todo: userId
     const [messages, setMessages] = useState([]);
@@ -137,7 +137,7 @@ const ChatRoom = () => {
                 <button>목록</button>
             </div>
             <div className={styles.targetInfo}>
-                <img className={styles.targetImg} src={image || '/defaultProfile.svg'} alt={"프로필사진"}/>
+                <img className={styles.targetImg} src={image || "/defaultProfile.svg"} alt={"프로필사진"}/>
                 <label className={styles.targetName}>{targetName} 과의 대화</label>
             </div>
             {isConnected ?
@@ -149,4 +149,4 @@ const ChatRoom = () => {
     );
 };
 
-export default ChatRoom;
+export default ChatRoom2;

@@ -1,6 +1,7 @@
 .page {
     width:60%;
     margin: 0 auto;
+    font-family: "NotoSansKR";
 }
 
 /* 제목 작성 */
@@ -20,17 +21,27 @@
     border-radius: 5px;
     width:100%;
     margin-left:0;
-    margin-bottom: 0;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+.titleInput input:focus {
+    border: 2px #5087f5 solid;
 }
 
 /* 모집 카테고리 선택 */
+.category {
+    margin-bottom: 30px;
+}
 .criteria {
-    border: 2px black solid;
-    border-radius: 5px;
-    background-color: lightblue;
-    display:flex;
+    display: flex;
     flex-direction: column;
+    width:100%;
+    border: 2px solid black;
     padding: 10px;
+    /*border-top-left-radius: 12px;*/
+    border-bottom-right-radius: 20px;
+    background-color: rgba(168, 219, 255, 0.6);
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
     margin-bottom: 30px;
 }
 .row {
@@ -80,33 +91,22 @@
     background-color: transparent;
 }
 
-/*th {*/
-/*    padding: 5px 30px;*/
-/*    text-align: center;*/
-/*}*/
-/*tbody tr {*/
-/*    border:1px black solid;*/
-/*}*/
-/*td {*/
-/*    padding:10px;*/
-/*    text-align: center;*/
-/*}*/
-/*td select {*/
-/*    margin:0px;*/
-/*}*/
 /* 팀원 모집글 */
 .categoryDropdown {
-
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
 }
 .categoryDropdown select {
+    padding:5px;
     width: 20%;
     white-space: nowrap;
+    margin-right: 30px;
 }
-.criteria button {
-    padding:3px;
-    border:1px black solid;
-    border-radius: 5px;
-}
+
+
 .selectedBox {
     margin-bottom:10px;
 }
@@ -118,24 +118,17 @@
     display:flex;
     flex-direction: row;
 }
-.selectedRow label {
+.selectedRow td {
     display:flex;
     font:17px black bold;
     padding-right: 10px;
+    width: 15%;
     margin-bottom:20px;
     align-items: center;
 }
 .selectedRow button {
     display:flex;
     align-items: center;
-    margin-left:10px;
-    margin-bottom:20px;
-}
-.selectedRow .l1 {
-    width:20%;
-}
-.selectedRow .l2 {
-    width:20%;
 }
 
 /* 작성 본문 */
@@ -154,15 +147,15 @@
 /* 리워드 버튼 */
 .reward {
     display:flex;
-
-    width:fit-content;
-    border: 1px black solid;
-    background-color: lightgray;
-    margin: 20px auto;
-    padding:10px;
+    margin: 20px;
+    padding:5px;
 }
+
 .reward input {
-    margin-right: 40px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 30px 0 0;
 }
 .reward .description {
     display:flex;
@@ -181,19 +174,10 @@
     margin-bottom:30px;
 }
 .submitCancel button {
-    border: 1px black solid;
-    padding: 5px 30px;
-    margin: 0 50px;
+    padding: 10px 20px;
+    margin: 20px 40px;
 }
-.submit {
-    background-color: lightblue;
-}
-.remove {
-    border: 2px red solid;
-    padding: 5px 10px;
-    background: #FA6161FF;
-    margin-left: 20px;
-}
+
 
 /* 공모전 글쓰기 - 요약 */
 .bigTitle {
@@ -204,53 +188,74 @@
     margin: 30px auto;
 }
 .brief {
-    width:100%;
-    height:auto;
     display:flex;
     flex-direction: row;
     justify-content: flex-start;
+    margin-bottom:20px;
+}
+.brief .imageUpload {
+    max-width:40%;
+    min-width:300px;
+    min-height:350px;
+    margin-right:60px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.brief .image {
+    object-fit: contain;
+    max-width:40%;
+    min-width:300px;
+    min-height:350px;
+    border: 2px black solid;
+    margin-bottom:10px;
+}
+.brief .image button {
+    border: 1px black solid;
+    border-radius: 5px;
+    background:lightgray;
+    padding:5px;
+}
+.imageUpload input[type="text"] {
+    margin:0;
+}
+
+.info {
+    display:flex;
+    width:40%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.info input {
+    margin-bottom:20px;
+}
+.briefTable {
+    display:flex;
+    flex-direction: column;
+}
+.briefTable tr {
     margin-bottom:30px;
 }
-    .brief .image {
-        border:2px black solid;
-        min-width:30%;
-        max-width:50%;
-        min-height: 100%;
-        padding:20px;
-        margin-right:60px;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-    }
-        .brief .image button {
-            border: 1px black solid;
-            border-radius: 5px;
-            background:lightgray;
-            padding:5px;
-        }
-        .brief .image svg {
-            width:fit-content;
-        }
+.dropdownTitle {
+    font-weight:bold;
+    padding-right:30px;
+}
+.dropDown {
+    display:flex;
+    border:1px black solid;
+    border-radius: 8px;
+}
+.datePick input {
+    margin:0;
+}
 
-    .info {
-        display:flex;
-        width:30%;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-        .inputMust {
-            margin-top:20px;
-        }
-        .briefLabels {
-            margin: 10px 0;
-            display:flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .briefLabels label {
-            margin-right: 10px;
-        }
-        .briefLabels input {
-            border: 1px black solid;
-        }
+.table {
+
+}
+.table td {
+    text-align: center;
+    padding:10px 0;
+}

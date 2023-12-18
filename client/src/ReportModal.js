@@ -92,6 +92,7 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
                     defendantId:targetId,
                     contestPostId:item.postId, //item.postId
                 })
+                console.log(response);
                 if(response.status === 200){
                     window.alert("신고가 완료되었습니다.");
                     onClose();

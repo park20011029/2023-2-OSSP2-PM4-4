@@ -1,9 +1,10 @@
 import React from 'react';
 import searchIcon from '../assets/searchIcon.svg'
 import styles from "../css/List.module.css";
+import "../css/buttons.css";
 
 const List_Search = ({setSearchWord, search}) => {
-    const onSearchInput = e => {
+    const onSearchInput = (e) => {
         setSearchWord(e.target.value);
     }
 
@@ -15,7 +16,8 @@ const List_Search = ({setSearchWord, search}) => {
                        placeholder={"검색어를 입력하세요"}
                        onChange={onSearchInput}
                 />
-                <img src={searchIcon} onClick={search} alt={"검색"}></img>
+                <button className={"blueButton"}
+                onClick={search}>검색</button>
             </div>
         </div>
     );

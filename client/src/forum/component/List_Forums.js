@@ -8,14 +8,10 @@ const List_Forums = ({postList}) => {
     const navigate = useNavigate();
 
     //상세페이지 이동
-    const moveToWrite = (index) => {
-        navigate(`/contestInfoPostPage/${index}`);
-    }
+    const moveToWrite = (index) => navigate(`/contestInfoPostPage/${index}`);
 
     //작성페이지 이동
-    const moveToPost = () => {
-        navigate('/contestInfoWritePage');
-    }
+    const moveToPost = () => navigate('/contestInfoWritePage');
 
     return (
         <div>

@@ -8,6 +8,7 @@ import List_PageNumber from "../../layout/List_PageNumber";
 import styles from "../css/List.module.css";
 import {team_CategoryList} from "../component/axios_category";
 import List_Project_Category from "../component/List_Project_Category";
+import axios from "axios";
 
 const write = {
     number: "123", //글번호
@@ -26,6 +27,7 @@ const Project_List = () => {
     }
     // 검색어
     const [searchWord, setSearchWord] = useState("");
+    /*
     // 카테고리
     const [selected, setSelected] = useState(() => {
         let result = {};
@@ -34,13 +36,13 @@ const Project_List = () => {
          });
          return result;
     });
-
-    // 글 목록
-    const [postList, setPostList] = useState(writeList);
+     */
+    //글 리스트
+    const [postData, setPostData] = useState([]);
     // 게시글 페이지 정보
     const [pageInfo, setPageInfo] = useState({
         pageNumber: 1,
-        pageSize: 6,
+        pageSize: 2,
         pageLength: 10,
         pageCount: 55,
     });
@@ -52,26 +54,49 @@ const Project_List = () => {
         };
     }, []);
 
-    // 2.debug
+
     useEffect(() => {
-        console.log("데이터 변경됨", selected);
-    }, [selected]);
-    //Todo: 검색
-    const search = () => {
+        search();
+    }, [pageInfo.pageNumber]);
+
+    const search = async() => {
         console.log("search");
         console.log(searchWord);
-        console.log(selected);
+        let url;
+        if(searchWord === "")
+            url = `/projectPostPost/list`;
+        else
+            url = `/projectPostPost/search/${searchWord}`;
+        console.log("URL:", url);
+        try {
+            const response = await axios.get(url);
+            const jsonData = response.data.responseDto;
+            const pInfo = jsonData.pageInfo;
+            setPostData(jsonData.projectPosts);
+            setPageInfo({
+                pageNumber: pInfo.currentPage,
+                pageSize: pInfo.pageSize,
+                pageCount: Math.ceil(pInfo.totalItems/pInfo.pageSize),
+                pageLength: pageInfo.pageLength
+            });
+        } catch(error) {
+            console.log(error);
+        }
     }
+
 
     return (
         <div>
             <Nav />
             <div className={styles.Page}>
                 <List_Search setSearchWord={setSearchWord} search={search} />
+                {/*
                 <List_Project_Category setSelected={setSelected}
                                        search={search}
                 />
+                */}
                 <List_Projects listData={listData}
+                               pList={postData}
                                pageInfo={pageInfo}
                                setPageInfo={setPageInfo}
                 />

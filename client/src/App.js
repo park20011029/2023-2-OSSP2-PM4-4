@@ -26,6 +26,7 @@ import ReviewPage from "./ReviewPage";
 import ChatList from "./chat/ChatList";
 import ChatRoom from "./chat/ChatRoom";
 import GoogleRedirect from "./signin/GoogleRedirect";
+import ChatRoom2 from "./chat/ChatRoom2";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                 {/*팀원모집 글(쓰기)*/}                <Route path="/TeamWritePost/:postId"            element={<Team_WritePost/>}/>
                 {/*채팅 목록 페이지*/}                 <Route path="/chat_list"                    element={<ChatList />}/>
                 {/*채팅 페이지 */}                    <Route path="/chatRoom/:chatRoomId"         element={<ChatRoom />}/>
+                {/*채팅 페이지2 */}                   <Route path="/chatRoom2/:chatRoomId"         element={<ChatRoom2 />}/>
                 {/*-------------------------------------------------------------------------------------------------------*/}
                 <Route path="/sign_in" element={<SignInPage/>}></Route>
                 <Route path="/sign_up" element={<SignUpPage/>}></Route>

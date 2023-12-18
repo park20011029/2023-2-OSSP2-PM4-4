@@ -1,6 +1,6 @@
 //공모전 팀원 모집글(보기)
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {json, useNavigate, useParams} from "react-router-dom";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
 import styles from "../css/Team_Write(View).module.css";
@@ -53,13 +53,18 @@ const write = {
         }
     ],
 }
-
+// 새 창의 크기를 화면 크기의 50%로 설정하고, 가운데 정렬
+const screenWidth = window.screen.width;
+const screenHeight = window.screen.height;
+const newWindowWidth = screenWidth * 0.5;
+const newWindowHeight = screenHeight * 0.5;
+const leftPos = (screenWidth - newWindowWidth) / 2;
+const topPos = (screenHeight - newWindowHeight) / 2;
 const Team_WriteView = () => {
     const navigate = useNavigate();
     const {id} = useParams();
-    //Todo: userId
-    const [userId, setUserId] = useState(1);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const userId = localStorage.getItem('userId') === null
+        ? 1:localStorage.getItem('userId');
     const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
@@ -69,6 +74,8 @@ const Team_WriteView = () => {
         content:"",
         partList:[]
     });
+    const [isAdmin, setIsAdmin] = useState(userId === data.writerId);
+
     //지원하기 모달 관리
     const [applyModalOpen, setApplyModalOpen] = useState(false);
     const parts = [];
@@ -85,12 +92,35 @@ const Team_WriteView = () => {
             console.log("게시글 정보 수정됨", data);
         }
     }, [data]);
+    useEffect(() => {
+        console.log("어드민정보 수정됨", isAdmin);
+    }, [isAdmin]);
+
+    //사용자 권한 정보 확인
+    const checkAdmin = async() => {
+        if(isAdmin === true) return;
+        try {
+            console.log("checking Admin...");
+            const response = await axios.get(`/user/${userId}`);
+            const jsonData = response.data.responseDto;
+            console.log(jsonData.userRole);
+            if(jsonData.userRole === "ADMIN") {
+                console.log("isAdmin!");
+                setIsAdmin(true);
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         //스크롤 처리
         window.onbeforeunload = function pushRefresh() {
             window.scrollTo(0, 0);
         };
+
+        //어드민 확인
+        checkAdmin();
 
         //글 정보 받아오기
         const getData = async() => {
@@ -119,16 +149,7 @@ const Team_WriteView = () => {
         }
         getData();
 
-        //사용자 권한 정보 확인
-        //Todo: userId - Role
-        const getUser = async() => {
-            try {
-                const response = await axios.get(`/user/${id}`);
-                const jsonData = response.data.responseDto;
-            } catch(error) {
-                console.log(error);
-            }
-        }
+        console.log("initialAdmin:", isAdmin);
     }, []);
 
     //카테고리 렌더링
@@ -185,20 +206,28 @@ const Team_WriteView = () => {
         else {
             return (
                 <button className={"yellowButton"}
-                        onClick={() => moveToChat
+                        onClick={() => moveToChat()
                 }>채팅하기</button>
             )
         }
     }
-    //Todo: chatRoom이동 시 프로필사진 등 정보 받아야함
+
     const moveToChat = async () => {
         try {
             const response = await axios.post("/chatroom", {
                 userId:userId,
                 postWriterId:data.writerId
             });
-            const roomNumber = response.responseDto;
-            navigate(`/chatRoom/${roomNumber}`);
+            const jsonData = response.data.responseDto;
+            const roomNumber = jsonData.chatRoomId;
+            const targetId = jsonData.postWriterId;
+            console.log("roomNumber:", roomNumber);
+
+            const response2 = await axios.get(`/user/${data.writerId}`);
+            const jsonData2 = response2.data.responseDto;
+            localStorage.setItem('EnemyImage', JSON.stringify(jsonData2.url));
+            localStorage.setItem('EnemyName', JSON.stringify(jsonData2.nickName));
+            window.open(`http://localhost:3000/chatRoom2/${roomNumber}`, "ChatRoom", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`);
         } catch(error) {
             console.log(error);
         }
@@ -206,13 +235,27 @@ const Team_WriteView = () => {
 
     const applyEnd = async () => {
         if(!window.confirm("마감하시겠습니까?")) return;
+        let success = false;
         try {
             const response = await axios.put(`/buildingPost/end/${id}`);
             if(response.status === 200) {
                 window.alert("마감되었습니다.");
+                success = true;
                 window.location.reload();
             }
-        } catch(error) {
+
+        } catch(error) {}
+        try {
+            const response2 = await axios.put(`/projectPostPost/end/${id}`);
+            if(response2.status === 200) {
+                window.alert("마감되었습니다.");
+                success = true;
+                window.location.reload();
+            }
+        } catch(error) {}
+
+        if(success === false) {
+            window.alert("마감할 수 없습니다!");
             console.log("게시글 마감 오류 발생!");
         }
     }
@@ -355,10 +398,7 @@ const Team_WriteView = () => {
                         </div>
                         {/* debug: 관리자/일반 전환 */}
                         <button className={"greyButton"}
-                                onClick={() => {
-                                    if(isAdmin === false)
-                                        setIsAdmin(true)
-                                    else setIsAdmin(false)
+                                onClick={() => {setIsAdmin(!isAdmin)
                                 }}>debug:관리자/일반 전환하기</button>
                     </div>
                     ) : (

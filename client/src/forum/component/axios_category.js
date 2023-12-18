@@ -84,8 +84,8 @@ export const team_CategoryBackTrans = {
 }
 
 export const team_CategoryDetail = {
-    FRONT:["React", "Vue.js", "Angular"],
-    BACK:["Spring", "Django", "Ruby"],
-    AI:["Tensorflow", "Keras", "PyTorch"],
-    ETC:["디자인", "기획"]
+    FRONT:["React", "Vue.js", "Angular", "Svelte", "Bootstrap", "Material-UI", "Next.js", "Nuxt.js", "Gatsby"],
+    BACK:["Spring", "Django", "Ruby", "Express", "Flask", "Laravel", "ASP", "Phoenix", "FastAPI"],
+    AI:["Tensorflow", "Keras", "PyTorch", "Scikit-learn", "MXNet", "Caffe", "Theano", "Chainer", "CNTK", "Apache Mahout"],
+    ETC:["디자인", "기획", "QA"]
 };
