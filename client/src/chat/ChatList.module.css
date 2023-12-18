@@ -1,34 +1,48 @@
-
 .page {
-    margin-top:30px;
-    margin-bottom:30px;
-    width:100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 30px;
+    width:75%;
+    font-family: "NotoSansKR";
 }
 
 .bigTitle {
-    font: 40px black bold;
-    width:100%;
+    font: 30px black bold;
     border-bottom: 2px black solid;
+    margin-left:30px;
+    padding-bottom: 5px;
 }
 
 .chatList {
     margin-top: 20px;
+    padding-left: 20px;
 }
+
 .chatLine {
     display:flex;
     flex-direction: row;
-    margin: 30px auto;
+    border-radius: 20px;
+    margin: 30px 0;
+    padding:10px;
+    transition: box-shadow 0.3s ease;
 }
+.chatLine:hover {
+    color: #1d5dd9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .chatLine img {
     width: 100px;
     height: 100px;
 }
 .nameNchat {
-    margin-left: 10px;
+    margin-left: 20px;
     display:flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
 }
 .nameNchat label {
-    margin: 5px auto;
+    margin: 5px 0;
 }

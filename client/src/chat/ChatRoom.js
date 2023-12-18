@@ -20,22 +20,20 @@ const ChatRoom = () => {
 
     // stompClient를 useState로 관리
     const [stompClient, setStompClient] = useState(null);
-    // 고유한 키를 생성하는 함수
-    const generateUniqueKey = (message) => `${message.id}_${message.timestamp}`;
 
     //웹소켓 연결
     const connectToWebSocket = () => {
         const onConnect = (frame) => {
             console.log("WebSocket connected:", frame);
             subscribeToRoom();
+            setIsConnected(true);
         };
 
         const onError = (error) => {
             console.error("WebSocket connection error:", error);
-            setStompClient(null); // 연결 실패 시 stompClient를 null로 초기화
+            setStompClient(null);
         };
 
-        // If Socket is connected, we shouldn't connect socket again.
         if (stompClient) {
             console.log("Already connected to WebSocket");
             return;
@@ -46,9 +44,9 @@ const ChatRoom = () => {
 
         const connectOptions = {
             brokerURL: "ws://localhost:8080/ws",
-            reconnectDelay: 500,
-            heartbeatIncoming: 500,
-            heartbeatOutgoing: 500,
+            reconnectDelay: 5000,
+            heartbeatIncoming: 5000,
+            heartbeatOutgoing: 5000,
         };
 
         stomp.connect(connectOptions, onConnect, onError);
@@ -130,45 +128,25 @@ const ChatRoom = () => {
 
     useEffect(()=> {
         connectToWebSocket();
-        setIsConnected(true);
     }, []);
-
-    const submit = () => {};
 
     return (
         <div className={styles.page}>
-            <button onClick={() => navigate(-1)}>목록</button>
-            <img className={styles.targetImg} src={image} alt={"프로필사진"}/>
-            <label className={styles.targetName}>{targetName} 과의 대화</label>
-            <div className={styles.chat}>
-                {isConnected ?
-                    <ChatLog chatLog={messages}
-                             setNewMessage={setNewMessage}
-                             submit={sendMessage}
-                    /> : <></> }
+            <div className={styles.goBack} onClick={() => navigate(-1)}>
+                <img src="/backIcon.svg" alt={'뒤로가기'}></img>
+                <button>목록</button>
             </div>
+            <div className={styles.targetInfo}>
+                <img className={styles.targetImg} src={image || '/defaultProfile.svg'} alt={"프로필사진"}/>
+                <label className={styles.targetName}>{targetName} 과의 대화</label>
+            </div>
+            {isConnected ?
+                <ChatLog chatLog={messages}
+                         setNewMessage={setNewMessage}
+                         submit={sendMessage}
+                /> : <></> }
         </div>
     );
-    /*
-    return (
-        <div>
-            <div>
-                {messages.map((message) => (
-                    <div key={generateUniqueKey(message)}>{message.content}</div>
-                ))}
-                <div>
-          <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyUp={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="메시지를 입력하세요"
-          ></textarea>
-                    <button onClick={sendMessage}>Send</button>
-                </div>
-            </div>
-        </div>
-    );
-     */
 };
 
 export default ChatRoom;

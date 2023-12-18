@@ -53,6 +53,10 @@
     box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     margin-bottom: 15px;
+    transition: transform 0.2s ease-in-out;
+}
+.modal-content .complete:hover {
+    transform: scale(0.9);
 }
 
 /* 모달 닫기 버튼 스타일 */
@@ -61,6 +65,10 @@
     cursor: pointer;
     font-size: 20px;
     color: #888;
+    transition: transform 0.2s ease-in-out;
+}
+.close:hover {
+    transform: scale(0.9);
 }
 
 .modalDetails{

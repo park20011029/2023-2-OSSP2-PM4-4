@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import Nav from "../../layout/Nav";
 import Footer from "../../layout/Footer";
 import styles from "../css/Team_Write(View).module.css";
+import "../css/buttons.css";
 import {team_CategoryKOR} from "../component/axios_category";
 import axios from "axios";
 import Team_WriteEdit from "./Team_Write(Edit)";
@@ -135,23 +136,27 @@ const Team_WriteView = () => {
     const renderCategory = () => {
         return (
             <div className={styles.category}>
-                <button onClick={() => setApplyApprovedListModalOpen(true)}>모집정보 확인</button>
-                {Object.entries(data.partList).map(([part, list]) => (
-                    <div className={styles.row}>
-                        <div className={styles.categoryTitle}>
-                            {part}
-                        </div>
-                        {list.map((info) => (
-                            //Todo: onClick => 모집정보 확인
-                            <div>
-                                <label>{info.partName}</label>
-                                <label>({info.currentApplicant}</label>
-                                <label>/</label>
-                                <label>{info.maxApplicant})</label>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                <table className={styles.categoryTable}>
+                    {Object.entries(data.partList).map(([part, list]) => (
+                        <tr>
+                            <td className={styles.categoryTitle}>
+                                {part}
+                            </td>
+                            {list.map((info) => (
+                                <td className={styles.categoryElement}>
+                                    <label>{info.partName}</label>
+                                    <label>({info.currentApplicant}</label>
+                                    <label>/</label>
+                                    <label>{info.maxApplicant})</label>
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </table>
+                <div className={styles.categoryCheckApproved}>
+                    <button className="yellowButton"
+                            onClick={() => setApplyApprovedListModalOpen(true)}>모집정보 확인</button>
+                </div>
             </div>
         );
     };
@@ -173,7 +178,7 @@ const Team_WriteView = () => {
         //마감하기
         if(isAdmin === true || id === data.writerId) {
             return (
-                <button className={styles.redButton}
+                <button className={"redButton"}
                         onClick={() => applyEnd()}
                 >마감하기</button>
             );
@@ -181,7 +186,7 @@ const Team_WriteView = () => {
         //채팅하기
         else {
             return (
-                <button className={styles.yellowButton}>채팅하기</button>
+                <button className={"yellowButton"}>채팅하기</button>
             )
         }
     }
@@ -202,7 +207,7 @@ const Team_WriteView = () => {
         //지원자 확인
         if(isAdmin === true || id === data.writerId) {
             return (
-                <button className={styles.yellowButton}
+                <button className={"yellowButton"}
                         onClick={() => setApplyListModalOpen(true)}
                 >지원자 확인</button>
             );
@@ -210,7 +215,7 @@ const Team_WriteView = () => {
         //지원하기
         else {
             return (
-                <button className={styles.yellowButton}
+                <button className={"yellowButton"}
                         onClick={() => setApplyModalOpen(true)}
                 >지원하기</button>
             );
@@ -228,12 +233,12 @@ const Team_WriteView = () => {
         //수정/삭제
         if(isAdmin === true || id === data.writerId) {
             return (
-                <>
-                    <button className={styles.blueButton}
+                <div className={styles.buttonLayout}>
+                    <button className={"blueButton"}
                             onClick={() => setEdit(true)}>수정</button>
-                    <button className={styles.redButton}
+                    <button className={"redButton"}
                             onClick={deletePost}>삭제</button>
-                </>
+                </div>
             );
         }
         //신고하기
@@ -315,17 +320,17 @@ const Team_WriteView = () => {
             <div className={styles.page}>
                 {edit === false ? (
                     //게시글 표시
-                    <>
+                    <div>
                         <div className={styles.titleAndCategory}>
                             <div className={styles.title}>
                                 <label className={styles.T}>{data.title}</label>
-                                <label className={styles.W}>{data.user}</label>
+                                <label className={styles.W}>{data.writer}</label>
                                 <label className={styles.D}>{data.createAt}</label>
                             </div>
                             {renderCategory()}
                         </div>
                         <div className={styles.body}>
-                            <div className={styles.appointment}>
+                            <div className={styles.buttonLayout}>
                                 {closeOrChat()}
                                 {applyOrCheck()}
                             </div>
@@ -335,13 +340,13 @@ const Team_WriteView = () => {
                             </div>
                         </div>
                         {/* debug: 관리자/일반 전환 */}
-                        <button className={styles.whiteButton}
+                        <button className={"greyButton"}
                                 onClick={() => {
                                     if(isAdmin === false)
                                         setIsAdmin(true)
                                     else setIsAdmin(false)
                                 }}>debug:관리자/일반 전환하기</button>
-                    </>
+                    </div>
                     ) : (
                     //게시글 수정
                     <Team_WriteEdit postId={id}

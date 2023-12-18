@@ -1,8 +1,9 @@
 //프로젝트 게시글 목록용 카테고리 컴포넌트
 import {team_CategoryList, team_CategoryTrans, team_CategoryDetail} from "./axios_category";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import styles from "../css/List.module.css";
 
-const List_Project_Category = ({setSelected}) => {
+const List_Project_Category = ({setSelected, search}) => {
     //선택한 카테고리
     const [selected_c, setSelected_c] = useState(() =>{
         let result = {};
@@ -30,22 +31,46 @@ const List_Project_Category = ({setSelected}) => {
 
     const renderList = (key) => {
         return team_CategoryDetail[key].map((value) => (
-            <div onClick={() => updateCategory(key, value)}>
+            <td className={styles.TableElement} onClick={() => updateCategory(key, value)}>
                 <input type="checkbox" value={value}
                        checked={selected_c[key].includes(value)}
                 />
                 <label>{value}</label>
-            </div>
+            </td>
         ));
     }
+
+    // 카테고리 리스트 초기화
+    const resetCategoryList = () => {
+        let temp = {...selected_c};
+
+        Object.keys(temp).forEach((category) => {
+            temp[category] = [];
+        });
+
+        console.log("temp:",temp);
+        setSelected(temp);
+        setSelected_c(temp);
+        console.log("초기화 진행완료");
+    }
+
     return (
-        <div>
-            {team_CategoryList.map((key) => (
-            <>
-                <label>{team_CategoryTrans[key]}</label>
-                {renderList(key)}
-            </>
-            ))}
+        <div className={styles.smallPage}>
+            <label className={styles.smallTitle}>카테고리</label>
+                <div className={styles.criteria}>
+                    <table className={styles.categoryTable}>
+                        {team_CategoryList.map((key) => (
+                        <tr>
+                            <td className={styles.tableTitle}>{team_CategoryTrans[key]}</td>
+                            {renderList(key)}
+                        </tr>
+                        ))}
+                    </table>
+                    <div className={styles.buttons}>
+                        <button className={"redButton"} onClick={() => resetCategoryList()}>초기화</button>
+                        <button className={"blueButton"} onClick={search}>검색</button>
+                    </div>
+                </div>
         </div>
     )
 }

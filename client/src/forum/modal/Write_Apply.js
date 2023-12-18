@@ -60,49 +60,48 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
                onRequestClose={() => setApplyModalOpen(false)}
                ariaHideApp={false}
         >
-            <div className={styles.modalTitle}>
-                지원하려는 모집 게시글: {postInfo.title}
-            </div>
-            <div className={styles.category}>
-                <label>지원하려는 카테고리 선택</label>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>정보1</th>
-                        <th>정보2</th>
-                        <th>모집된 인원</th>
-                        <th>최대 모집 인원</th>
-                        <th> </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {Object.entries(postInfo.partList).map(([key, list]) => {
-                        return ( list.map((element) => (
-                            <tr>
-                                <td>{key}</td>
-                                <td>{element.partName}</td>
-                                <td>{element.currentApplicant}</td>
-                                <td>{element.maxApplicant}</td>
-                                <td>
-                                    <input type={"checkbox"}
-                                           onChange={() => handleApply(element)}
-                                           checked={applyInfo.number === element.partId}
-                                           disabled={isSelected && applyInfo.number !== element.partId}
-                                    />
-                                </td>
-                            </tr>
-                        )));
-                    })}
-                    </tbody>
-                </table>
-            </div>
-            <div className={styles.result}>
-                <label>현재 지원한 카테고리</label>
-                <label>{applyInfo.name}</label>
-            </div>
-            <div className={styles.confirm}>
-                <button onClick={submit}>지원</button>
-                <button onClick={() => setApplyModalOpen(false)}>취소</button>
+            <div className={"modal-header"}>지원하기</div>
+            <div className={"modal-body"}>
+                <div className={styles.modalBigTitle}>
+                    지원하려는 모집 게시글: {postInfo.title}
+                </div>
+                <div>
+                    <label className={styles.modalBigTitle}>
+                        현재 지원한 카테고리: {applyInfo.name}</label>
+                    <table className={styles.modalCategory}>
+                        <thead>
+                        <tr>
+                            <th>파트</th>
+                            <th>세부 파트</th>
+                            <th>모집된 인원</th>
+                            <th>최대 모집 인원</th>
+                            <th>선택</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {Object.entries(postInfo.partList).map(([key, list]) => {
+                            return ( list.map((element) => (
+                                <tr onClick={() => handleApply(element)}>
+                                    <td>{key}</td>
+                                    <td>{element.partName}</td>
+                                    <td>{element.currentApplicant}</td>
+                                    <td>{element.maxApplicant}</td>
+                                    <td>
+                                        <input type={"checkbox"}
+                                               checked={applyInfo.number === element.partId}
+                                               disabled={isSelected && applyInfo.number !== element.partId}
+                                        />
+                                    </td>
+                                </tr>
+                            )));
+                        })}
+                        </tbody>
+                    </table>
+                </div>
+                <div className={styles.confirm}>
+                    <button className={styles.complete} onClick={submit}>지원</button>
+                    <button className="close" onClick={() => setApplyModalOpen(false)}>닫기</button>
+                </div>
             </div>
         </Modal>
     );

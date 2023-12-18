@@ -1,10 +1,10 @@
-
 .page {
     max-width:75%;
     margin: 30px auto 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: "NotoSansKR";
 }
 
 /* 개요 */
@@ -14,37 +14,45 @@
     align-items: center;
     margin-bottom:20px;
 }
-
-.small_image {
-    border: 2px black solid;
-
-    margin-right:30px;
-}
-.brief_title {
-    font:30px black bold;
-    margin-bottom:10px;
-}
 .brief_labels {
     display:flex;
     flex-direction:column;
     margin-right:20px;
+    min-width: 50%;
 }
-
-.brief_row {
+.small_image {
+    max-width:40%;
+    min-width:300px;
+    min-height:350px;
+    border: 2px black solid;
+    object-fit: contain;
+    margin-right:60px;
     display:flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.briefTable {
+    width:100%;
+}
+.briefTable tr {
+    display: flex;
+    margin: 20px 0;
+}
+.brief_title {
+    font:30px black bold;
+    padding:10px;
+    margin-bottom:10px;
+    border-bottom: 2px black solid;
 }
 
-.brief_row .rowTitle {
-    margin:5px;
-    font-weight:bold;
-    width:auto;
+.rowTitle {
+    display:flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    min-width:50%;
 }
 
-.brief_row .rowDetail {
-    margin:5px;
-    width:auto;
-}
+
 /* 탭 */
 .twoTabs {
     width:80%;
@@ -59,21 +67,30 @@
 .tabButtons button {
     width:100%;
     justify-content: center;
-    border:2px black solid;
-    margin: -1px;
     font-size: 20px;
+    padding-bottom: 10px;
 }
+.tabButtons .Pressed {
+    font-size:20px;
+    color: #1d5dd9;
+    border-bottom: 2px #1d5dd9 solid;
+}
+.tabButtons .notPressed {
+    font-size: 16px;
+    border-bottom: 2px grey solid;
+}
+
 /* 개요 탭 */
 .big_image {
     width:100%;
     margin-bottom: 30px;
     border: 1px black solid;
 }
-
 .content {
     border: 2px black solid;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 30px 10px;
     margin-bottom: 30px;
 }
-
+.body {
+    margin-bottom:30px;
+}

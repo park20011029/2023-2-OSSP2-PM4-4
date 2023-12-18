@@ -1,9 +1,9 @@
 //프로젝트 게시글 목록 컴포넌트
-
 import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import List_PageNumber from '../../layout/List_PageNumber';
 import styles from "../css/Contest_Post_TeamTab.module.css";
+import "../css/buttons.css";
 import axios from "axios";
 
 // dummy data
@@ -44,34 +44,38 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
     }, []);
 
     return (
-        <div className={styles.List}>
-            <div className={styles.category_row}>
-                <label className={styles.title}>제목</label>
-                <label className={styles.writer}>작성자</label>
-                <label className={styles.date}>작성일</label>
-            </div>
+        <>
+        <table className={styles.List}>
+            <tr className={styles.category_row}>
+                <th className={styles.title}>제목</th>
+                <th className={styles.writer}>작성자</th>
+                <th className={styles.date}>작성일</th>
+            </tr>
 
             {writeList.map((item, index) => (
-                <div className={styles.item} key={index}
+                <tr className={styles.item} key={index}
                      onClick={() => navigate(`/TeamWriteView/${item.number}`)}>
-                    <label className={styles.title}>{item.title}</label>
-                    <label className={styles.writer}>{item.name}</label>
-                    <label className={styles.date}>{item.date}</label>
-                </div>
+                    <td className={styles.title}>
+                        {item.title}
+                    </td>
+                    <td className={styles.writer}>{item.name}</td>
+                    <td className={styles.date}>{item.date}</td>
+                </tr>
             ))}
-
-            <div className={styles.writeButton}>
-                <button onClick={()=>{
-                    if(listData.type === "contestPost")
-                        navigate(`/TeamWritePost/${listData.id}`);
-                    else
-                        navigate(`/TeamWritePost/0`);
-                }}>글쓰기</button>
-            </div>
-            <div className={styles.pageNumber}>
-                {List_PageNumber({pageInfo, setPageInfo})}
-            </div>
+        </table>
+        <div className={styles.button}>
+            <button className="yellowButton"
+                    onClick={()=>{
+                if(listData.type === "contestPost")
+                    navigate(`/TeamWritePost/${listData.id}`);
+                else
+                    navigate(`/TeamWritePost/0`);
+            }}>글쓰기</button>
         </div>
+        <div className={styles.pageNumber}>
+            {List_PageNumber({pageInfo, setPageInfo})}
+        </div>
+    </>
     );
 }
 

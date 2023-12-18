@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import styles from "../css/Team_Write(Post).module.css";
+import "../css/buttons.css";
 import ReactQuill from "react-quill";
 import {team_CategoryBackTrans, team_CategoryKOR, team_CategoryTrans} from "../component/axios_category";
 import Write_Category_Dropdown from "../component/Write_Category_Dropdown";
@@ -233,7 +234,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
             {/*제목 입력*/}
             <div className={styles.title}>
                 {/*게시글 작성*/}
-                <label>게시글 수정</label>
+                <div className={styles.bigTitle}>게시글 수정</div>
                 <input className={styles.titleInput}
                        placeholder={"제목을 입력하세요"}
                        value={newData.title}
@@ -244,12 +245,12 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                 />
             </div>
             {/*모집 카테고리*/}
-            <div className={styles.categoryTitle}>
+            <div className={styles.bigTitle}>
                 <label>카테고리 수정</label>
             </div>
             <div className={styles.criteria}>
                 <Write_Category_Dropdown addCategory={addCategory}/>
-                <table>
+                <table className={styles.table}>
                     <thead>
                         <tr>
                         <th>정보1</th>
@@ -277,7 +278,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                                 </td>
                                 <td>
                                     {element.currentApplicant === 0 ?
-                                        <button className={styles.remove}
+                                        <button className={"redButton"}
                                                 onClick={() => removeCategory(key, element)}>
                                             삭제
                                         </button>
@@ -302,9 +303,9 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                 />
                 {/* 작성,취소 버튼 */}
                 <div className={styles.submitCancel}>
-                    <button className={styles.submit}
+                    <button className={"blueButton"}
                             onClick={submit}>완료</button>
-                    <button onClick={() => {
+                    <button className="redButton" onClick={() => {
                         if(window.confirm('취소하시겠습니까?')) {
                             alert("취소되었습니다.");
                             window.location.reload();

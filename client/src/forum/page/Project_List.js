@@ -69,6 +69,7 @@ const Project_List = () => {
             <div className={styles.Page}>
                 <List_Search setSearchWord={setSearchWord} search={search} />
                 <List_Project_Category setSelected={setSelected}
+                                       search={search}
                 />
                 <List_Projects listData={listData}
                                pageInfo={pageInfo}
