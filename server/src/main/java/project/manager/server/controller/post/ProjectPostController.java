@@ -44,6 +44,16 @@ public class ProjectPostController {
         return new ResponseDto<>(projectPostService.readProjectPost(projectPostId));
     }
 
+    //검색어로 프로젝트 게시글 검색
+    @GetMapping("/search/{text}")
+    public ResponseDto<Map<String, Object>> searchProjectPost(
+            @PathVariable String text,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "size", defaultValue = "12") Integer size) {
+
+        return new ResponseDto<>(projectPostService.searchProjectPost(text, page, size));
+    }
+
     //프로젝트 게시글에서 제목, 내용 수정
     @PutMapping("/{projectPostId}")
     public ResponseDto<Boolean> updateProjectPost(
