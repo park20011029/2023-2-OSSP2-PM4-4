@@ -9,4 +9,5 @@ public class Oauth2UserInfo {
 
     private String socialId;
     private String socialName;
+    private String email;
 }

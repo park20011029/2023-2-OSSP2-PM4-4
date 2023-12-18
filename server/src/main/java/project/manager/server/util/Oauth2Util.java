@@ -62,7 +62,7 @@ public class Oauth2Util {
         );
 
         return JsonParser.parseString(Objects.requireNonNull(response.getBody()))
-                .getAsJsonObject().get("access_token").getAsString();
+                .getAsJsonObject().get("accessToken").getAsString();
     }
 
     public Oauth2UserInfo getGoogleUserInfo(String accessToken) {
@@ -84,6 +84,7 @@ public class Oauth2Util {
         return Oauth2UserInfo.builder()
                 .socialId(element.getAsJsonObject().getAsJsonObject("response").get("id").getAsString())
                 .socialName(element.getAsJsonObject().getAsJsonObject("response").get("name").getAsString())
+                .email(element.getAsJsonObject().getAsJsonObject("response").get("email").getAsString())
                 .build();
     }
 
