@@ -14,4 +14,5 @@ public class ContestTitleDto {
     private String user;
     private LocalDate startAt;
     private LocalDate endAt;
+    private String imageUrl;
 }

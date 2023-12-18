@@ -12,4 +12,6 @@ public class ApplyDto {
     private String partName;
     private String buildingPost;
     private Long buildingPostId;
+    private Long userId;
+    private String nickName;
 }

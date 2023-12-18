@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import project.manager.server.domain.Image;
 import project.manager.server.domain.User;
 import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
@@ -31,8 +32,7 @@ public class ContestPost {
     @Column(name = "title")
     private String title;
 
-    @Lob
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "start_at")
@@ -76,17 +76,22 @@ public class ContestPost {
     @OneToMany(mappedBy = "contestPost", fetch = FetchType.LAZY)
     private List<BuildingPost> buildingPostList;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contestimage_id")
+    private Image contestImage;
+
     // -----------------------------------------------------
 
     @Builder
-    public ContestPost(ContestPostRequestDto contestPostRequestDto, User writer, Category category, Scale scale, Benefit benefit, Target target, Organization organization) {
+    public ContestPost(ContestPostRequestDto contestPostRequestDto, User writer, Category category, Scale scale, Benefit benefit, Target target, Organization organization, Image contestImage) {
         this.title = contestPostRequestDto.getTitle();
         this.content = contestPostRequestDto.getContent();
         this.startAt = contestPostRequestDto.getStartAt();
         this.endAt = contestPostRequestDto.getEndAt();
         this.isDelete = false;
-        this.createAt = Timestamp.valueOf(LocalDateTime.now());;
+        this.createAt = Timestamp.valueOf(LocalDateTime.now());
         this.writer = writer;
+        this.contestImage = contestImage;
         this.category = category;
         this.scale = scale;
         this.benefit = benefit;
@@ -94,11 +99,12 @@ public class ContestPost {
         this.organization = organization;
     }
 
-    public void updateContestPost(ContestPostRequestDto contestPostRequestDto, Category category, Scale scale, Benefit benefit, Target target, Organization organization) {
+    public void updateContestPost(ContestPostRequestDto contestPostRequestDto, Category category, Scale scale, Benefit benefit, Target target, Organization organization, Image contestImage) {
         this.title = contestPostRequestDto.getTitle();
         this.content = contestPostRequestDto.getContent();
         this.startAt = contestPostRequestDto.getStartAt();
         this.endAt = contestPostRequestDto.getEndAt();
+        this.contestImage = contestImage;
         this.category = category;
         this.scale = scale;
         this.benefit = benefit;

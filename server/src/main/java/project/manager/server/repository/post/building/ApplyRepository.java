@@ -35,5 +35,17 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
             @Param("userId") Long userId,
             Pageable pageable);
 
+    @Query("SELECT a FROM Apply a " +
+            "JOIN FETCH a.part p " +
+            "JOIN FETCH p.buildingPost b " +
+            "JOIN FETCH a.applicant " +
+            "WHERE b.id = :buildingPostId AND a.state = 'APPROVAL'")
+    List<Apply> findByBuildingPostIdWithState(@Param("buildingPostId") Long buildingPostId);
 
+    @Query("SELECT a FROM Apply a " +
+            "JOIN FETCH a.part p " +
+            "JOIN FETCH p.buildingPost b " +
+            "JOIN FETCH a.applicant " +
+            "WHERE b.id = :buildingPostId")
+    List<Apply> findByBuildingPostId(@Param("buildingPostId") Long buildingPostId);
 }

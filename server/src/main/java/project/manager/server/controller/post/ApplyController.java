@@ -2,6 +2,8 @@ package project.manager.server.controller.post;
 
 import jakarta.validation.Valid;
 
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,20 @@ public class ApplyController {
             @Valid @RequestBody ApplyRequestDto applyRequestDto) {
 
         return new ResponseDto<>(applyService.denyApply(writerId,applyId,applyRequestDto));
+    }
+
+    //팀장한테 지원내역 리스트 제공
+    @GetMapping("/leader/{buildingPostId}")
+    public ResponseDto<Map<String, Object>> applyListForLeader(@PathVariable Long buildingPostId) {
+
+        return new ResponseDto<>(applyService.applyListForLeader(buildingPostId));
+    }
+
+    //팀 빌딩 게시글에서 승인된 지원내역 리스트
+    @GetMapping("/post/{buildingPostId}")
+    public ResponseDto<Map<String, Object>> approvalApplyList(@PathVariable Long buildingPostId) {
+
+        return new ResponseDto<>(applyService.applyListInBuildingPost(buildingPostId));
     }
 
     //지원 내역 삭제
