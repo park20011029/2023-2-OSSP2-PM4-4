@@ -64,3 +64,6 @@
 .modal-content .complete:hover {
     transform: scale(0.9);
 }
+.noList  td{
+    color:grey;
+}

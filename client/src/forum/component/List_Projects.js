@@ -16,7 +16,7 @@ let write = {
 const writeList = [write, write, write, write, write, write, write, write, write, write];
 
 
-const List_Projects = ({listData, pageInfo, setPageInfo}) => {
+const List_Projects = ({listData, pList, pageInfo, setPageInfo}) => {
     const navigate = useNavigate();
     const [postList, setPostList] = useState([]);
 
@@ -54,6 +54,10 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
     useEffect(() => {
        getList();
     }, []);
+    useEffect(() => {
+        console.log(pList);
+        setPostList(pList);
+    }, [pList]);
 
     return (
         <>
@@ -69,7 +73,7 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
                 </div>
             :
             postList.map((item, index) => (
-                <tr className={styles.item} key={index}
+                <tr className={item.pinned ? styles.Pitem : styles.item} key={index}
                      onClick={() => navigate(`/TeamWriteView/${item.postId}`)}>
                     <td className={styles.title}>
                         {item.title}
@@ -82,7 +86,7 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
         <div className={styles.button}>
             <button className="yellowButton"
                     onClick={()=>{
-                if(listData.type === "contestPost")
+                if(listData.type === "buildingPost")
                     navigate(`/TeamWritePost/${listData.id}`);
                 else
                     navigate(`/TeamWritePost/0`);

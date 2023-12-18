@@ -52,12 +52,11 @@ const Contest_Write = () => {
         window.onbeforeunload = function pushRefresh() {
             window.scrollTo(0, 0);
         }
-        //Todo: userId
-        /*
         const id = localStorage.getItem('userId');
         if(id !== null)
-            setData({...data, userId: {id}});
-        else*/ setData({...data, userId:1});
+            setData({...data, userId: id});
+        else
+            setData({...data, userId:1});
         
     }, []);
 

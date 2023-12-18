@@ -44,7 +44,9 @@ const Contest_Post_InfoTab = () => {
     const [activeTab, setActiveTab] = useState('Tab1');
     const [post, setPost] = useState({}); //글 정보
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const userId = 1; //Todo: userId
+    const userId = localStorage.getItem('userId') === null
+        ? 1:localStorage.getItem('userId');
+
 
     //탭 변경
     const changeTab = (tab) => { setActiveTab(tab); };

@@ -135,6 +135,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
             }
         });
         console.log(data.isUsePoint);
+
         promises.push(
             //Todo: error
             axios.put(`/buildingPost/${postId}`, {
@@ -277,7 +278,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                                         ))}
                                     </select>
                                 </td>
-                                <td>
+                                    {/*<td>
                                     {element.currentApplicant === 0 ?
                                         <button className={"redButton"}
                                                 onClick={() => removeCategory(key, element)}>
@@ -285,7 +286,7 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
                                         </button>
                                         : <></>
                                     }
-                                </td>
+                                </td>*/}
                                 </tr>
                             )));
                         })}

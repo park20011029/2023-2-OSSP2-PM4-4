@@ -63,9 +63,8 @@ const topPos = (screenHeight - newWindowHeight) / 2;
 const Team_WriteView = () => {
     const navigate = useNavigate();
     const {id} = useParams();
-    //Todo: userId
-    const [userId, setUserId] = useState(2);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const userId = localStorage.getItem('userId') === null
+        ? 1:localStorage.getItem('userId');
     const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
@@ -75,6 +74,8 @@ const Team_WriteView = () => {
         content:"",
         partList:[]
     });
+    const [isAdmin, setIsAdmin] = useState(userId === data.writerId);
+
     //지원하기 모달 관리
     const [applyModalOpen, setApplyModalOpen] = useState(false);
     const parts = [];
@@ -97,11 +98,13 @@ const Team_WriteView = () => {
 
     //사용자 권한 정보 확인
     const checkAdmin = async() => {
+        if(isAdmin === true) return;
         try {
             console.log("checking Admin...");
             const response = await axios.get(`/user/${userId}`);
             const jsonData = response.data.responseDto;
-            if(data.writerId === userId || jsonData.userRole === "ADMIN") {
+            console.log(jsonData.userRole);
+            if(jsonData.userRole === "ADMIN") {
                 console.log("isAdmin!");
                 setIsAdmin(true);
             }
@@ -116,7 +119,8 @@ const Team_WriteView = () => {
             window.scrollTo(0, 0);
         };
 
-        setIsAdmin(checkAdmin());
+        //어드민 확인
+        checkAdmin();
 
         //글 정보 받아오기
         const getData = async() => {
@@ -144,6 +148,8 @@ const Team_WriteView = () => {
             }
         }
         getData();
+
+        console.log("initialAdmin:", isAdmin);
     }, []);
 
     //카테고리 렌더링
@@ -229,13 +235,26 @@ const Team_WriteView = () => {
 
     const applyEnd = async () => {
         if(!window.confirm("마감하시겠습니까?")) return;
+        let success = false;
         try {
             const response = await axios.put(`/buildingPost/end/${id}`);
             if(response.status === 200) {
                 window.alert("마감되었습니다.");
+                success = true;
                 window.location.reload();
             }
-        } catch(error) {
+
+        } catch(error) {}
+        try {
+            const response2 = await axios.put(`/projectPostPost/end/${id}`);
+            if(response2.status === 200) {
+                window.alert("마감되었습니다.");
+                success = true;
+                window.location.reload();
+            }
+        } catch(error) {}
+
+        if(success === false) {
             window.alert("마감할 수 없습니다!");
             console.log("게시글 마감 오류 발생!");
         }
@@ -379,10 +398,7 @@ const Team_WriteView = () => {
                         </div>
                         {/* debug: 관리자/일반 전환 */}
                         <button className={"greyButton"}
-                                onClick={() => {
-                                    if(isAdmin === false)
-                                        setIsAdmin(true)
-                                    else setIsAdmin(false)
+                                onClick={() => {setIsAdmin(!isAdmin)
                                 }}>debug:관리자/일반 전환하기</button>
                     </div>
                     ) : (

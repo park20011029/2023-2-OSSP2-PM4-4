@@ -13,11 +13,11 @@ const Team_WritePost = () => {
     const navigate = useNavigate();
     //postID: 공모전 ID. 0이면 프로젝트를 의미함
     const {postId} = useParams();
-    
+    const userId = localStorage.getItem('userId') === null
+        ? 1:localStorage.getItem('userId');
     //데이터
     const [data, setData] = useState({
-        //Todo: userId
-        userId:1,
+        userId:  userId === null ? 1: userId,
         title:'',
         content:'',
         usePoint:false,
@@ -67,7 +67,6 @@ const Team_WritePost = () => {
         console.log("postId:", postId);
     }, []);
 
-    //Todo: UserId, 리워드 처리
     const submit = async () => {
         if(!window.confirm("완료하시겠습니까?")) return;
 

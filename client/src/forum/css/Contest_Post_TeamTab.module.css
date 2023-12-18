@@ -6,11 +6,35 @@
     margin:20px 0;
     padding:10px 0;
 }
+.List .Pitem {
+    margin:0;
+    margin-bottom: 5px;
+    padding-top:30px;
+    border:2px rgba(31, 221, 255, 0.6) solid;
+    border-radius: 10px;
+}
+.List .Pitem:hover {
+    color: #1d5dd9;
+    border-bottom: 2px #1d5dd9 solid;
+    cursor: pointer;
+}
+.Pitem td {
+    transition: transform 0.1s ease-in-out;
+}
+.Pitem td:hover {
+    transform: scale(1.1
+    );
+}
+.category_row, .Pitem {
+    display:flex;
+    border-bottom: 2px black solid;
+}
 .List .item:hover {
     color: #1d5dd9;
     border-bottom: 2px #1d5dd9 solid;
     cursor: pointer;
 }
+
 .item td {
     transition: transform 0.1s ease-in-out;
 }
@@ -22,7 +46,15 @@
     display:flex;
     border-bottom: 2px black solid;
 }
-
+.noList {
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.noList label {
+    color:grey;
+}
 .title {
     display:flex;
     width:75%;
@@ -44,6 +76,7 @@
 }
 
 .button {
+    margin-top:20px;
     display:flex;
     flex-direction: row;
     justify-content: flex-end;

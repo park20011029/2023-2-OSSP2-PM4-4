@@ -13,7 +13,7 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
     const handleApply = (element) => {
         setApplyInfo((prevApplies) => {
             const isPartIdIncluded = prevApplies.number === element.partId;
-
+            const isAvailable = element.currentApplicant < element.maxApplicant;
             if (isPartIdIncluded) {
                 setIsSelected(false);
                 return initialState;
@@ -27,7 +27,6 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
         });
     };
 
-    //Todo error: 500
     const submit = () => {
         if(!window.confirm(`현재 선택한 파트: ${applyInfo.name}\n지원하시겠습니까?`))
             return;
@@ -40,11 +39,9 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
                 const transferData = {userId:id, partId:applyInfo.number};
                 console.log(transferData);
                 const response = await axios.post(`/apply`, transferData);
-                if(response.status === 200) {
-                    console.log("지원 내역 전송 완료.");
-                    window.alert("지원 완료되었습니다.");
-                    setApplyModalOpen(false);
-                }
+                console.log("지원 내역 전송 완료.");
+                window.alert("지원 완료되었습니다.");
+                setApplyModalOpen(false);
             } catch(error) {
                 console.log(error);
                 window.alert("오류 발생!");

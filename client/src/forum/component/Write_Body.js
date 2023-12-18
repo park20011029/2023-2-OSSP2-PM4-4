@@ -13,14 +13,17 @@ const Write_Body = ({ setContent, setReward, userId, submit }) => {
     const navigate = useNavigate();
 
     const handleRewardChange = async() => {
+        console.log("currentReward:", useReward);
         if(useReward === false) {
             try {
                 const response = await axios.get(`/user/${userId}`);
                 const jsonData = response.data.responseDto;
                 const reward = parseInt(jsonData.point);
-                if(reward >= 15)
+                if(reward >= 15) {
                     setUseReward(true);
-                //Todo: 리워드 안빠짐
+                    setReward(true);
+                    console.log("reward setted to True.");
+                }
                 else {
                     window.alert("포인트 잔액이 부족합니다.");
                     return;
@@ -31,9 +34,10 @@ const Write_Body = ({ setContent, setReward, userId, submit }) => {
                 return;
             }
         }
-        else
+        else {
             setUseReward(false);
-        setReward(useReward);
+            setReward(false);
+        }
     };
 
     return (

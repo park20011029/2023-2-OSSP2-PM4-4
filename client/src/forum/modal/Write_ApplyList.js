@@ -91,7 +91,9 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
     //거절
     const deny = async(applyId) => {
         try {
-            const response = await axios.put(`/apply/deny/${applyId}`);
+            const url = `/apply/deny/${applyId}`;
+            console.log(url);
+            const response = await axios.put(url);
             if(response.status !== 200) {
                 window.alert("거절 처리 오류!");
                 return;
@@ -128,26 +130,37 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                             </tr>
                             </thead>
                             <tbody>
-                            {applicantList.map((element, elementIndex) => (
+                            {applicantList.length === 0 ?
+                                <tr className={styles.noList}>
+                                    <td colSpan={4}>없음</td>
+                                </tr>
+                                :
+                             applicantList.map((element, elementIndex) => (
                                 <tr key={elementIndex}>
-                                    <td onClick={() => moveToUserPage(element.userId)}>
-                                        {element.nickName}
-                                    </td>
-                                    <td className={styles.specialTd}>
-                                        {element.partName}
-                                    </td>
-                                    <td>
+                                    {element.state !== "거절" && element.state !== "승인" ?
+                                        <>
+                                        <td onClick={() => moveToUserPage(element.userId)}>
+                                            {element.nickName}
+                                        </td>
+                                        <td className={styles.specialTd}>
+                                            {element.partName}
+                                        </td>
+                                        <td>
                                         <button className={"blueButton"}
-                                                onClick={() =>
-                                                    approve(element.applyId)}>
-                                            승인</button>
-                                    </td>
-                                    <td>
+                                            onClick={() =>
+                                                approve(element.applyId)}>
+                                        승인</button>
+                                        </td>
+                                        <td>
                                         <button className={"redButton"}
-                                                onClick={() =>
-                                                    deny(element.applyId)}>
+                                            onClick={() =>
+                                                deny(element.applyId)}>
                                             거절</button>
-                                    </td>
+                                        </td>
+                                        </>
+                                    : <></>
+                                    }
+
                                 </tr>
                             ))}
                             </tbody>
