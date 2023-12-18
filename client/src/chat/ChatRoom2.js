@@ -7,9 +7,9 @@ import ChatLog from "./ChatLog";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 
-const ChatRoom = () => {
-    const {state} = useLocation();
-    const {image, targetName} = state;
+const ChatRoom2 = () => {
+    const image = localStorage.getItem("EnemyImage");
+    const targetName = localStorage.getItem("EnemyName")
     const navigate = useNavigate();
     const userId = 1 //Todo: userId
     const [messages, setMessages] = useState([]);
@@ -149,4 +149,4 @@ const ChatRoom = () => {
     );
 };
 
-export default ChatRoom;
+export default ChatRoom2;

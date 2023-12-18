@@ -31,12 +31,16 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
     const submit = () => {
         if(!window.confirm(`현재 선택한 파트: ${applyInfo.name}\n지원하시겠습니까?`))
             return;
+        if(id === postInfo.writerId) {
+            window.alert("작성자는 자신의 게시글에 지원할 수 없습니다.");
+            return;
+        }
         const send = async() => {
             try {
                 const transferData = {userId:id, partId:applyInfo.number};
                 console.log(transferData);
                 const response = await axios.post(`/apply`, transferData);
-                if(response === 200) {
+                if(response.status === 200) {
                     console.log("지원 내역 전송 완료.");
                     window.alert("지원 완료되었습니다.");
                     setApplyModalOpen(false);
@@ -89,7 +93,8 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
                                     <td>
                                         <input type={"checkbox"}
                                                checked={applyInfo.number === element.partId}
-                                               disabled={isSelected && applyInfo.number !== element.partId}
+                                               disabled={element.currentApplicant === element.maxApplicant
+                                                   || isSelected && applyInfo.number !== element.partId}
                                         />
                                     </td>
                                 </tr>

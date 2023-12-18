@@ -6,6 +6,7 @@ import "../../Modal.css";
 import "../css/buttons.css";
 import axios from "axios";
 import UserPage from "../../UserPage";
+import app from "../../App";
 
 //더미데이터
 const partTemp = ["React", "Spring"];
@@ -29,27 +30,34 @@ const dummy = {
 }
 
 const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalOpen}) => {
-    const [keyList, setKeyList] = useState([]);
-    const [applicantList, setApplicantList] = useState({});
+    const [keyList, setKeyList] = useState();
+    const [applicantList, setApplicantList] = useState([]);
     const [init, setInit] = useState(false);
 
     const getList = async() => {
         try {
-            const response = await axios.get(`/apply/list/${postId}`);
-            const jsonData = response.data.responseDto;
+            const response
+                = await axios.get(`/apply/leader/${postId}`);
+            const jsonData = response.data.responseDto.applyList;
             setKeyList(parts);
             setApplicantList(jsonData);
         } catch(error) {
             console.log("지원 내역 리스트 get 오류");
             //더미데이터 처리
-            setKeyList(partTemp);
-            setApplicantList(dummy);
+            //setKeyList(partTemp);
+            //setApplicantList(dummy);
         }
     }
     useEffect(() => {
         getList();
         setInit(true);
     }, []);
+
+    useEffect(() => {
+        console.log("데이터 변경됨");
+        console.log("key:", keyList);
+        console.log("appList:", applicantList);
+    }, [keyList, applicantList]);
 
     //유저 페이지로 이동
     function moveToUserPage(userId) {
@@ -66,15 +74,37 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
     }
 
     //승인
-    const approve = () => {
-        //Todo
+    const approve = async(applyId) => {
+        try {
+            const response = await axios.put(`/apply/permit/${applyId}`);
+            if(response.status !== 200) {
+                window.alert("승인 처리 오류!");
+                return;
+            } else {
+                window.alert("완료되었습니다");
+                setApplyListModalOpen(false);
+            }
+        } catch(error) {
+            console.log(error);
+        }
     }
     //거절
-    const deny = () => {
-        //Todo
+    const deny = async(applyId) => {
+        try {
+            const response = await axios.put(`/apply/deny/${applyId}`);
+            if(response.status !== 200) {
+                window.alert("거절 처리 오류!");
+                return;
+            } else {
+                window.alert("완료되었습니다");
+                setApplyListModalOpen(false);
+            }
+        } catch(error) {
+            console.log(error);
+        }
     }
 
-    if(init === false) return;
+    if(!init) return null;
     else {
         return (
             <Modal className={styles.modal}
@@ -91,29 +121,34 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                         <table>
                             <thead>
                             <tr>
-                                <th>지원파트</th>
                                 <th>닉네임</th>
+                                <th>지원파트</th>
                                 <th />
                                 <th />
                             </tr>
                             </thead>
                             <tbody>
-                            {keyList.map((key) => (
-                                applicantList[key].map((element, elementIndex) => (
-                                    <tr key={elementIndex}>
-                                        {elementIndex === 0 && (
-                                            <td className={styles.specialTd}
-                                                rowSpan={applicantList[key].length}>{key}</td>
-                                        )}
-                                        <td onClick={() => moveToUserPage(element.userId)}>{element.userName}</td>
-                                        <td>
-                                            <button className={"blueButton"} onClick={() => approve()}>승인</button>
-                                        </td>
-                                        <td>
-                                            <button className={"redButton"} onClick={() => deny()}>거절</button>
-                                        </td>
-                                    </tr>
-                                ))
+                            {applicantList.map((element, elementIndex) => (
+                                <tr key={elementIndex}>
+                                    <td onClick={() => moveToUserPage(element.userId)}>
+                                        {element.nickName}
+                                    </td>
+                                    <td className={styles.specialTd}>
+                                        {element.partName}
+                                    </td>
+                                    <td>
+                                        <button className={"blueButton"}
+                                                onClick={() =>
+                                                    approve(element.applyId)}>
+                                            승인</button>
+                                    </td>
+                                    <td>
+                                        <button className={"redButton"}
+                                                onClick={() =>
+                                                    deny(element.applyId)}>
+                                            거절</button>
+                                    </td>
+                                </tr>
                             ))}
                             </tbody>
                         </table>

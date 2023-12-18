@@ -33,7 +33,7 @@ const ChatList = () => {
                     <div className={styles.chatLine}
                          onClick={() => navigate(`/chatRoom/${chat.chatRoomId}`,
                              {state:{image:chat.image, targetName:chat.opponentNickname}})}>
-                        <img src={"/defaultProfile.svg"} alt={"프로필사진"}/> {/*Todo: 이거하기*/}
+                        <img src={chat.image || "/defaultProfile.svg"} alt={"프로필사진"}/> {/*Todo: 이거하기*/}
                         <div className={styles.nameNchat}>
                             <label>{chat.opponentNickname}과의 대화</label>
                             <label>{chat.lastChat}</label>

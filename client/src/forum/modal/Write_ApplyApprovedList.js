@@ -28,13 +28,13 @@ const dummy = {
 
 const Write_ApplyApprovedList = ({ postId, parts, applyApprovedListModalOpen, setApplyApprovedListModalOpen}) => {
     const [keyList, setKeyList] = useState([]);
-    const [applicantList, setApplicantList] = useState({});
+    const [applicantList, setApplicantList] = useState([]);
     const [init, setInit] = useState(false);
 
     const getList = async() => {
         try {
-            const response = await axios.get(`/apply/list/${postId}`);
-            const jsonData = response.data.responseDto;
+            const response = await axios.get(`/apply/post/${postId}`);
+            const jsonData = response.data.responseDto.applyList;
             setKeyList(parts);
             setApplicantList(jsonData);
         } catch(error) {
@@ -49,7 +49,6 @@ const Write_ApplyApprovedList = ({ postId, parts, applyApprovedListModalOpen, se
         setInit(true);
     }, []);
 
-    //Todo: 프로필 이동
     const moveToProfile = (userId) => {
         const screenWidth = window.screen.width;
         const screenHeight = window.screen.height;
@@ -80,26 +79,21 @@ const Write_ApplyApprovedList = ({ postId, parts, applyApprovedListModalOpen, se
                         <table>
                             <thead>
                             <tr>
-                                <th>지원파트</th>
                                 <th>닉네임</th>
+                                <th>지원파트</th>
                                 <th />
                             </tr>
                             </thead>
                             <tbody>
-                            {keyList.map((key) => (
-                                applicantList[key].map((element, elementIndex) => (
-                                    <tr key={elementIndex}>
-                                        {elementIndex === 0 && (
-                                            <td className={styles.specialTd}
-                                                rowSpan={applicantList[key].length}>{key}</td>
-                                        )}
-                                        <td>{element.userName}</td>
-                                        <td>
-                                            <button className="yellowButton"
-                                                    onClick={() => moveToProfile(element.userId)}>프로필 이동</button>
-                                        </td>
-                                    </tr>
-                                ))
+                            {applicantList.map((element, elementIndex) => (
+                                <tr key={elementIndex}>
+                                    <td>{element.nickName}</td>
+                                    <td className={styles.specialTd}>{element.partName}</td>
+                                    <td>
+                                        <button className="yellowButton"
+                                                onClick={() => moveToProfile(element.userId)}>프로필 이동</button>
+                                    </td>
+                                </tr>
                             ))}
                             </tbody>
                         </table>
