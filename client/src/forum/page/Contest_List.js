@@ -99,7 +99,14 @@ const Contest_List = () => {
 
         try {
             const response = await axios.get(url);
-            setPostList(response.data.responseDto.contestPosts);
+            const jsonData = response.data.responseDto;
+            setPostList(jsonData.contestPosts);
+            setPageInfo({
+                pageNumber: jsonData.pageInfo.currentPage,
+                pageSize: jsonData.pageInfo.pageSize,
+                pageCount: Math.ceil(jsonData.pageInfo.totalItems/jsonData.pageInfo.pageSize),
+                pageLength: pageInfo.pageLength
+            });
         } catch (error) {
             console.error(error);
         }
@@ -111,12 +118,8 @@ const Contest_List = () => {
         console.log("pageNumber Changed!" + pageInfo.pageNumber);
         //페이지 번호
         setPageInfo({...pageInfo, pageNumber: pageInfo.pageNumber});
-        
-        //Todo: search호출 후 postList갱신
+
         search();
-        
-        //글 목록
-        //setPostList(writeList);
     }, [pageInfo.pageNumber]);
 
     return (

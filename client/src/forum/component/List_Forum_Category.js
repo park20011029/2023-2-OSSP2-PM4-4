@@ -4,7 +4,7 @@ import styles from "../css/List.module.css";
 import "../css/buttons.css";
 import {contest_CategoryKeyList, contest_CategoryTrans, contest_getCategoryAll} from "./axios_category";
 
-const category = {
+const dummyCategory = {
     target:[
         {id:1,target:"a"},
         {id:2,target:"b"},
@@ -94,6 +94,7 @@ const List_Forum_Category = ({setCategorySelected, search}) => {
         console.log("초기화 진행완료");
     }
 
+    /*
     //카테고리 리스트 렌더링
     const chunkArray = (array, chunkSize) => {
         const result = [];
@@ -102,35 +103,36 @@ const List_Forum_Category = ({setCategorySelected, search}) => {
         }
         return result;
     }
+
+     */
     const renderCategory = () => {
         const chunkSize = 6;
         const allList = [];
         {Object.keys(contest_CategoryKeyList).forEach((key) => {
-            const list = categoryData[key];
+            const list = categoryData[key] || dummyCategory[key];
             const categoryTitle = contest_CategoryTrans[key];
-            const lines = Math.ceil(list.length/chunkSize);
-            const curList = chunkArray(list, chunkSize);
-            curList.map((list, index) => {
-                allList.push(
-                    <tr>
-                        {index === 0 ? <td className={styles.tableTitle}>{categoryTitle}</td> : <td className={styles.tableTitle}></td> }
-                        {list.map((value) => (
-                            <td className={styles.TableElement}>
-                                <label key={value.id}>
-                                    <input
-                                        id={value.id}
-                                        value={value[key]}
-                                        type="checkbox"
-                                        checked={isChecked(key, value.id)}
-                                        onChange={() => handleChange(key, value.id)}
-                                    />
-                                    {value[key]}
-                                </label>
-                            </td>
-                        ))}
-                    </tr>
-                );
-            })
+            console.log(list, categoryTitle);
+            //const lines = Math.ceil(list.length/chunkSize);
+            //const curList = chunkArray(list, chunkSize);
+            allList.push(
+                <tr>
+                    <td className={styles.tableTitle}>{categoryTitle}</td>
+                    {list.map((value) => (
+                        <td className={styles.TableElement}>
+                            <label key={value.id}>
+                                <input
+                                    id={value.id}
+                                    value={value[key]}
+                                    type="checkbox"
+                                    checked={isChecked(key, value.id)}
+                                    onChange={() => handleChange(key, value.id)}
+                                />
+                                {value[key]}
+                            </label>
+                        </td>
+                    ))}
+                </tr>
+            );
         })}
 
         return (

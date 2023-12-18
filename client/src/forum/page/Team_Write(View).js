@@ -120,15 +120,17 @@ const Team_WriteView = () => {
         getData();
 
         //사용자 권한 정보 확인
-        //Todo: userId - Role
-        const getUser = async() => {
+        const checkAdmin = async() => {
             try {
                 const response = await axios.get(`/user/${id}`);
                 const jsonData = response.data.responseDto;
+                if(jsonData.userRole === "ADMIN")
+                    setIsAdmin(true);
             } catch(error) {
                 console.log(error);
             }
         }
+        checkAdmin();
     }, []);
 
     //카테고리 렌더링

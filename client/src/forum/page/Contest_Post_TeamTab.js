@@ -5,7 +5,7 @@ import List_Projects from "../component/List_Projects";
 
 const Contest_Post_TeamTab = ({contestPostId}) => {
     const [listData, setListData] = useState({
-        type:"contestPost",
+        type:"buildingPost",
         id: contestPostId
     })
     //게시글 페이지 정보

@@ -16,6 +16,7 @@ const Team_WritePost = () => {
     
     //데이터
     const [data, setData] = useState({
+        //Todo: userId
         userId:1,
         title:'',
         content:'',

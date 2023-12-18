@@ -18,22 +18,34 @@ const writeList = [write, write, write, write, write, write, write, write, write
 
 const List_Projects = ({listData, pageInfo, setPageInfo}) => {
     const navigate = useNavigate();
-    const [postList, setPostList] = useState(writeList);
+    const [postList, setPostList] = useState([]);
 
-    //Todo: 글 리스트 가져오기
     const getList = async() => {
         try {
             let response;
+            let pInfo;
             //공모전
-            if(listData.type === "contestPost") {
-                response = await axios.get(`/${listData.type}/${listData.id}`);
+            if(listData.type === "buildingPost") {
+                response = await axios.get(`/${listData.type}/list/${listData.id}`);
+                const data = response.data.responseDto;
+                pInfo = data.pageInfo;
+                setPostList(data.buildingPosts);
             }
             //프로젝트
             else if(listData.type === "projectPostPost") {
-                response = await axios.get(`/${listData.type}/`);
+                response = await axios.get(`/${listData.type}/list`);
+                const data = response.data.responseDto;
+                pInfo = data.pageInfo;
+                setPostList(data.projectPosts);
             }
 
-
+            //페이지 처리
+            setPageInfo({
+                pageNumber:pInfo.currentPage,
+                pageSize:pageInfo.pageSize,
+                pageLength:pageInfo.pageLength,
+                pageCount:Math.ceil(pInfo.totalItems/pInfo.pageSize)
+            });
         } catch(error) {
             console.log(error);
         }
@@ -51,15 +63,19 @@ const List_Projects = ({listData, pageInfo, setPageInfo}) => {
                 <th className={styles.writer}>작성자</th>
                 <th className={styles.date}>작성일</th>
             </tr>
-
-            {writeList.map((item, index) => (
+            {postList.length === 0 ?
+                <div className={styles.noList}>
+                    <label>게시글이 없습니다</label>
+                </div>
+            :
+            postList.map((item, index) => (
                 <tr className={styles.item} key={index}
-                     onClick={() => navigate(`/TeamWriteView/${item.number}`)}>
+                     onClick={() => navigate(`/TeamWriteView/${item.postId}`)}>
                     <td className={styles.title}>
                         {item.title}
                     </td>
-                    <td className={styles.writer}>{item.name}</td>
-                    <td className={styles.date}>{item.date}</td>
+                    <td className={styles.writer}>{item.user}</td>
+                    <td className={styles.date}>{item.creatAt}</td>
                 </tr>
             ))}
         </table>

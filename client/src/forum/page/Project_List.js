@@ -35,12 +35,10 @@ const Project_List = () => {
          return result;
     });
 
-    // 글 목록
-    const [postList, setPostList] = useState(writeList);
     // 게시글 페이지 정보
     const [pageInfo, setPageInfo] = useState({
         pageNumber: 1,
-        pageSize: 6,
+        pageSize: 2,
         pageLength: 10,
         pageCount: 55,
     });
@@ -56,8 +54,12 @@ const Project_List = () => {
     useEffect(() => {
         console.log("데이터 변경됨", selected);
     }, [selected]);
+
     //Todo: 검색
-    const search = () => {
+    useEffect(() => {
+
+    });
+    const search = async() => {
         console.log("search");
         console.log(searchWord);
         console.log(selected);
@@ -68,9 +70,11 @@ const Project_List = () => {
             <Nav />
             <div className={styles.Page}>
                 <List_Search setSearchWord={setSearchWord} search={search} />
+                {/*
                 <List_Project_Category setSelected={setSelected}
                                        search={search}
                 />
+                */}
                 <List_Projects listData={listData}
                                pageInfo={pageInfo}
                                setPageInfo={setPageInfo}
