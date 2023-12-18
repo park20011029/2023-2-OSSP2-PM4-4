@@ -70,6 +70,7 @@
 }
 .TableElement {
     width:15%;
+    padding:10px 0;
 }
 
 .criteria {
@@ -119,6 +120,7 @@
 
 /* List_Forums.js */
 .forumWriteList {
+    min-height:300px;
     margin-top: 30px;
     width: 100%;
     border: 2px black solid;
@@ -128,7 +130,15 @@
     justify-content: space-between;
 }
 
-
+.noPost {
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.noPost label {
+    color:grey;
+}
 .forumWrite {
     width: 30%;
     text-align: center;
@@ -140,6 +150,11 @@
 .forumWrite label {
     font-size:15px;
     font-weight:bold;
+}
+.forumWrite img {
+    height: 400px;
+    width: 300px;
+    object-fit: contain;
 }
 
 /* List_Projects.js */

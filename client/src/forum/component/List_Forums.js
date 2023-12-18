@@ -20,14 +20,20 @@ const List_Forums = ({postList}) => {
     return (
         <div>
             <div className={styles.forumWriteList}>
-                {postList.map((write) => (
-                    <div key={write.number} className={styles.forumWrite}>
-                        <img src={write.image} alt={write.title}
-                            onClick={()=>moveToWrite(write.number)}/>
-                        <label onClick={()=>moveToWrite(write.number)}>
-                            {write.title}</label>
+                {postList.length === 0 ?
+                    <div className={styles.noPost}>
+                        <label>결과 없음</label>
                     </div>
-                ))}
+                :
+                    postList.map((write) => (
+                        <div key={write.contestId} className={styles.forumWrite}>
+                            <img src={write.imageUrl} alt={write.title}
+                                onClick={()=>moveToWrite(write.contestId)}/>
+                            <label onClick={()=>moveToWrite(write.contestId)}>
+                                {write.title}</label>
+                        </div>
+                    ))
+                }
             </div>
             <div className={styles.writeButton}>
                 <button className="yellowButton" onClick={()=>moveToPost()}>글쓰기</button>

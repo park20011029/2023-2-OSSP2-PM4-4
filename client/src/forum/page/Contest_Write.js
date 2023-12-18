@@ -33,8 +33,8 @@ const Contest_Write = () => {
 
     //전송할 객체
     const [image, setImage] = useState({
-        src: "/upload.svg",
-        url: "/upload.svg"
+        src: "",
+        url: ""
     });
     const [data, setData] = useState({});
     const [content, setContent] = useState('');
@@ -64,15 +64,12 @@ const Contest_Write = () => {
     // 2.입력값을 처리하는 함수
     const handleImgChange = (e) => { //이미지
         const selectedImage = e.target.files[0];
-        const prevData = {...image};
-        try {
-            const url = URL.createObjectURL(selectedImage);
-            console.log("imageurl:", url);
-            setImage({src:selectedImage, url:url});
-        } catch(error) {
-            console.log(error);
-            setImage(prevData);
-        }
+        setImage({
+            src:selectedImage,
+            url:URL.createObjectURL(selectedImage)
+        });
+
+        /*
         //미리보기
         const preview = new FileReader();
         preview.onloadend = () => {
@@ -81,7 +78,9 @@ const Contest_Write = () => {
         if(selectedImage) {
             preview.readAsDataURL(selectedImage);
         }
+         */
     };
+
     const setTitle = (title) => {
         setData((prevData) => ({
             ...prevData,
@@ -102,7 +101,7 @@ const Contest_Write = () => {
         if(!window.confirm("작성하시겠습니까?")) return;
         console.log(image);
         //유효성 검사
-        //if(!image.url) return(window.alert("이미지를 업로드하세요"));
+        if(!image.url) return(window.alert("이미지를 업로드하세요"));
         if(!data.title) return(window.alert("제목을 입력하세요"));
         for(let i=0; i<contest_CategoryList.length; i++) {
             if(!data[contest_CategoryList[i]])
@@ -114,22 +113,22 @@ const Contest_Write = () => {
         if(!content) return(window.alert("본문을 입력하세요."));
 
         try {
-            //Todo: 이미지 처리
             const formData = new FormData();
-            formData.append('image', image.url);
+            formData.append('file', image.src);
             console.log(image.src);
             //나머지 데이터 처리
             const postData = {};
             Object.keys(contest_CategoryKeyPost).forEach((key) => {
                 postData[contest_CategoryKeyPost[key]] = data[key];
             });
+            console.log("data", postData);
             formData.append(
-                "requestDto", new Blob([JSON.stringify(data)], {type: "application/json"})
+                "contestPostRequestDto", new Blob([JSON.stringify(postData)], {type: "application/json"})
             );
-
+            console.log("formData:", formData);
             const config = {"Content-Type": 'image/jpeg',};
 
-            const response = await axios.post("/contestPost", postData);
+            const response = await axios.post("/contestPost", formData);
             /*{
                 headers: {
                     Authorization: `Bearer ${"accessToken"}`, //Todo: accessToken
@@ -154,7 +153,7 @@ const Contest_Write = () => {
                 <div className={styles.bigTitle}>게시글 작성</div>
                 <div className={styles.brief}>
                     <div className={styles.imageUpload}>
-                        {image.src && <img className={styles.image} src={image.src} alt="Preview"/>}
+                        {image.url && <img className={styles.image} src={image.url} alt="Preview"/>}
                         <input type="file" accept="image/*"
                                onChange={handleImgChange} />
                     </div>
