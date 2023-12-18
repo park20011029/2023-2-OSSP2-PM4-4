@@ -14,7 +14,7 @@ function ProjectRecordInput({projects, projectName, description, gitAddress, set
                 setProjects(newProjects);
                 const response = await axios.get(`/user/${localStorage.getItem('userId')}`);
                 const resumeId = response.data.responseDto.resumeId;
-                const addition = { projectName: projectName, description: description, gitUrl: gitAddress};
+                const addition = { userId:localStorage.getItem('userId'), projectName: projectName, description: description, gitUrl: gitAddress};
                 setProjectName('');
                 setDescription('');
                 setGitAddress('');
