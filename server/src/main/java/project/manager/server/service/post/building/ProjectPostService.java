@@ -59,14 +59,14 @@ public class ProjectPostService {
             flag = true;
         }
 
-        BuildingPost newBuildingPost = BuildingPost.builder()
+        BuildingPost newProjectPost = BuildingPost.builder()
                 .buildingPostRequestDto(projectPostRequestDto)
                 .writer(writer)
                 .build();
-        buildingPostRepository.save(newBuildingPost);
+        buildingPostRepository.save(newProjectPost);
 
         if (flag) {
-            newBuildingPost.upperPost();
+            newProjectPost.upperPost();
             writer.updatePoint(writer.getPoint() - BUILDING_POST_POINT);
         }
 
@@ -75,14 +75,14 @@ public class ProjectPostService {
                         .partName(partRequestDto.getPartName())
                         .techType(partRequestDto.getTechType())
                         .maxApplicant(partRequestDto.getMaxApplicant())
-                        .buildingPost(newBuildingPost)
+                        .buildingPost(newProjectPost)
                         .build()));
 
         return true;
     }
 
     public Map<String, Object> readProjectPostList(Integer page, Integer size) {
-        Page<BuildingPost> buildingPosts = buildingPostRepository
+        Page<BuildingPost> projectPosts = buildingPostRepository
                 .findProjectPostWithUser(
                         PageRequest.of(page, size,
                                 Sort.by(Sort.Order.asc("isRecruiting"),
@@ -90,15 +90,43 @@ public class ProjectPostService {
                                         Sort.Order.desc("createAt"))));
 
         PageInfo pageInfo = PageInfo.builder()
-                .currentPage(buildingPosts.getNumber() + 1)
-                .totalPages(buildingPosts.getTotalPages())
-                .pageSize(buildingPosts.getSize())
-                .currentItems(buildingPosts.getNumberOfElements())
-                .totalItems(buildingPosts.getTotalElements())
+                .currentPage(projectPosts.getNumber() + 1)
+                .totalPages(projectPosts.getTotalPages())
+                .pageSize(projectPosts.getSize())
+                .currentItems(projectPosts.getNumberOfElements())
+                .totalItems(projectPosts.getTotalElements())
                 .build();
 
         Map<String, Object> result = new HashMap<>();
-        result.put("projectPosts", buildingPosts.stream()
+        result.put("projectPosts", projectPosts.stream()
+                .map(post -> BuildingTitleDto.builder()
+                        .user(post.getWriter().getNickName())
+                        .userId(post.getWriter().getId())
+                        .title(post.getTitle())
+                        .postId(post.getId())
+                        .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                        .build())
+                .collect(Collectors.toList()));
+
+        result.put("pageInfo", pageInfo);
+
+        return result;
+    }
+
+    public Map<String, Object> searchProjectPost(String text, Integer page, Integer size) {
+        Page<BuildingPost> projectPosts = buildingPostRepository
+                .findProjectPostByText("%" + text + "%", PageRequest.of(page,size));
+
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(projectPosts.getNumber() + 1)
+                .totalPages(projectPosts.getTotalPages())
+                .pageSize(projectPosts.getSize())
+                .currentItems(projectPosts.getNumberOfElements())
+                .totalItems(projectPosts.getTotalElements())
+                .build();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("projectPosts", projectPosts.stream()
                 .map(post -> BuildingTitleDto.builder()
                         .user(post.getWriter().getNickName())
                         .userId(post.getWriter().getId())
@@ -114,20 +142,20 @@ public class ProjectPostService {
     }
 
     public Map<String, Object> readProjectPost(Long projectPostId) {
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndIsDeleteFalse(projectPostId)
+        BuildingPost projectPost = buildingPostRepository.findByIdAndIsDeleteFalse(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         Map<String, Object> result = new HashMap<>();
 
         result.put("projectPost", BuildingPostDto.builder()
-                .title(buildingPost.getTitle())
-                .content(buildingPost.getContent())
-                .userId(buildingPost.getWriter().getId())
-                .user(buildingPost.getWriter().getNickName())
-                .creatAt(buildingPost.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                .title(projectPost.getTitle())
+                .content(projectPost.getContent())
+                .userId(projectPost.getWriter().getId())
+                .user(projectPost.getWriter().getNickName())
+                .creatAt(projectPost.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                 .build());
 
-        List<Part> partList = partRepository.findByBuildingPost(buildingPost);
+        List<Part> partList = partRepository.findByBuildingPost(projectPost);
         for (Part part : partList) {
             // 키값 중복 체크해서
             if (result.containsKey(part.getTechType().getLabel())) {
@@ -187,7 +215,7 @@ public class ProjectPostService {
     }
 
     public Boolean updateProjectPost(Long projectPostId, BuildingPostUpdateDto updateDto) {
-        BuildingPost projectPost = buildingPostRepository.findByIdAndRecruitingIsTrue(projectPostId)
+        BuildingPost projectPost = buildingPostRepository.findProjectPostByIdAndRecruiting(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         if (updateDto.isUsePoint()) {
@@ -206,7 +234,7 @@ public class ProjectPostService {
 
     public Boolean endProjectPost(Long projectPostId) {
 
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(projectPostId)
+        BuildingPost projectPost = buildingPostRepository.findProjectPostByIdAndRecruiting(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(projectPostId);
@@ -216,7 +244,7 @@ public class ProjectPostService {
             }
         });
 
-        buildingPost.buildingPostClose();
+        projectPost.buildingPostClose();
 
         List<Apply> sortApplyList = applyList.stream()
                 .sorted(Comparator.comparing(apply -> apply.getApplicant().getId()))
@@ -228,7 +256,7 @@ public class ProjectPostService {
                 if (!applyFirst.getApplicant().getId().equals(past.get()) && !applyFirst.getApplicant().getId().equals(apply.getApplicant().getId())) {
                     reviewRepository.save(Review.builder()
                             .partName(apply.getPart().getPartName())
-                            .buildingPost(buildingPost)
+                            .buildingPost(projectPost)
                             .reviewer(applyFirst.getApplicant())
                             .reviewee(apply.getApplicant())
                             .build());
@@ -242,7 +270,7 @@ public class ProjectPostService {
 
     // 지원 승인 대기중인 사람 있는지 확인, 지원 승인된 사람 있는지 확인
     public Boolean deleteProjectPost(Long projectPostId) {
-        BuildingPost projectPost = buildingPostRepository.findByIdAndRecruitingIsTrue(projectPostId)
+        BuildingPost projectPost = buildingPostRepository.findProjectPostByIdAndRecruiting(projectPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(projectPostId);

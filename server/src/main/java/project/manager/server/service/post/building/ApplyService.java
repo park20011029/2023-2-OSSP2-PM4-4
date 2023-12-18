@@ -93,15 +93,10 @@ public class ApplyService {
         return true;
     }
 
-    public Boolean denyApply(Long writerId, Long applyId, ApplyRequestDto applyRequestDto) { //writer == @LoginUser
+    public Boolean denyApply(Long applyId) {
         Apply apply = applyRepository.findById(applyId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
-        Part part = partRepository.findByIdWithPostAndUser(applyRequestDto.getPartId())
-                .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
-        if (!part.getBuildingPost().getWriter().getId().equals(writerId)) { //팀 빌딩 게시글 작성자인지 확인
-            throw new ApiException(ErrorDefine.ACCESS_DENIED);
-        }
         apply.updateApply(PartState.REFUSAL);
 
         return true;
@@ -116,6 +111,7 @@ public class ApplyService {
                         .applyId(apply.getId())
                         .userId(apply.getApplicant().getId())
                         .nickName(apply.getApplicant().getNickName())
+                        .partId(apply.getPart().getId())
                         .partName(apply.getPart().getPartName())
                         .state(apply.getState().getToKorean())
                         .build())
