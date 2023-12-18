@@ -55,15 +55,15 @@ const writeList = [
 const Contest_List = () => {
   //변수 선언
     //검색어
-    const [searchWord, setSearchWord] = useState("");
+    const [searchWord, setSearchWord] = useState(" ");
     //선택한 카테고리
     const [categorySelected, setCategorySelected]
         = useState({});
     //게시글 목록
-    const [postList, setPostList] = useState(writeList);
+    const [postList, setPostList] = useState([]);
     //게시글 페이지 정보
     const [pageInfo, setPageInfo] = useState({
-        pageNumber:0,        //페이지 번호
+        pageNumber:1,        //페이지 번호
         pageSize:3,         //한 페이지 당 게시글 수
         pageLength:10,       //한 화면에 표시할 총 페이지 수
         pageCount:55,       //총 페이지 개수
@@ -87,7 +87,9 @@ const Contest_List = () => {
         console.log("Word: " + searchWord);
         console.log("Category: ", categorySelected);
 
-        let url = `/contestPost/${searchWord}?page=${pageInfo.pageNumber-1}&size=${pageInfo.pageSize}`;
+        if(searchWord === "") setSearchWord(" ");
+
+        let url = `/contestPost/search/${searchWord}?page=${pageInfo.pageNumber-1}&size=${pageInfo.pageSize}`;
         Object.entries(categorySelected).map(([key, list]) => {
             list.map((element) => {
                 url += `&${key}=${element}`;
@@ -97,8 +99,7 @@ const Contest_List = () => {
 
         try {
             const response = await axios.get(url);
-            //Todo: postList 갱신
-            setPostList(response.data.responseDto);
+            setPostList(response.data.responseDto.contestPosts);
         } catch (error) {
             console.error(error);
         }

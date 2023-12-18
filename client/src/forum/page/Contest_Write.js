@@ -113,7 +113,6 @@ const Contest_Write = () => {
         if(!content) return(window.alert("본문을 입력하세요."));
 
         try {
-            //Todo: 이미지 처리
             const formData = new FormData();
             formData.append('file', image.src);
             console.log(image.src);
