@@ -197,7 +197,7 @@ public class BuildingPostService {
     }
 
     public Boolean updateBuildingPost(Long buildingPostId, BuildingPostUpdateDto updateDto) {
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
+        BuildingPost buildingPost = buildingPostRepository.findBuildingPostByIdAndRecruiting(buildingPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         if (updateDto.isUsePoint()) {
@@ -216,7 +216,7 @@ public class BuildingPostService {
 
     public Boolean endBuildingPost(Long buildingPostId) {
 
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
+        BuildingPost buildingPost = buildingPostRepository.findBuildingPostByIdAndRecruiting(buildingPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(buildingPostId);
@@ -252,7 +252,7 @@ public class BuildingPostService {
 
     // 지원 승인 대기중인 사람 있는지 확인, 지원 승인된 사람 있는지 확인
     public Boolean deleteBuildingPost(Long buildingPostId) {
-        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruitingIsTrue(buildingPostId)
+        BuildingPost buildingPost = buildingPostRepository.findBuildingPostByIdAndRecruiting(buildingPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(buildingPostId);
