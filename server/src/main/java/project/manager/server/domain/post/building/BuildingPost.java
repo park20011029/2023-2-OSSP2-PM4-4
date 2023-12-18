@@ -48,6 +48,9 @@ public class BuildingPost {
     @Column(name = "upper_date")
     private LocalDate upperDate;
 
+    @Column(name = "is_pinned")
+    private boolean isPinned;
+
     //---------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -73,6 +76,7 @@ public class BuildingPost {
         this.contestPost = contestPost;
         this.writer = writer;
         this.upperDate = MYSQL_MIN_DATE;
+        this.isPinned = false;
     }
 
     public void updateBuildingPost(String title, String content) {
@@ -81,10 +85,12 @@ public class BuildingPost {
     }
 
     public void upperPost() {
+        this.isPinned = true;
         this.upperDate = LocalDate.now().plusDays(4);
     }
 
     public void initDate() {
+        this.isPinned = false;
         this.upperDate = MYSQL_MIN_DATE;
     }
 
