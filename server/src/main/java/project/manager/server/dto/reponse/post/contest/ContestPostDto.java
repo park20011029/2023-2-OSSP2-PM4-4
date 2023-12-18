@@ -22,6 +22,7 @@ public class ContestPostDto {
     private String content;
     private LocalDate startAt;
     private LocalDate endAt;
+    private String imageUrl;
 
     @Builder
     public ContestPostDto(ContestPost contestPost) {
@@ -36,5 +37,6 @@ public class ContestPostDto {
         this.content = contestPost.getContent();
         this.startAt = contestPost.getStartAt();
         this.endAt = contestPost.getEndAt();
+        this.imageUrl = contestPost.getContestImage().getUrl();
     }
 }

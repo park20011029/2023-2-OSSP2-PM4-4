@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
 import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
@@ -27,9 +28,11 @@ public class ContestPostController {
 
     //공모전 게시글 생성
     @PostMapping("")
-    public ResponseDto<Boolean> createContestPost(@Valid @RequestBody ContestPostRequestDto contestPostRequestDto) {
+    public ResponseDto<Boolean> createContestPost(
+            @Valid @RequestPart ContestPostRequestDto contestPostRequestDto,
+            @RequestPart MultipartFile file) {
 
-        return new ResponseDto<>(contestPostService.createContestPost(contestPostRequestDto));
+        return new ResponseDto<>(contestPostService.createContestPost(contestPostRequestDto, file));
     }
 
     @PostMapping("/report")
@@ -73,9 +76,10 @@ public class ContestPostController {
     @PutMapping("/{contestPostId}")
     public ResponseDto<Boolean> updateContestPost(
             @PathVariable Long contestPostId,
-            @Valid @RequestBody ContestPostRequestDto contestPostRequestDto) {
+            @Valid @RequestPart ContestPostRequestDto contestPostRequestDto,
+            @RequestPart MultipartFile file) {
 
-        return new ResponseDto<>(contestPostService.updateContestPost(contestPostId, contestPostRequestDto));
+        return new ResponseDto<>(contestPostService.updateContestPost(contestPostId, contestPostRequestDto, file));
     }
 
 }
