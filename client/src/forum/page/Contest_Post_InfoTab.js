@@ -60,7 +60,7 @@ const Contest_Post_InfoTab = () => {
                 const response = await axios.get(`/contestPost/${id}`);
                 const jsonData = response.data.responseDto;
                 const post = {};
-                post.image = jsonData.image || defaultImage;
+                post.image = jsonData.imageUrl  || defaultImage;
                 post.title = jsonData.title;
                 Object.keys(contest_CategoryTrans).forEach((key) => {
                     post[key] = jsonData[key];
@@ -147,8 +147,7 @@ const Contest_Post_InfoTab = () => {
                                                 title:post.title,
                                                 userId:userId,
                                                 postId:id,
-                                                //Todo: 공모전 작성자 ID
-                                                writerId:0
+                                                writerId:post.userId
                                             }}
                                             category={"공모전"}
                                             onClose={closeModal}

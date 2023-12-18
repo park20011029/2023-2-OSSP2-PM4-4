@@ -75,6 +75,8 @@ const Contest_List = () => {
         window.onbeforeunload = function pushRefresh() {
             window.scrollTo(0, 0);
         };
+        //초기 렌더링
+        search();
     }, []);
 
     
@@ -85,7 +87,7 @@ const Contest_List = () => {
         console.log("Word: " + searchWord);
         console.log("Category: ", categorySelected);
 
-        let url = `/contestPost/${searchWord}?page=${pageInfo.pageNumber}&size=${pageInfo.pageSize}`;
+        let url = `/contestPost/${searchWord}?page=${pageInfo.pageNumber-1}&size=${pageInfo.pageSize}`;
         Object.entries(categorySelected).map(([key, list]) => {
             list.map((element) => {
                 url += `&${key}=${element}`;
@@ -95,6 +97,7 @@ const Contest_List = () => {
 
         try {
             const response = await axios.get(url);
+            //Todo: postList 갱신
             setPostList(response.data.responseDto);
         } catch (error) {
             console.error(error);

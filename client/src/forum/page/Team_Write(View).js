@@ -63,7 +63,6 @@ const Team_WriteView = () => {
     const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
-        //Todo: 실제 이름이 아닌 닉네임을 받아오도록
         writer:"",
         writerId:0,
         date:"",
@@ -172,7 +171,6 @@ const Team_WriteView = () => {
         return parts;
     }
 
-    //Todo: onClick => 채팅
     //마감하기/채팅하기 전환
     const closeOrChat = () => {
         //마감하기
@@ -186,10 +184,26 @@ const Team_WriteView = () => {
         //채팅하기
         else {
             return (
-                <button className={"yellowButton"}>채팅하기</button>
+                <button className={"yellowButton"}
+                        onClick={() => moveToChat
+                }>채팅하기</button>
             )
         }
     }
+    //Todo: chatRoom이동 시 프로필사진 등 정보 받아야함
+    const moveToChat = async () => {
+        try {
+            const response = await axios.post("/chatroom", {
+                userId:userId,
+                postWriterId:data.writerId
+            });
+            const roomNumber = response.responseDto;
+            navigate(`/chatRoom/${roomNumber}`);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
     const applyEnd = async () => {
         if(!window.confirm("마감하시겠습니까?")) return;
         try {
@@ -278,7 +292,7 @@ const Team_WriteView = () => {
             window.alert("지원이 승인된 사용자가 있어 삭제가 불가능합니다.");
             return;
         }
-        const temp = async() => {
+        const deletePost = async() => {
             try {
                 const response = await axios.delete(`/buildingPost/${id}`);
                 if (response.status === 200) {
@@ -290,7 +304,7 @@ const Team_WriteView = () => {
                 console.log(error);
             }
         }
-        temp();
+        deletePost();
     }
 
     return (

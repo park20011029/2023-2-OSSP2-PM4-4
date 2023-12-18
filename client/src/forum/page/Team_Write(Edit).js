@@ -193,7 +193,8 @@ const Team_WriteEdit = ({postId, setEdit, data}) => {
         });
         updateData(innerKey, originalList);
     }
-    //카테고리 - 목록에서 제거
+
+    //Todo: 카테고리 - 목록에서 제거
     const removeCategory = (key, element) => {
         if(element.currentApplicant > 0) {
             if(!window.confirm(
