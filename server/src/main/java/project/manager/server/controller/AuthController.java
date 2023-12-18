@@ -26,8 +26,14 @@ public class AuthController {
         return new ResponseDto<>(authService.createUser(userRequestDto, file));
     }
 
+    @GetMapping("/socialInfo")
+    ResponseDto<String> getSocialInfo(@RequestParam("authCode") String authCode) {
+
+        return new ResponseDto<>(authService.socialInfo(authCode));
+    }
+
     @PutMapping("/signIn")
-    ResponseDto<SigninDto> signUp(@RequestParam("authCode") String authCode) {
+    ResponseDto<Long> signIn(@RequestParam("authCode") String authCode) {
 
         return new ResponseDto<>(authService.socialSignIn(authCode));
     }

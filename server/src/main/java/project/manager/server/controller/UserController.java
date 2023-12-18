@@ -23,13 +23,13 @@ public class UserController {
     private final UserReportService userReportService;
 
     //회원가입시
-    @PostMapping("/signup")
-    public ResponseDto<Long> userSignUp(
-            @Valid @RequestPart UserRequestDto userRequestDto,
-            @RequestPart MultipartFile file) {
-
-        return new ResponseDto<>(userService.createUser(userRequestDto, file));
-    }
+//    @PostMapping("/signup")
+//    public ResponseDto<Long> userSignUp(
+//            @Valid @RequestPart UserRequestDto userRequestDto,
+//            @RequestPart MultipartFile file) {
+//
+//        return new ResponseDto<>(userService.createUser(userRequestDto, file));
+//    }
 
     @PostMapping("/report")
     public ResponseDto<Boolean> userProfileReport(@Valid @RequestBody UserReportRequestDto userReportRequestDto) {

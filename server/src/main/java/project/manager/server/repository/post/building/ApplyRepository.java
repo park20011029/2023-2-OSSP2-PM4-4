@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,7 @@ import project.manager.server.domain.post.building.Apply;
 @Repository
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
+    @EntityGraph(attributePaths = {"part"})
     Optional<Apply> findById(Long applyId);
 
     @Query("SELECT a FROM Apply a JOIN FETCH a.applicant ap WHERE a.id = :applyId")
@@ -46,7 +48,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
             "JOIN FETCH a.part p " +
             "JOIN FETCH p.buildingPost b " +
             "JOIN FETCH a.applicant " +
-            "WHERE b.id = :buildingPostId")
+            "WHERE b.id = :buildingPostId AND a.state = 'STANBY'")
     List<Apply> findByBuildingPostId(@Param("buildingPostId") Long buildingPostId);
 
     @Query("SELECT a FROM Apply a " +

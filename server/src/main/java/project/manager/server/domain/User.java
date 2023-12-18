@@ -132,14 +132,14 @@ public class User {
         this.introduction = introduction;
     }
 
-    public void updateRefreshToken(String refreshToken) {
-        this.isLogin = true;
-        this.refreshToken = refreshToken;
-    }
+//    public void updateRefreshToken(String refreshToken) {
+//        this.isLogin = true;
+//        this.refreshToken = refreshToken;
+//    }
 
     public void signOutUser() {
         this.isLogin = false;
-        this.refreshToken = null;
+        //this.refreshToken = null;
     }
 
 
