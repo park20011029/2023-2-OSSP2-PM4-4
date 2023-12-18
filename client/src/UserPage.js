@@ -205,8 +205,9 @@ function UserPage(){
                                                     onClose={() => setIsReviewModalOpen(false)}
                                                 />
                                             </div>
-                                            <div className="reviewedUser">{item.reviewer}</div>
-                                            <div className="reviewedDate">{item.createDate}</div>
+                                            <div className="reviewedUser">To : {item.reviewee}</div>
+                                            <div className="reviewedUser">From : {item.reviewer}</div>
+                                            <div className="reviewedDate">{item.createAt}</div>
                                         </div>
                                         <div className="review-body">{item.content}</div>
                                     </div>

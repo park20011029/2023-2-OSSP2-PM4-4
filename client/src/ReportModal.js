@@ -30,15 +30,16 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
         }
         else if(category ==='유저'){
             setTargetId(item.targetId);
-            setTargetNickName(item.targetNickName);
+            setTargetNickName(item.targetName);
         }
         else if(category ==='이력서'){
             setTargetId(item.targetId);
-            setTargetNickName(item.targetNickName);
+            setTargetNickName(item.targetName);
             //신고자 아이디
         }
         if (!showModal) {
             setSelectedOption(null); // 모달이 닫힐 때 체크박스 초기화
+            setDescription(null);
         }
     }, [showModal]);
 
@@ -119,7 +120,7 @@ function ReportModal({ showModal, item, category, onClose }) { //item => 리뷰�
         }
         else if(category === '이력서'){
             try{
-                const response = await axios.post('/buildingPost/report', {
+                const response = await axios.post('/resume/report', {
                     description: description,
                     reportReason: selectedOption,
                     reporterId:localStorage.getItem('userId'),
