@@ -11,9 +11,15 @@ function NickNameInput({
     const [error, setError] = useState("");
 
     const checkNickNameAvailability = async () => {
-        if (nickName === "") {
+        if (nickName === "" || nickName === null) {
             setError("닉네임을 입력하세요.");
-        } else {
+            setIsNickNameAvailable(false);
+        }
+        else if(nickName.includes(' ')){
+            setError("닉네임은 공백을 포함할 수 없습니다.");
+            setIsNickNameAvailable(false);
+        }
+        else {
             setError("");
             const response = await axios.get(`/user/nickname/${nickName}`);
             if (response.status === 200) {
