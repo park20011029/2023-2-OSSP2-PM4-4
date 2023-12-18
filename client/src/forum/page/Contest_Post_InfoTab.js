@@ -60,7 +60,8 @@ const Contest_Post_InfoTab = () => {
                 const response = await axios.get(`/contestPost/${id}`);
                 const jsonData = response.data.responseDto;
                 const post = {};
-                post.image = jsonData.imageUrl  || defaultImage;
+                //Todo: 이미지 처리
+                post.image = jsonData.image || defaultImage;
                 post.title = jsonData.title;
                 Object.keys(contest_CategoryTrans).forEach((key) => {
                     post[key] = jsonData[key];
@@ -87,15 +88,14 @@ const Contest_Post_InfoTab = () => {
         return (
             <div className={styles.brief_labels}>
                 <label className={styles.brief_title}>{post.title}</label>
-                <table className={styles.briefTable}>
-                    {Object.entries(contest_CategoryTrans).map(([key, value]) => (
-                        <tr>
-                            <td className={styles.rowTitle}>{value} : </td>
-                            <td>{post[key][key] || post[key]}</td>
-                        </tr>
-                    ))}
-                </table>
-
+                {Object.entries(contest_CategoryTrans).map(([key, value]) => (
+                    <div className={styles.brief_row} key={key}>
+                        <label className={styles.rowTitle}>{value} : </label>
+                        <label className={styles.rowDetail}>
+                            {post[key][key] || post[key]}
+                        </label>
+                    </div>
+                ))}
             </div>
         );
 
@@ -128,36 +128,33 @@ const Contest_Post_InfoTab = () => {
 
                 <div className={styles.twoTabs}>
                     <div className={styles.tabButtons}>
-                        <button className={(activeTab==='Tab1' ? styles.Pressed : styles.notPressed)}
-                                onClick={() => changeTab('Tab1')}>소개</button>
-                        <button className={(activeTab==='Tab2' ? styles.Pressed : styles.notPressed)}
-                                onClick={() => changeTab('Tab2')}>팀원 모집</button>
+                        <button onClick={() => changeTab('Tab1')}>소개</button>
+                        <button onClick={() => changeTab('Tab2')}>팀원 모집</button>
                     </div>
-                    <div>
+                    <div className={styles.tab}>
                         {activeTab === 'Tab1' && (
-                            <div>
+                            <div className={styles.tab1}>
                                 <img className={styles.big_image} src={post.image} alt={"공모전 포스터(대)"} />
-                                <div className={styles.body}>
-                                    {renderContent()}
-                                    <div className="report">
-                                        <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
-                                        <ReportModal
-                                            showModal={isModalOpen}
-                                            item={{
-                                                title:post.title,
-                                                userId:userId,
-                                                postId:id,
-                                                writerId:post.userId
-                                            }}
-                                            category={"공모전"}
-                                            onClose={closeModal}
-                                        />
-                                    </div>
+                                {renderContent()}
+                                <div className="report">
+                                    <Siren width={20} height={20} /><button onClick={openModal}>신고</button>
+                                    <ReportModal
+                                        showModal={isModalOpen}
+                                        item={{
+                                            title:post.title,
+                                            userId:userId,
+                                            postId:id,
+                                            //Todo: 공모전 작성자 ID
+                                            writerId:1
+                                        }}
+                                        category={"공모전"}
+                                        onClose={closeModal}
+                                    />
                                 </div>
                             </div>
                         )}
                         {activeTab === 'Tab2' && (
-                            <div>
+                            <div className={styles.tab2}>
                                 <Contest_Post_TeamTab contestPostId={id}/>
                             </div>
                         )}
