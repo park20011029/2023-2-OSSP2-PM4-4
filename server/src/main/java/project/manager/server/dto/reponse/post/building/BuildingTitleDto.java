@@ -13,4 +13,5 @@ public class BuildingTitleDto {
     private Long userId;
     private String user;
     private LocalDate creatAt;
+    private boolean isPinned;
 }

@@ -113,6 +113,7 @@ public class BuildingPostService {
                         .user(post.getWriter().getNickName())
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
+                        .isPinned(post.isPinned())
                         .postId(post.getId())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
@@ -187,6 +188,7 @@ public class BuildingPostService {
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
                         .postId(post.getId())
+                        .isPinned(post.isPinned())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
                 .collect(Collectors.toList()));
