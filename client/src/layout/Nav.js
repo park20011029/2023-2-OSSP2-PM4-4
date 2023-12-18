@@ -81,7 +81,7 @@ const Nav = () => {
             <div className="flex items-center h-[60px]">
               <div className="flex items-center">
                 {localStorage.getItem('isLoggedIn') ? (
-                    <div className="flex items-center border-[1px] border-[#243c5a] shadow-black h-[40px] p-[8px] font-['NotoSansKR'] rounded">
+                    <div className="flex justify-between items-center border-[1px] border-[#243c5a] shadow h-[40px] p-[8px] w-auto font-['NotoSansKR'] rounded-full">
                       <Cash width={20} height={20}/><span className="ml-[10px]">{point}p</span>
                     </div>
                 ) : (
@@ -100,14 +100,14 @@ const Nav = () => {
               <div className="flex items-center ml-[30px]">
                 {localStorage.getItem('isLoggedIn') ? (
                     <button
-                        className="border-[1px] border-[#243c5a] rounded-lg p-[8px] hover:bg-blue-400 hover:text-[#ffffff]"
+                        className="border-[1px] border-[#243c5a] rounded-lg p-[8px] shadow-black hover:bg-blue-400 hover:text-[#ffffff] hover:border-blue-400"
                         onClick={handleLogout}
                     >
                       Sign Out
                     </button>
                 ) : (
                     <button
-                        className="border-[1px] border-[#243c5a] rounded-lg p-[8px] hover:bg-blue-400 hover:text-[#ffffff]"
+                        className="border-[1px] border-[#243c5a] rounded-lg p-[8px] shadow-black hover:bg-blue-400 hover:text-[#ffffff] hover:border-blue-400"
                         onClick={() => {
                           navigate("/sign_in");
                         }}
@@ -119,8 +119,8 @@ const Nav = () => {
               <div className="flex items-center ml-[30px]">
                 {localStorage.getItem('isLoggedIn')? (<button
                     onClick={() => {
-                      //navigate("/my_page");
-                      navigate("/admin_contest_report");
+                      navigate("/my_page");
+                      //navigate("/admin_contest_report");
                     }}
                 >
                   <MyPageIcon></MyPageIcon>
