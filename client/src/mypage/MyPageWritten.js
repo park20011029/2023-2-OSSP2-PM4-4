@@ -126,7 +126,7 @@ function MyPageWritten() {
                                         <div
                                             className="Post-header"
                                             key={index}
-                                            onClick={() => moveToBuildingPost(item.buildingId)}
+                                            onClick={() => moveToBuildingPost(item.postId)}
                                         >
                                             {item.title}
                                         </div>
