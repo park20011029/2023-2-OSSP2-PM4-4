@@ -77,15 +77,12 @@ public class ApplyService {
         return result;
     }
 
-    public Boolean permitApply(Long writerId, Long applyId, ApplyRequestDto applyRequestDto) { //writerId == @LoginUser
+    public Boolean permitApply(Long applyId) {
         Apply apply = applyRepository.findById(applyId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
-        Part part = partRepository.findByIdWithPostAndUser(applyRequestDto.getPartId())
-                .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+        Part part = apply.getPart();
 
-        if (!part.getBuildingPost().getWriter().getId().equals(writerId)) { //팀 빌딩 게시글 작성자인지 확인
-            throw new ApiException(ErrorDefine.ACCESS_DENIED);
-        } if (part.addApplicant()) {
+        if (part.addApplicant()) {
             return false;
         }
         apply.updateApply(PartState.APPROVAL);
