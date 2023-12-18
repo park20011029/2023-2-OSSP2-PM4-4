@@ -25,6 +25,7 @@ import UserPage from "./UserPage";
 import ReviewPage from "./ReviewPage";
 import ChatList from "./chat/ChatList";
 import ChatRoom from "./chat/ChatRoom";
+import GoogleRedirect from "./signin/GoogleRedirect";
 import ChatRoom2 from "./chat/ChatRoom2";
 
 
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/admin_resume_report" element={<ResumeReportList/>}></Route>
                 <Route path="/userPage/:id" element={<UserPage/>}></Route>
                 <Route path="/reviewPage/:id" element={<ReviewPage/>}></Route>
+                <Route path="/auth/" element={<GoogleRedirect/>} />
             </Routes>
         </Router>
     );
