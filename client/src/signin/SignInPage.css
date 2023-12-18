@@ -2,15 +2,14 @@
     margin: 200px auto;
     text-align: center;
     font-family: "NotoSansKR";
-    border: 1px solid black;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+
+
+
     width: 20%;
     height: 150px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 #SignInButton{
