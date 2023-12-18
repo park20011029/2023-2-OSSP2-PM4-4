@@ -104,6 +104,7 @@ public class ProjectPostService {
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
                         .postId(post.getId())
+                        .isPinned(post.isPinned())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
                 .collect(Collectors.toList()));
@@ -132,6 +133,7 @@ public class ProjectPostService {
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
                         .postId(post.getId())
+                        .isPinned(post.isPinned())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
                 .collect(Collectors.toList()));
@@ -205,6 +207,7 @@ public class ProjectPostService {
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
                         .postId(post.getId())
+                        .isPinned(post.isPinned())
                         .creatAt(post.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                         .build())
                 .collect(Collectors.toList()));
