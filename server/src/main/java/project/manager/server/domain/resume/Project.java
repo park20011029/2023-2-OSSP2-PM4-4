@@ -22,8 +22,7 @@ public class Project {
     @Column(name = "project_name", nullable = false)
     private String projectName;
 
-    @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @Column(name = "project_git_url", nullable = false)

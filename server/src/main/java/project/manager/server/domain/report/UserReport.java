@@ -29,8 +29,7 @@ public class UserReport {
     @Enumerated(EnumType.STRING)
     private ReportReason reportReason;
 
-    @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @Column(name = "create_at")

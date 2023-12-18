@@ -33,8 +33,7 @@ public class BuildingPost {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(name = "is_delete", nullable = false)

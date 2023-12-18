@@ -28,8 +28,7 @@ public class TechStack {
     @Column(name = "tech", nullable = false)
     private String tech;
 
-    @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
     // -------------------------------------------------------------------
