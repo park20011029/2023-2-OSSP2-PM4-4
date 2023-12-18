@@ -10,17 +10,24 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import project.manager.server.domain.post.building.BuildingPost;
+import project.manager.server.domain.post.building.Part;
 import project.manager.server.domain.post.contest.ContestPost;
 
 @Repository
 public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long> {
     Optional<BuildingPost> findById(Long buildingPostId);
 
-    //수정, 마감
+    //팀 빌딩 게시글 수정, 마감
     @Query("SELECT b FROM BuildingPost b " +
             "JOIN FETCH b.writer " +
-            "WHERE b.id = :buildingPostId AND b.isRecruiting = true ")
-    Optional<BuildingPost> findByIdAndRecruitingIsTrue(@Param("buildingPostId") Long buildingPostId);
+            "WHERE b.id = :buildingPostId AND b.isRecruiting = true AND b.contestPost IS NOT NULL ")
+    Optional<BuildingPost> findBuildingPostByIdAndRecruiting(@Param("buildingPostId") Long buildingPostId);
+
+    //프로젝트 게시글 게시글 수정, 마감
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.id = :buildingPostId AND b.isRecruiting = true AND b.contestPost IS NULL ")
+    Optional<BuildingPost> findProjectPostByIdAndRecruiting(@Param("buildingPostId") Long buildingPostId);
 
     //삭제
     @Query("SELECT bp FROM BuildingPost bp " +
@@ -31,7 +38,7 @@ public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long
     //팀빌딩 게시글 리스트
     @Query("SELECT b FROM BuildingPost b " +
             "JOIN FETCH b.writer " +
-            "WHERE b.contestPost = :contestPost AND b.isDelete = false")
+            "WHERE b.contestPost = :contestPost AND b.isDelete = false ")
     Page<BuildingPost> findByContestPostWithUser(@Param("contestPost") ContestPost contestPost, Pageable pageInfo);
 
     //포로젝트 게시글 리스트
@@ -52,4 +59,8 @@ public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long
             "WHERE b.writer.id = :userId AND b.isDelete = false And b.contestPost IS NULL")
     Page<BuildingPost> findProjectPostByWithUser(@Param("userId") Long userId, Pageable pageInfo);
 
+    //검색어로 프로젝트 게시글 검색
+    @Query("SELECT b FROM BuildingPost b " +
+            "WHERE b.content LIKE :text AND b.contestPost IS NULL")
+    Page<BuildingPost> findProjectPostByText(@Param("text") String text, Pageable pageInfo);
 }

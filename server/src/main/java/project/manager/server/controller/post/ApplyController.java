@@ -38,12 +38,9 @@ public class ApplyController {
 
     //팀 빌딩 팀장이 지원 거절
     @PutMapping("/deny/{applyId}")
-    public ResponseDto<Boolean> denyApply(
-            @PathVariable Long applyId,
-            @RequestParam(name = "userId") Long writerId,
-            @Valid @RequestBody ApplyRequestDto applyRequestDto) {
+    public ResponseDto<Boolean> denyApply(@PathVariable Long applyId) {
 
-        return new ResponseDto<>(applyService.denyApply(writerId,applyId,applyRequestDto));
+        return new ResponseDto<>(applyService.denyApply(applyId));
     }
 
     //팀장한테 지원내역 리스트 제공
