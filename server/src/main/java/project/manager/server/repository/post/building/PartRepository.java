@@ -21,4 +21,5 @@ public interface PartRepository extends JpaRepository<Part, Long> {
             "JOIN FETCH bp.writer " +
             "WHERE p.id = :partId")
     Optional<Part> findByIdWithPostAndUser(@Param("partId") Long partId);
+
 }

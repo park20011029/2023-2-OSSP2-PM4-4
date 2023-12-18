@@ -34,4 +34,11 @@ public class PartController {
 
         return new ResponseDto<>(partService.fixMaxApplicant(partId, body.get("fixNum")));
     }
+
+    @DeleteMapping("/{partId}")
+    public ResponseDto<Boolean> deletePart(@PathVariable Long partId) {
+
+        return new ResponseDto<>(partService.deletePart(partId));
+    }
+
 }

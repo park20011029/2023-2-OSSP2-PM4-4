@@ -24,6 +24,7 @@ public class UserDto {
     private String nickName;
     private String introduction;
     private String phoneNumber;
+    private String userRole;
 
     @Builder
     public UserDto(User user, Long resumeId) {
@@ -36,5 +37,6 @@ public class UserDto {
         this.introduction = user.getIntroduction();
         this.phoneNumber = user.getPhoneNumber();
         this.point = user.getPoint();
+        this.userRole = user.getUserState().name();
     }
 }
