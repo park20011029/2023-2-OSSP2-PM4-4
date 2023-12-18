@@ -48,7 +48,7 @@ public class ReviewReportController {
     }
 
     /** 신고 내역 삭제 */
-    @PutMapping("/delete/{reportId}")
+    @DeleteMapping("/delete/{reportId}")
     public ResponseDto<Boolean> deleteReport(@PathVariable Long reportId) {
 
         return new ResponseDto<>(reviewReportService.deleteReport(reportId));

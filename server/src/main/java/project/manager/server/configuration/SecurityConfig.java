@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +20,8 @@ import project.manager.server.security.filter.JwtAuthenticationFilter;
 import project.manager.server.security.filter.JwtExceptionFilter;
 import project.manager.server.security.jwt.JwtProvider;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -32,21 +34,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(FormLoginConfigurer::disable)
+                .oauth2Login(withDefaults())
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers(ConstantUrl.NO_NEED_AUTH_URLS).permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .anyRequest().authenticated())
-                .exceptionHandling(exception ->
-                        exception
-                                .authenticationEntryPoint(jwtEntryPoint)
-                                .accessDeniedHandler(jwtAccessDeniedHandler))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, customUserDetailService), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//                .authorizeHttpRequests(authorize ->
+//                        authorize
+//                                .requestMatchers(ConstantUrl.NO_NEED_AUTH_URLS).permitAll()
+//                                .requestMatchers("/auth/**").hasRole("ADMIN")
+//                                .anyRequest().authenticated());
+//                .exceptionHandling(exception ->
+//                        exception
+//                                .authenticationEntryPoint(jwtEntryPoint)
+//                                .accessDeniedHandler(jwtAccessDeniedHandler))
+//                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, customUserDetailService), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
         return httpSecurity.build();
     }
 }

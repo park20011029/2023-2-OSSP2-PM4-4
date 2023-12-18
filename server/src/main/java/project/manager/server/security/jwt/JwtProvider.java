@@ -65,8 +65,8 @@ public class JwtProvider implements InitializingBean {
         String refreshToken = createToken(id, userRole, false);
 
         return JwtToken.builder()
-                .access_token(accessToken)
-                .refresh_token(refreshToken)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
