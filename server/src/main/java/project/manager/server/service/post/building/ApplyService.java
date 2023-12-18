@@ -1,6 +1,7 @@
 package project.manager.server.service.post.building;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -104,6 +105,38 @@ public class ApplyService {
         apply.updateApply(PartState.REFUSAL);
 
         return true;
+    }
+
+    public Map<String, Object> applyListForLeader(Long buildingPostId) {
+        List<Apply> applies = applyRepository.findByBuildingPostId(buildingPostId);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("applyList", applies.stream()
+                .map(apply -> ApplyDto.builder()
+                        .applyId(apply.getId())
+                        .userId(apply.getApplicant().getId())
+                        .nickName(apply.getApplicant().getNickName())
+                        .partName(apply.getPart().getPartName())
+                        .state(apply.getState().getToKorean())
+                        .build())
+                .collect(Collectors.toList()));
+
+        return result;
+    }
+
+    public Map<String, Object> applyListInBuildingPost(Long buildingPostId) {
+        List<Apply> applies = applyRepository.findByBuildingPostIdWithState(buildingPostId);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("applyList", applies.stream()
+                .map(apply -> ApplyDto.builder()
+                        .userId(apply.getApplicant().getId())
+                        .nickName(apply.getApplicant().getNickName())
+                        .partName(apply.getPart().getPartName())
+                        .build())
+                .collect(Collectors.toList()));
+
+        return result;
     }
 
     public Boolean deleteApply(Long applyId, Long userId) { //userId == @LoginUser
