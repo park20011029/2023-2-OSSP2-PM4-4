@@ -48,4 +48,10 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
             "JOIN FETCH a.applicant " +
             "WHERE b.id = :buildingPostId")
     List<Apply> findByBuildingPostId(@Param("buildingPostId") Long buildingPostId);
+
+    @Query("SELECT a FROM Apply a " +
+            "JOIN FETCH a.part p " +
+            "WHERE p.id = :partId AND a.state <> 'REFUSAL'")
+    List<Apply> findByPartIdCanDelete(@Param("partId") Long partId);
+
 }

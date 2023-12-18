@@ -100,7 +100,7 @@ public class ProjectPostService {
         Map<String, Object> result = new HashMap<>();
         result.put("projectPosts", buildingPosts.stream()
                 .map(post -> BuildingTitleDto.builder()
-                        .user(post.getWriter().getName())
+                        .user(post.getWriter().getNickName())
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
                         .postId(post.getId())
@@ -123,7 +123,7 @@ public class ProjectPostService {
                 .title(buildingPost.getTitle())
                 .content(buildingPost.getContent())
                 .userId(buildingPost.getWriter().getId())
-                .user(buildingPost.getWriter().getName())
+                .user(buildingPost.getWriter().getNickName())
                 .creatAt(buildingPost.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                 .build());
 
@@ -173,7 +173,7 @@ public class ProjectPostService {
         Map<String, Object> result = new HashMap<>();
         result.put("myProjectPosts", projectPost.stream()
                 .map(post -> BuildingTitleDto.builder()
-                        .user(post.getWriter().getName())
+                        .user(post.getWriter().getNickName())
                         .userId(post.getWriter().getId())
                         .title(post.getTitle())
                         .postId(post.getId())

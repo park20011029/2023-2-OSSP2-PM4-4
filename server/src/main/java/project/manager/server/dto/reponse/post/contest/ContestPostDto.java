@@ -27,7 +27,7 @@ public class ContestPostDto {
     @Builder
     public ContestPostDto(ContestPost contestPost) {
         this.userId = contestPost.getWriter().getId();
-        this.user = contestPost.getWriter().getName();
+        this.user = contestPost.getWriter().getNickName();
         this.benefit = BenefitDto.builder().benefit(contestPost.getBenefit()).build();
         this.category = CategoryDto.builder().category(contestPost.getCategory()).build();
         this.organization = OrganizationDto.builder().organization(contestPost.getOrganization()).build();

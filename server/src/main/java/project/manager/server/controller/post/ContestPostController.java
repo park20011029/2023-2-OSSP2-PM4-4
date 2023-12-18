@@ -8,15 +8,14 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
+
 import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
 import project.manager.server.dto.request.report.ContestReportRequestDto;
 import project.manager.server.service.post.contest.ContestPostService;
 import project.manager.server.service.report.ContestReportService;
-
 
 @RestController
 @RequestMapping("/contestPost")
@@ -53,7 +52,7 @@ public class ContestPostController {
 
     @GetMapping("/search/{keyWord}")
     public ResponseDto<Map<String,Object>> findContestPostList(
-            @PathVariable String keyWord,
+            @PathVariable(required = false) String keyWord,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestParam(name = "size", defaultValue = "12") Integer size,
             @RequestParam(name = "scale", required = false) List<Long> scale,
