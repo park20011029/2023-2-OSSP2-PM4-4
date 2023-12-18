@@ -29,8 +29,8 @@ public class CustomContestRepositoryImpl implements CustomContestRepository{
             LocalDate today,
             Pageable pageInfo) {
 
-        StringJoiner joinClause = new StringJoiner(" JOIN FETCH ");
-        StringJoiner countJoinClause = new StringJoiner(" JOIN FETCH ");
+        StringJoiner joinClause = new StringJoiner(" LEFT JOIN ");
+        StringJoiner countJoinClause = new StringJoiner(" LEFT JOIN ");
         joinClause.add("SELECT c FROM ContestPost c ");
         countJoinClause.add("SELECT COUNT(c) FROM ContestPost c ");
 
@@ -66,18 +66,23 @@ public class CustomContestRepositoryImpl implements CustomContestRepository{
                 StringJoiner searchClause = new StringJoiner(" OR ");
 
                 for(String part : parts) {
-                    searchClause.add(" c.title LIKE : '%" + part + "%' ");
+                    searchClause.add(" c.title LIKE '%" + part + "%' ");
+                    searchClause.add(" c.content LIKE '%" + part + "%' ");
                 }
 
                 whereClause.add("(" + searchClause.toString() + ")");
             }
         }
+        String tmp = whereClause.toString();
+        if (!(tmp == null || tmp.isEmpty())) {
+            tmp = " WHERE " + tmp;
+        }
 
         //ORDER BY 절
         String orderClause = " ORDER BY CASE WHEN (c.startAt <= :today AND c.endAt >= :today) " +
                 "THEN 1 ELSE 0 END DESC, c.startAt DESC";
-        String jpql = joinClause.toString() + whereClause.toString() + orderClause;
-        String countJpql = countJoinClause.toString() + whereClause.toString() + orderClause;
+        String jpql = joinClause.toString() + tmp + orderClause;
+        String countJpql = countJoinClause.toString() + tmp + orderClause;
 
         TypedQuery<ContestPost> query = entityManager.createQuery(jpql, ContestPost.class);
         TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
