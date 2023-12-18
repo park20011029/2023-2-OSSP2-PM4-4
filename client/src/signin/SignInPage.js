@@ -1,38 +1,35 @@
-import { Link, useNavigate } from "react-router-dom";
+// SignInPage.js
+import React from 'react';
+import { useNavigate } from "react-router-dom";
 import Nav from "../layout/Nav";
 import Footer from "../layout/Footer";
 import "./SignInPage.css";
+import {Google} from "../Google";
 
 function SignInPage() {
     const navigate = useNavigate();
+    const loginUrl = `http://localhost:8080/oauth2/authorization/google`;
 
     const handleSignIn = () => {
-        // 로그인 로직 처리 후
-        // ...
-        // 로그인 성공 시
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userId", "48");
-        navigate("/"); // 메인 페이지로 이동
+        window.location.href = loginUrl;
     };
+
     return (
         <div>
             <Nav />
             <div id="SignInBody">
-                <button id='SignInButton' onClick={handleSignIn}>Sign In</button>
+                {/*<button id='SignInButton' onClick={handleSignIn}>Sign in with Google</button>*/}
+                <div onClick={handleSignIn}><Google width={300} height={67}/></div>
                 <div id='SignUp'>
                     <p>계정이 없다면 ? </p>
-                    <button id='SignUpButton'
-                        onClick={() => {
-                            navigate("/sign_up");
-                        }}
-                    >
+                    <button id='SignUpButton' onClick={() => navigate("/sign_up")}>
                         Sign Up
                     </button>
                 </div>
             </div>
-
             <Footer />
         </div>
     );
 }
+
 export default SignInPage;
