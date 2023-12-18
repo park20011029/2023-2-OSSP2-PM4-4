@@ -8,15 +8,14 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
+
 import project.manager.server.dto.reponse.ResponseDto;
 import project.manager.server.dto.reponse.post.contest.ContestPostDto;
 import project.manager.server.dto.request.post.contest.ContestPostRequestDto;
 import project.manager.server.dto.request.report.ContestReportRequestDto;
 import project.manager.server.service.post.contest.ContestPostService;
 import project.manager.server.service.report.ContestReportService;
-
 
 @RestController
 @RequestMapping("/contestPost")
