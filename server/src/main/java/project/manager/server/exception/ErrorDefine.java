@@ -24,8 +24,9 @@ public enum ErrorDefine {
     // NOT_FOUND: 404
     USER_NOT_FOUND("4040", HttpStatus.NOT_FOUND, "Not Found: User Not Found"),
     USER_WITHDRAWAL("4041", HttpStatus.NOT_FOUND, "Not Found: User withdraw"),
-    RESUME_NOT_FOUND("4042", HttpStatus.NOT_FOUND, "NOT Found: Resume Not Found"),
-    ENTITY_NOT_FOUND("4043", HttpStatus.NOT_FOUND, "NOT Found: Entity Not Found"),
+    USER_PENALTY("4042", HttpStatus.NOT_FOUND, "Not Found: User get penalty"),
+    RESUME_NOT_FOUND("4043", HttpStatus.NOT_FOUND, "NOT Found: Resume Not Found"),
+    ENTITY_NOT_FOUND("4044", HttpStatus.NOT_FOUND, "NOT Found: Entity Not Found"),
 
     // CONFLICT: 409
     EMAIL_EXIST("4090", HttpStatus.CONFLICT, "Conflict: An account with this email already exists."),
