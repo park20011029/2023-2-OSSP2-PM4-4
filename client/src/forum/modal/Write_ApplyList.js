@@ -120,7 +120,7 @@ const Write_ApplyList = ({ postId, parts, applyListModalOpen, setApplyListModalO
                     </div>
                     <div className={styles.confirm}>
                         <button className={"close"}
-                            onClick={() => setApplyListModalOpen(false)}>닫기</button>
+                                onClick={() => setApplyListModalOpen(false)}>닫기</button>
                     </div>
                 </div>
             </Modal>

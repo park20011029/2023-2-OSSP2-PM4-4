@@ -15,7 +15,6 @@ const List_Search = ({setSearchWord, search}) => {
                        placeholder={"검색어를 입력하세요"}
                        onChange={onSearchInput}
                 />
-                <img src={searchIcon} onClick={search} alt={"검색"}></img>
             </div>
         </div>
     );

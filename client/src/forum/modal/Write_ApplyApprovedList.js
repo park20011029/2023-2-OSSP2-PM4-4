@@ -49,6 +49,7 @@ const Write_ApplyApprovedList = ({ postId, parts, applyApprovedListModalOpen, se
         setInit(true);
     }, []);
 
+    //Todo: 프로필 이동
     const moveToProfile = (userId) => {
         const screenWidth = window.screen.width;
         const screenHeight = window.screen.height;
