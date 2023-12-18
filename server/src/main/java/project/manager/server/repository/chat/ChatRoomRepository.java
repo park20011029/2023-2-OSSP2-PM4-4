@@ -13,5 +13,7 @@ import project.manager.server.domain.chat.ChatRoom;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     Optional<ChatRoom> findById(Long id);
     List<ChatRoom> findByReceiverIdOrPostWriterId(User receiverId, User postWriterId);
+    Optional<ChatRoom> findByReceiverIdAndPostWriterId(User receiverId, User postWriterId);
+
 
 }
