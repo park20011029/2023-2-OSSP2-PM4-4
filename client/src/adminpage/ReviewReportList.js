@@ -65,7 +65,7 @@ function ReviewReportList() {
         const newWindowHeight = screenHeight * 0.5;
         const leftPos = (screenWidth - newWindowWidth) / 2;
         const topPos = (screenHeight - newWindowHeight) / 2;
-        window.open(`http://localhost:3000/reviewPage/${index}`, "ReviewPage", `width=${newWindowWidth},height=${newWindowHeight},left=${leftPos},top=${topPos}`);
+        window.open(`http://15.164.3.171:3000/reviewPage/${index}`, "ReviewPage", `width=${newWindowWidth},height=${newWindowHeight},left=${leftPos},top=${topPos}`);
     }
 
     return (

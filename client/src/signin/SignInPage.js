@@ -8,7 +8,7 @@ import {Google} from "../Google";
 
 function SignInPage() {
     const navigate = useNavigate();
-    const loginUrl = `http://localhost:8080/oauth2/authorization/google`;
+    const loginUrl = `http://15.164.3.171:8080/oauth2/authorization/google`;
 
     const handleSignIn = () => {
         window.location.href = loginUrl;
