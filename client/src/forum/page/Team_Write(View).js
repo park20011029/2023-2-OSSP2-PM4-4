@@ -64,7 +64,7 @@ const Team_WriteView = () => {
     const navigate = useNavigate();
     const {id} = useParams();
     const userId = localStorage.getItem('userId') === null
-        ? 1:localStorage.getItem('userId');
+        ? 3:localStorage.getItem('userId');
     const [edit, setEdit] = useState(false);
     const [data, setData] = useState({
         title:"",
@@ -227,7 +227,7 @@ const Team_WriteView = () => {
             const jsonData2 = response2.data.responseDto;
             localStorage.setItem('EnemyImage', JSON.stringify(jsonData2.url));
             localStorage.setItem('EnemyName', JSON.stringify(jsonData2.nickName));
-            window.open(`http://localhost:3000/chatRoom2/${roomNumber}`, "ChatRoom", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`);
+            window.open(`http://15.164.3.171:3000/chatRoom2/${roomNumber}`, "ChatRoom", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`);
         } catch(error) {
             console.log(error);
         }
@@ -354,6 +354,7 @@ const Team_WriteView = () => {
         <div>
             {applyModalOpen === true ?
                 <Write_Apply postInfo={data}
+                             postId={id}
                              applyModalOpen={applyModalOpen}
                              setApplyModalOpen={setApplyModalOpen}
                              id={userId}

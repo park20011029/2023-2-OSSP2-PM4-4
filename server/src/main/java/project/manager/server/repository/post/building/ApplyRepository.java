@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import project.manager.server.domain.post.building.Apply;
+import project.manager.server.enums.PartState;
 
 @Repository
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
@@ -48,8 +49,8 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
             "JOIN FETCH a.part p " +
             "JOIN FETCH p.buildingPost b " +
             "JOIN FETCH a.applicant " +
-            "WHERE b.id = :buildingPostId AND a.state = 'STANDBY'")
-    List<Apply> findByBuildingPostId(@Param("buildingPostId") Long buildingPostId);
+            "WHERE b.id = :buildingPostId AND a.state = :state")
+    List<Apply> findByBuildingPostId(@Param("buildingPostId") Long buildingPostId, @Param("state") PartState state);
 
     @Query("SELECT a FROM Apply a " +
             "JOIN FETCH a.part p " +

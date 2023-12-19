@@ -23,6 +23,12 @@ public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long
             "WHERE b.id = :buildingPostId AND b.isRecruiting = true AND b.contestPost IS NOT NULL ")
     Optional<BuildingPost> findBuildingPostByIdAndRecruiting(@Param("buildingPostId") Long buildingPostId);
 
+    @Query("SELECT b FROM BuildingPost b " +
+            "JOIN FETCH b.writer " +
+            "WHERE b.id = :buildingPostId AND b.isRecruiting = true")
+    Optional<BuildingPost> findByIdAndRecruiting(@Param("buildingPostId") Long buildingPostId);
+
+
     //프로젝트 게시글 게시글 수정, 마감
     @Query("SELECT b FROM BuildingPost b " +
             "JOIN FETCH b.writer " +
@@ -63,5 +69,4 @@ public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long
     @Query(value = "SELECT * FROM building_post_tb b " +
             "WHERE (b.content LIKE %:text% OR b.title LIKE %:text%) AND b.contestpost_id IS NULL", nativeQuery = true)
     Page<BuildingPost> findProjectPostByText(@Param("text") String text, Pageable pageInfo);
-
 }

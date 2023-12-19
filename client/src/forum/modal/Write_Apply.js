@@ -5,7 +5,7 @@ import styles from "../css/modal.module.css";
 import axios from "axios";
 
 
-const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
+const Write_Apply = ({ postInfo,postId, applyModalOpen, setApplyModalOpen, id }) => {
     const initialState = {number:0, name:""};
     const [applyInfo, setApplyInfo] = useState(initialState);
     const [isSelected, setIsSelected] = useState(false);
@@ -38,7 +38,7 @@ const Write_Apply = ({ postInfo, applyModalOpen, setApplyModalOpen, id }) => {
             try {
                 const transferData = {userId:id, partId:applyInfo.number};
                 console.log(transferData);
-                const response = await axios.post(`/apply`, transferData);
+                const response = await axios.post(`/apply/${postId}`, transferData);
                 console.log("지원 내역 전송 완료.");
                 window.alert("지원 완료되었습니다.");
                 setApplyModalOpen(false);

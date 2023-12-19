@@ -6,7 +6,7 @@ import axios from "axios";
 import {Cash} from "../Cash";
 
 const Nav = () => {
-  const rootURL = 'http://localhost:3000';
+  const rootURL = 'http://15.164.3.171:3000';
   const navigate = useNavigate();
   const [point, setPoint] = useState(null);
   const [role, setRole] = useState(null);
@@ -92,7 +92,7 @@ const Nav = () => {
               <div className="flex items-center ml-[30px]">
                 <button
                     onClick={() =>
-                      window.open(`http://localhost:3000/chat_list`, "ChatListPage", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`)
+                      window.open(`http://15.164.3.171:3000/chat_list`, "ChatListPage", `width=${newWindowWidth}, height=${newWindowHeight}, top=${topPos}, left=${leftPos}`)
                     }
                 >
                   <ChatIcon></ChatIcon>

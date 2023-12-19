@@ -39,11 +39,11 @@ const ChatRoom2 = () => {
             return;
         }
 
-        const socket = new SockJS("http://localhost:8080/ws");
+        const socket = new SockJS("http://15.164.3.171:8080/ws");
         const stomp = StompJS.over(socket);
 
         const connectOptions = {
-            brokerURL: "ws://localhost:8080/ws",
+            brokerURL: "ws://15.164.3.171:8080/ws",
             reconnectDelay: 5000,
             heartbeatIncoming: 5000,
             heartbeatOutgoing: 5000,

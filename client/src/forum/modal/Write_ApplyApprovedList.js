@@ -58,7 +58,7 @@ const Write_ApplyApprovedList = ({ postId, parts, applyApprovedListModalOpen, se
         const newWindowHeight = screenHeight * 0.7;
         const leftPos = (screenWidth - newWindowWidth) / 2;
         const topPos = (screenHeight - newWindowHeight) / 2;
-        window.open(`http://localhost:3000/userPage/${userId}`, "UserPage",
+        window.open(`http://15.164.3.171:3000/userPage/${userId}`, "UserPage",
             "width=${newWindowWidth},height=${newWindowHeight},left=${leftPos},top=${topPos}");
     }
 

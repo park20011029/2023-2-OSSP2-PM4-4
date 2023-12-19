@@ -116,7 +116,7 @@ public class ProjectPostService {
 
     public Map<String, Object> searchProjectPost(String text, Integer page, Integer size) {
         Page<BuildingPost> projectPosts = buildingPostRepository
-                .findProjectPostByText("%" + text + "%", PageRequest.of(page,size));
+                .findProjectPostByText("'%" + text + "%'", PageRequest.of(page,size));
 
         PageInfo pageInfo = PageInfo.builder()
                 .currentPage(projectPosts.getNumber() + 1)
