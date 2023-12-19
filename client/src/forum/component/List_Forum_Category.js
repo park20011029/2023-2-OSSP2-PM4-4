@@ -54,7 +54,7 @@ const List_Forum_Category = ({setCategorySelected, search}) => {
                 const info = await contest_getCategoryAll(Object.keys(contest_CategoryKeyList));
                 setCategoryData(info);
             } catch(error) {
-                setCategoryData(category);
+                setCategoryData(dummyCategory);
                 console.error(error);
             }
         }
