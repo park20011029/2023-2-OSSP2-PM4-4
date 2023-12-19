@@ -12,6 +12,8 @@ import project.manager.server.dto.reponse.SigninDto;
 import project.manager.server.dto.request.UserRequestDto;
 import project.manager.server.service.AuthService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -26,14 +28,14 @@ public class AuthController {
         return new ResponseDto<>(authService.createUser(userRequestDto, file));
     }
 
-    @GetMapping("/socialInfo")
-    ResponseDto<String> getSocialInfo(@RequestParam("authCode") String authCode) {
-
-        return new ResponseDto<>(authService.socialInfo(authCode));
-    }
+//    @GetMapping("/socialInfo")
+//    ResponseDto<String> getSocialInfo(@RequestParam("authCode") String authCode) {
+//
+//        return new ResponseDto<>(authService.socialInfo(authCode));
+//    }
 
     @PutMapping("/signIn")
-    ResponseDto<Long> signIn(@RequestParam("authCode") String authCode) {
+    ResponseDto<Map<String, Object>> signIn(@RequestParam("authCode") String authCode) {
 
         return new ResponseDto<>(authService.socialSignIn(authCode));
     }

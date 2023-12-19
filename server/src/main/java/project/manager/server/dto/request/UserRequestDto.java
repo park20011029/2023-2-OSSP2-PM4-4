@@ -27,5 +27,5 @@ public class UserRequestDto {
     @NotNull
     private String phoneNumber;
 
-    private String authCode;
+    private String socialId;
 }

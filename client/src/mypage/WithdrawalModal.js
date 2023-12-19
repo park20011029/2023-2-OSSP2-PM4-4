@@ -16,7 +16,6 @@ function WithdrawalModal({ showModal, onClose }) {
 
         // 로그아웃 상태로 변경
         localStorage.removeItem('userId');
-        localStorage.removeItem('isLoggedIn');
         window.alert('탈퇴 완료되었습니다.');
         window.location.href = '/';
     }
