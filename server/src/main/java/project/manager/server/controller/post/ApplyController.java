@@ -20,10 +20,12 @@ public class ApplyController {
     final private ApplyService applyService;
 
     //지원내역 생성
-    @PostMapping("")
-    public ResponseDto<Boolean> creatApply(@Valid @RequestBody ApplyRequestDto applyRequestDto) {
+    @PostMapping("/{buildingPostId}")
+    public ResponseDto<Boolean> creatApply(
+            @PathVariable Long buildingPostId,
+            @Valid @RequestBody ApplyRequestDto applyRequestDto) {
 
-        return new ResponseDto<>(applyService.createApply(applyRequestDto));
+        return new ResponseDto<>(applyService.createApply(buildingPostId, applyRequestDto));
     }
 
     //팀 빌딩 팀장이 지원 승인

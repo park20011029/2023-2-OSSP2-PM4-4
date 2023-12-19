@@ -37,6 +37,6 @@ public class UserDto {
         this.introduction = user.getIntroduction();
         this.phoneNumber = user.getPhoneNumber();
         this.point = user.getPoint();
-        this.userRole = user.getUserState().name();
+        this.userRole = user.getRole().name();
     }
 }

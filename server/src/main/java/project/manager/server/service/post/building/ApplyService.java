@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.manager.server.domain.User;
 import project.manager.server.domain.post.building.Apply;
+import project.manager.server.domain.post.building.BuildingPost;
 import project.manager.server.domain.post.building.Part;
 import project.manager.server.dto.reponse.post.PageInfo;
 import project.manager.server.dto.reponse.post.building.ApplyDto;
@@ -23,6 +24,7 @@ import project.manager.server.exception.ApiException;
 import project.manager.server.exception.ErrorDefine;
 import project.manager.server.repository.UserRepository;
 import project.manager.server.repository.post.building.ApplyRepository;
+import project.manager.server.repository.post.building.BuildingPostRepository;
 import project.manager.server.repository.post.building.PartRepository;
 
 @Service
@@ -33,12 +35,27 @@ public class ApplyService {
     private final UserRepository userRepository;
     private final PartRepository partRepository;
     private final ApplyRepository applyRepository;
+    private final BuildingPostRepository buildingPostRepository;
 
-    public Boolean createApply(ApplyRequestDto applyRequestDto) {
+    public Boolean createApply(Long buildingPostId, ApplyRequestDto applyRequestDto) {
         User applicant = userRepository.findById(applyRequestDto.getUserId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         Part part = partRepository.findById(applyRequestDto.getPartId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+        BuildingPost buildingPost = buildingPostRepository.findById(buildingPostId)
+                .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+
+        List<Part> partList = buildingPost.getParts();
+
+        for (Part tmpPart : partList) {
+            List<Apply> applyList = tmpPart.getApplyList();
+            for (Apply tmpApply : applyList) {
+                User tmpApplicant = tmpApply.getApplicant();
+                if (tmpApplicant.equals(applicant)) {
+                    return false;
+                }
+            }
+        }
 
         Apply newApply = Apply.builder()
                 .applicant(applicant)
