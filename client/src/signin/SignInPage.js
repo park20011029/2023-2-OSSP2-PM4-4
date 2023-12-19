@@ -8,7 +8,7 @@ import {Google} from "../Google";
 
 function SignInPage() {
     const navigate = useNavigate();
-    const loginUrl = `http://localhost:8080/oauth2/authorization/google`;
+    const loginUrl = `http://15.164.3.171:8080/oauth2/authorization/google`;
 
     const handleSignIn = () => {
         window.location.href = loginUrl;
@@ -22,7 +22,7 @@ function SignInPage() {
                 <div onClick={handleSignIn}><Google width={300} height={67}/></div>
                 <div id='SignUp'>
                     <p>계정이 없다면 ? </p>
-                    <button id='SignUpButton' onClick={() => navigate("/sign_up")}>
+                    <button id='SignUpButton' onClick={handleSignIn}>
                         Sign Up
                     </button>
                 </div>

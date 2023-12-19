@@ -19,7 +19,7 @@ function EmailInput({email, setEmail}) {
   return (
     <div id="emailBox" className="grid-element">
       <label>*E-mail:</label>
-      <input type="email" value={email} onChange={handleEmailChange} required/>
+      <input type="email" value={email} disabled/>
       {!isEmailValid && <p style={{ color: 'red' }}>유효한 이메일 주소를 입력하세요.</p>}
     </div>
   );

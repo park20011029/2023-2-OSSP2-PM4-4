@@ -16,6 +16,7 @@ import AwardInput from "./AwardInput";
 import SkillStackInput from "./SkillStackInput";
 import ProjectRecordInput from "./ProjectRecordInput";
 import Footer from "../layout/Footer";
+import {useParams} from "react-router-dom";
 
 function SignUpPage() {
   const [profileImage, setProfileImage] = useState(null);
@@ -33,7 +34,7 @@ function SignUpPage() {
   const [school, setSchool] = useState(null);
   const [major, setMajor] = useState(null);
   const [eduState, setEduState] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [email, setEmail] = useState(localStorage.getItem('email'));
   const [phoneNumber, setPhoneNumber] = useState('010-1234-5678');
   const [awards, setAwards] = useState([]);
   const [congress, setCongress] = useState(null);
@@ -64,7 +65,7 @@ function SignUpPage() {
         }
 
         profileFormData.append("userRequestDto", new Blob([JSON.stringify(signUp)],{type: "application/json"}));
-        const userResponse = await axios.post("/user/signup", profileFormData);
+        const userResponse = await axios.post("/auth/signUp", profileFormData);
         if (userResponse.status === 200) {
           console.log("PROFILE POST 요청 성공", userResponse.data.responseDto);
           const projectsWithUserId = projects.map(project => ({
@@ -109,7 +110,9 @@ function SignUpPage() {
             }
             if(isAwardOK === true){
               window.alert("회원 가입 성공");
-              // window.location.href = '/';
+              localStorage.removeItem('email');
+              localStorage.removeItem('socialId');
+              window.location.href = '/';
             }
             else{
               window.alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");

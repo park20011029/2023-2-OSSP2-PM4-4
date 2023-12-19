@@ -22,6 +22,9 @@ import project.manager.server.util.Oauth2UserInfo;
 import project.manager.server.util.Oauth2Util;
 import project.manager.server.util.S3UploadUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,25 +36,34 @@ public class AuthService {
     private final ImageRepository imageRepository;
     private final S3UploadUtil s3UploadUtil;
 
-    public Oauth2UserInfo returnSocialInfo(String authCode) {
-        String accessTokenGoogle = oauth2Util.getGoogleAccessToken(authCode);
-        return oauth2Util.getGoogleUserInfo(accessTokenGoogle);
-    }
+//    public Oauth2UserInfo returnSocialInfo(String authCode) {
+//        String accessTokenGoogle = oauth2Util.getGoogleAccessToken(authCode);
+//        return oauth2Util.getGoogleUserInfo(accessTokenGoogle);
+//    }
 
-    public String socialInfo(String authCode) {
+//    public String socialInfo(String authCode) {
+//        String accessTokenGoogle = oauth2Util.getGoogleAccessToken(authCode);
+//        Oauth2UserInfo oauth2InfoGoogle = oauth2Util.getGoogleUserInfo(accessTokenGoogle);
+//
+//        return oauth2InfoGoogle.getEmail();
+//    }
+    public Map<String, Object> socialSignIn(String authCode) {
+
         String accessTokenGoogle = oauth2Util.getGoogleAccessToken(authCode);
         Oauth2UserInfo oauth2InfoGoogle = oauth2Util.getGoogleUserInfo(accessTokenGoogle);
+        String email = oauth2InfoGoogle.getEmail();
 
-        return oauth2InfoGoogle.getEmail();
-    }
-    public Long socialSignIn(String authCode) {
+        User signinUser = userRepository.findByEmail(email)
+                .orElse(null);
 
-        String accessTokenGoogle = oauth2Util.getGoogleAccessToken(authCode);
-        Oauth2UserInfo oauth2InfoGoogle = oauth2Util.getGoogleUserInfo(accessTokenGoogle);
-        String socialId = oauth2InfoGoogle.getSocialId();
+        Map<String, Object> result = new HashMap<>();
+        if (signinUser == null) {
+            result.put("email", oauth2InfoGoogle.getEmail());
+            result.put("success", false);
+            result.put("socialId", oauth2InfoGoogle.getSocialId());
+            return result;
+        }
 
-        User signinUser = userRepository.findBySocialId(socialId)
-                .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         if (signinUser.getUserState().equals(UserState.EXPEL)) {
             throw new ApiException(ErrorDefine.USER_EXPEL);
         } if (signinUser.getUserState().equals(UserState.WITHDRAWAL)) {
@@ -62,6 +74,9 @@ public class AuthService {
             throw new ApiException(ErrorDefine.USER_DELETE);
         }
 
+        result.put("userId", signinUser.getId());
+        result.put("success", true);
+
         //JwtToken jwtToken = jwtProvider.createTotalToken(signinUser.getId(), signinUser.getRole());
         //signinUser.updateRefreshToken(jwtToken.getRefreshToken());
 
@@ -70,7 +85,7 @@ public class AuthService {
 //                .accessToken(jwtToken.getAccessToken())
 //                .refreshToken(jwtToken.getRefreshToken())
 //                .build();
-        return signinUser.getId();
+        return result;
     }
 
     public Long createUser(UserRequestDto userRequestDto, MultipartFile file) {
@@ -80,27 +95,20 @@ public class AuthService {
         } else if (userRepository.existsByNickName(userRequestDto.getNickName())) {
             throw new ApiException(ErrorDefine.NICKNAME_EXIST);
         }
-        if (userRequestDto.getAuthCode() == null) {
-            throw new ApiException(ErrorDefine.ENTITY_NOT_FOUND);
-        }
 
-        String accessTokenGoogle = oauth2Util.getGoogleAccessToken(userRequestDto.getAuthCode());
-        Oauth2UserInfo oauth2InfoGoogle = oauth2Util.getGoogleUserInfo(accessTokenGoogle);
-        String socialId = oauth2InfoGoogle.getSocialId();
-
-        User signUpUser = userRepository.findBySocialId(socialId)
-                .orElse(null);
-
-        if (signUpUser != null) {
-            throw new ApiException(ErrorDefine.USER_EXIST);
-        }
+//        User signUpUser = userRepository.findBySocialId(userRequestDto.getSocialId())
+//                .orElse(null);
+//
+//        if (signUpUser != null) {
+//            throw new ApiException(ErrorDefine.USER_EXIST);
+//        }
 
         //signinUser.updateRefreshToken(jwtToken.getRefreshToken());
 
         String url = s3UploadUtil.upload(file, "pm4/");
         User newUser = User.builder()
                 .userRequestDto(userRequestDto)
-                .socialId(socialId)
+                .socialId(userRequestDto.getSocialId())
                 .role(UserRole.USER).build();
         userRepository.save(newUser);
 

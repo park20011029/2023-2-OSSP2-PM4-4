@@ -95,8 +95,8 @@ public class BuildingPostService {
                 .findByContestPostWithUser(
                         contestPost,
                         PageRequest.of(page, size,
-                                Sort.by(Sort.Order.asc("isRecruiting"),
-                                        Sort.Order.desc("upperDate"),
+                                Sort.by(Sort.Order.asc("upperDate"),
+                                        Sort.Order.desc("isRecruiting"),
                                         Sort.Order.desc("createAt"))));
 
         PageInfo pageInfo = PageInfo.builder()

@@ -9,11 +9,11 @@ const Nav = () => {
   const rootURL = 'http://localhost:3000';
   const navigate = useNavigate();
   const [point, setPoint] = useState(null);
+  const [role, setRole] = useState(null);
   const handleLogout = () => {
     // 로그아웃 처리 후
     // ...
     localStorage.removeItem('userId');
-    localStorage.removeItem('isLoggedIn');
     navigate('/');
   };
 
@@ -30,13 +30,14 @@ const Nav = () => {
     try{
       const response = await axios.get(`/user/${localStorage.getItem('userId')}`);
       setPoint(response.data.responseDto.point);
+      setRole(response.data.responseDto.userRole);
     }catch (error){
       console.error("Error fetching profile data: ", error);
     }
   }
   useEffect(() => {
     getPoint();
-  }, [point]);
+  }, [point, role]);
   return (
       <header>
         <div className="h-[90px] p-[15px] border-b-[#000000] shadow-md mb-[20px]">
@@ -80,7 +81,7 @@ const Nav = () => {
             </div>
             <div className="flex items-center h-[60px]">
               <div className="flex items-center">
-                {localStorage.getItem('isLoggedIn') ? (
+                {localStorage.getItem('userId') ? (
                     <div className="flex justify-between items-center border-[1px] border-[#243c5a] shadow h-[40px] p-[8px] w-auto font-['NotoSansKR'] rounded-full">
                       <Cash width={20} height={20}/><span className="ml-[10px]">{point}p</span>
                     </div>
@@ -98,7 +99,7 @@ const Nav = () => {
                 </button>
               </div>
               <div className="flex items-center ml-[30px]">
-                {localStorage.getItem('isLoggedIn') ? (
+                {localStorage.getItem('userId') ? (
                     <button
                         className="border-[1px] border-[#243c5a] rounded-lg p-[8px] shadow-black hover:bg-blue-400 hover:text-[#ffffff] hover:border-blue-400"
                         onClick={handleLogout}
@@ -117,17 +118,28 @@ const Nav = () => {
                 )}
               </div>
               <div className="flex items-center ml-[30px]">
-                {localStorage.getItem('isLoggedIn')? (<button
-                    onClick={() => {
-                      navigate("/my_page");
-                      //navigate("/admin_contest_report");
-                    }}
-                >
-                  <MyPageIcon></MyPageIcon>
-                </button>):(<button
-                onClick={()=>{ window.alert("로그인 후 이용해주세요.")}}>
-                  <MyPageIcon></MyPageIcon>
-                </button>)}
+                {role === "MEMBER" ?(
+                    <button
+                        onClick={() => {
+                          navigate("/my_page");
+                        }}
+                    >
+                      <MyPageIcon></MyPageIcon>
+                    </button>
+                ) : role === "ADMIN" ? (
+                    <button
+                        onClick={() => {
+                          navigate("/admin_contest_report");
+                        }}
+                    >
+                      <MyPageIcon></MyPageIcon>
+                    </button>
+                ) : (
+                    <button
+                        onClick={()=>{ window.alert("로그인 후 이용해주세요.")}}>
+                      <MyPageIcon></MyPageIcon>
+                    </button>
+                )}
               </div>
             </div>
           </div>

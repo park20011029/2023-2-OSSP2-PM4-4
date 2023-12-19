@@ -2,6 +2,7 @@ package project.manager.server.util;
 
 import java.util.Objects;
 
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,13 +63,13 @@ public class Oauth2Util {
         );
 
         return JsonParser.parseString(Objects.requireNonNull(response.getBody()))
-                .getAsJsonObject().get("accessToken").getAsString();
+                .getAsJsonObject().get("access_token").getAsString();
     }
 
     public Oauth2UserInfo getGoogleUserInfo(String accessToken) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        httpHeaders.add("Authorization", "Bearer $accessToken" + accessToken);
+        httpHeaders.add("Authorization", "Bearer " + accessToken);
         httpHeaders.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         HttpEntity<MultiValueMap<String,String >> profileRequest= new HttpEntity<>(httpHeaders);
@@ -81,10 +82,13 @@ public class Oauth2Util {
         );
 
         JsonElement element = JsonParser.parseString(Objects.requireNonNull(response.getBody()));
+        JsonObject jsonObject = element.getAsJsonObject();
+        System.out.println(jsonObject);
+
         return Oauth2UserInfo.builder()
-                .socialId(element.getAsJsonObject().getAsJsonObject("response").get("id").getAsString())
-                .socialName(element.getAsJsonObject().getAsJsonObject("response").get("name").getAsString())
-                .email(element.getAsJsonObject().getAsJsonObject("response").get("email").getAsString())
+                .socialId(jsonObject.get("id").getAsString())
+                .socialName(jsonObject.get("name").getAsString())
+                .email(jsonObject.get("email").getAsString())
                 .build();
     }
 
