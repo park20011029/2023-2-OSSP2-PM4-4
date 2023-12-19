@@ -60,7 +60,8 @@ public interface BuildingPostRepository extends JpaRepository<BuildingPost, Long
     Page<BuildingPost> findProjectPostByWithUser(@Param("userId") Long userId, Pageable pageInfo);
 
     //검색어로 프로젝트 게시글 검색
-    @Query("SELECT b FROM BuildingPost b " +
-            "WHERE b.content LIKE :text AND b.contestPost IS NULL")
+    @Query(value = "SELECT * FROM building_post_tb b " +
+            "WHERE (b.content LIKE %:text% OR b.title LIKE %:text%) AND b.contestpost_id IS NULL", nativeQuery = true)
     Page<BuildingPost> findProjectPostByText(@Param("text") String text, Pageable pageInfo);
+
 }

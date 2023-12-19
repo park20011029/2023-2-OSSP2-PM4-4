@@ -254,7 +254,7 @@ public class BuildingPostService {
 
     // 지원 승인 대기중인 사람 있는지 확인, 지원 승인된 사람 있는지 확인
     public Boolean deleteBuildingPost(Long buildingPostId) {
-        BuildingPost buildingPost = buildingPostRepository.findBuildingPostByIdAndRecruiting(buildingPostId)
+        BuildingPost buildingPost = buildingPostRepository.findByIdAndIsDeleteFalse(buildingPostId)
                 .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
 
         List<Apply> applyList = applyRepository.findByPostIdWithPartAndApply(buildingPostId);
