@@ -41,9 +41,9 @@ public class ApplyService {
         User applicant = userRepository.findById(applyRequestDto.getUserId())
                 .orElseThrow(() -> new ApiException(ErrorDefine.USER_NOT_FOUND));
         Part part = partRepository.findById(applyRequestDto.getPartId())
-                .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
-        BuildingPost buildingPost = buildingPostRepository.findById(buildingPostId)
-                .orElseThrow(() -> new ApiException(ErrorDefine.ENTITY_NOT_FOUND));
+                .orElseThrow(() -> new RuntimeException("part 1"));
+        BuildingPost buildingPost = buildingPostRepository.findByIdAndRecruiting(buildingPostId)
+                .orElseThrow(() -> new RuntimeException("build 1"));
 
         List<Part> partList = buildingPost.getParts();
 
@@ -52,7 +52,7 @@ public class ApplyService {
             for (Apply tmpApply : applyList) {
                 User tmpApplicant = tmpApply.getApplicant();
                 if (tmpApplicant.equals(applicant)) {
-                    return false;
+                    throw new RuntimeException("중복지원");
                 }
             }
         }
@@ -117,7 +117,7 @@ public class ApplyService {
     }
 
     public Map<String, Object> applyListForLeader(Long buildingPostId) {
-        List<Apply> applies = applyRepository.findByBuildingPostId(buildingPostId);
+        List<Apply> applies = applyRepository.findByBuildingPostId(buildingPostId, PartState.STANDBY);
 
         Map<String, Object> result = new HashMap<>();
         result.put("applyList", applies.stream()
