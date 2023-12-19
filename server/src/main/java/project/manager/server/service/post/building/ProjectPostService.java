@@ -85,8 +85,8 @@ public class ProjectPostService {
         Page<BuildingPost> projectPosts = buildingPostRepository
                 .findProjectPostWithUser(
                         PageRequest.of(page, size,
-                                Sort.by(Sort.Order.asc("isRecruiting"),
-                                        Sort.Order.desc("upperDate"),
+                                Sort.by(Sort.Order.asc("upperDate"),
+                                        Sort.Order.desc("isRecruiting"),
                                         Sort.Order.desc("createAt"))));
 
         PageInfo pageInfo = PageInfo.builder()
