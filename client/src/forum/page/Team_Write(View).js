@@ -397,10 +397,10 @@ const Team_WriteView = () => {
                                 {reportOrEdit()}
                             </div>
                         </div>
-                        {/* debug: 관리자/일반 전환 */}
+                        {/* debug: 관리자/일반 전환
                         <button className={"greyButton"}
                                 onClick={() => {setIsAdmin(!isAdmin)
-                                }}>debug:관리자/일반 전환하기</button>
+                                }}>debug:관리자/일반 전환하기</button>*/}
                     </div>
                     ) : (
                     //게시글 수정
